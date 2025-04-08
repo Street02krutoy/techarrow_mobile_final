@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage>
                     onPressed: widget.toggleMenu, icon: const Icon(Icons.menu))
                 : null,
             centerTitle: true,
-            title: Text("Придумайте норм заголовок")),
+            title: Text("Ваши задачи")),
         body: Center(
           child: Column(
             children: [
