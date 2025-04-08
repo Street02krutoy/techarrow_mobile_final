@@ -163,6 +163,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_time_duration_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_time_duration_picker
+      sha256: "0b180ed71c4b4a896fd9e115ea1146ed96c9069f6ee0bb43e4237fa9d7e12e7c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -185,7 +193,7 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
@@ -336,6 +344,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  pausable_timer:
+    dependency: "direct main"
+    description:
+      name: pausable_timer
+      sha256: "6ef1a95441ec3439de6fb63f39a011b67e693198e7dae14e20675c3c00e86074"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0+3"
   platform:
     dependency: transitive
     description:

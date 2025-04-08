@@ -4,6 +4,7 @@ import 'package:techarrow_mobile_final/auth/keycloak.dart';
 import 'package:techarrow_mobile_final/auth_legacy/keycloak.dart';
 import 'package:techarrow_mobile_final/screens/main/features/main_screen_features.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/day_page.dart';
+import 'package:techarrow_mobile_final/screens/pomodoro/screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -47,13 +48,20 @@ class _MainScreenState extends State<MainScreen>
         ),
         actions: [
           IconButton(
-              onPressed: () => _features.logout().then(
-                    (value) {
-                      if (context.mounted) {
-                        Navigator.of(context).pushReplacementNamed('/welcome');
-                      }
-                    },
-                  ),
+              onPressed: true
+                  ? () {
+                      Navigator.of(context).pushNamed('/pomodoro',
+                          arguments: PomodoroScreenArguments(
+                              taskName: "Название задания", taskId: "taskId"));
+                    }
+                  : () => _features.logout().then(
+                        (value) {
+                          if (context.mounted) {
+                            Navigator.of(context)
+                                .pushReplacementNamed('/welcome');
+                          }
+                        },
+                      ),
               icon: const Icon(Icons.logout))
         ],
       ),
@@ -76,6 +84,12 @@ class _MainScreenState extends State<MainScreen>
           _features.pages[_tabbarController.index],
         ],
       )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _features.createTask(context);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

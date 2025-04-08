@@ -14,4 +14,8 @@ class MainScreenFeatures {
   Future<ApplicationUserInfo> getUserInfo() async {
     return Keycloak().getUserInfo();
   }
+
+  void createTask(BuildContext context) {
+    Navigator.of(context).pushNamed('/create_task');
+  }
 }
