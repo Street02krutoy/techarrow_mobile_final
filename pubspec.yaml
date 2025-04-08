@@ -7,6 +7,7 @@ environment:
   sdk: ^3.5.4
 
 dependencies:
+  anim_side_menu: ^0.0.8
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.2.1

@@ -1,10 +1,11 @@
+import 'package:anim_side_menu/anim_side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:techarrow_mobile_final/auth/keycloak.dart';
-import 'package:techarrow_mobile_final/auth_legacy/keycloak.dart';
 import 'package:techarrow_mobile_final/screens/main/features/main_screen_features.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/day_page.dart';
 import 'package:techarrow_mobile_final/screens/pomodoro/screen.dart';
+import 'package:techarrow_mobile_final/screens/main/ui/home_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,80 +16,118 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+
   final _features = MainScreenFeatures();
 
-  late final TabController _tabbarController;
-
-  @override
-  void initState() {
-    _tabbarController =
-        TabController(initialIndex: _page, length: 3, vsync: this);
-    data = _features.getUserInfo();
-    super.initState();
+  toggleMenu() {
+    setState(() {
+      if (isMenuOpened()) {
+        _sideMenuKey.currentState!.closeSideMenu();
+      } else {
+        _sideMenuKey.currentState!.openSideMenu();
+      }
+    });
   }
+
+  bool isMenuOpened() => _sideMenuKey.currentState!.isOpened;
 
   Future<ApplicationUserInfo> data =
       Future.value(ApplicationUserInfo(id: "", username: ""));
 
-  int _page = 0;
+  @override
+  void initState() {
+    data = _features.getUserInfo();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // bottom: ,
-        centerTitle: true,
-        title: FutureBuilder(
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text('Привет, ${snapshot.data!.username}');
-            }
-            return const Text("Привет, user");
-          },
-          future: data,
-        ),
-        actions: [
-          IconButton(
-              onPressed: true
-                  ? () {
-                      Navigator.of(context).pushNamed('/pomodoro',
-                          arguments: PomodoroScreenArguments(
-                              taskName: "Название задания", taskId: "taskId"));
-                    }
-                  : () => _features.logout().then(
-                        (value) {
-                          if (context.mounted) {
-                            Navigator.of(context)
-                                .pushReplacementNamed('/welcome');
-                          }
-                        },
-                      ),
-              icon: const Icon(Icons.logout))
-        ],
-      ),
-      body: Center(
-          child: Column(
-        children: [
-          TabBar(
-            controller: _tabbarController,
-            tabs: const [
-              Tab(text: "День"),
-              Tab(text: "Неделя"),
-              Tab(text: "Месяц"),
-            ],
-            onTap: (value) {
-              setState(() {
-                _page = value;
-              });
-            },
-          ),
-          _features.pages[_tabbarController.index],
-        ],
-      )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _features.createTask(context);
+    return SideMenu(
+        key: _sideMenuKey,
+        type: SideMenuType.slide,
+        onClosedIcon: () {
+          toggleMenu();
         },
-        child: const Icon(Icons.add),
+        background: Theme.of(context).primaryColor,
+        menu: buildMenu(),
+        closeIcon: const Icon(
+          Icons.close_rounded,
+          size: 30.0,
+          color: Colors.white,
+        ),
+        animatedDuration: const Duration(milliseconds: 1500),
+        child: HomePage(
+          toggleMenu: toggleMenu,
+          isMenuOpened: isMenuOpened,
+        ));
+  }
+
+  Widget buildMenu() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 30.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            textColor: Colors.white,
+            title: FutureBuilder(
+              builder: (context, snapshot) {
+                String name;
+                if (snapshot.hasData) {
+                  name = snapshot.data!.username;
+                } else {
+                  name = "дорогой пользователь";
+                }
+                return Text(
+                  'Привет, $name!',
+                  style: TextStyle(fontSize: 22),
+                );
+              },
+              future: data,
+            ),
+          ),
+          Divider(),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.watch_later, size: 30.0, color: Colors.white),
+            title: const Text(
+              "Запланировать задачи",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.done_all, size: 30.0, color: Colors.white),
+            title: const Text(
+              "Выполненные задачи",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          Divider(),
+          ListTile(
+            onTap: () => _features.logout().then(
+              (value) {
+                if (context.mounted) {
+                  Navigator.of(context).pushReplacementNamed('/welcome');
+                }
+              },
+            ),
+            leading: const Icon(Icons.logout, size: 30.0, color: Colors.white),
+            title: const Text(
+              "Выйти",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+          ),
+        ],
       ),
     );
   }
