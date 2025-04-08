@@ -15,6 +15,27 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
 
+  final welcomes = [
+    "Доброй ночи",
+    "Доброе утро",
+    "Добрый день",
+    "Добрый вечер"
+  ];
+
+  String getWelcomePhrase() {
+    int hour = DateTime.now().hour;
+    if (hour < 4) {
+      return welcomes[0];
+    }
+    if (hour < 12) {
+      return welcomes[1];
+    }
+    if (hour < 16) {
+      return welcomes[2];
+    }
+    return welcomes[3];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -35,8 +56,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     _controller.forward();
 
     Keycloak().login().then((data) {
-      print(data);
-      Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        username = data.preferredUsername!;
+      });
+      Future.delayed(const Duration(seconds: 2), () {
         if (context.mounted) {
           Navigator.pushAndRemoveUntil(
               context,
@@ -54,6 +77,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       });
     });
   }
+
+  String? username;
 
   @override
   void dispose() {
@@ -75,6 +100,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   flex: 4,
                 ),
                 Image.asset('assets/logo.png', width: 150),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    "${getWelcomePhrase()}${username != null ? ", $username" : ""}",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
                 const Spacer(),
                 CircularProgressIndicator(
                     color: Theme.of(context).primaryColor),

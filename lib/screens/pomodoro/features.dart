@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pausable_timer/pausable_timer.dart';
 
 class PomodoroScreenFeatures {
   String formatDuration(Duration duration) {
