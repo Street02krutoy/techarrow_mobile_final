@@ -69,6 +69,13 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed("/add_task");
+          },
+          tooltip: "Создать новую задачу",
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
