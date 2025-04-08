@@ -15,6 +15,7 @@ class _MonthPageState extends State<MonthPage> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      locale: "ru_RU",
       focusedDay: _focusedDay,
       currentDay: _selectedDay,
       firstDay: DateTime.fromMillisecondsSinceEpoch(0),
