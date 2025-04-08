@@ -31,33 +31,43 @@ class _HomePageState extends State<HomePage>
   int _page = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          // bottom: ,
-          leading: !widget.isMenuOpened()
-              ? IconButton(
-                  onPressed: widget.toggleMenu, icon: const Icon(Icons.menu))
-              : null,
-          centerTitle: true,
-          title: Text("Придумайте норм заголовок")),
-      body: Center(
-        child: Column(
-          children: [
-            TabBar(
-              controller: _tabbarController,
-              tabs: const [
-                Tab(text: "День"),
-                Tab(text: "Неделя"),
-                Tab(text: "Месяц"),
-              ],
-              onTap: (value) {
-                setState(() {
-                  _page = value;
-                });
-              },
-            ),
-            _features.pages[_tabbarController.index],
-          ],
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.primaryDelta! > 0 && !widget.isMenuOpened()) {
+          widget.toggleMenu();
+        }
+        if (details.primaryDelta! < 0 && widget.isMenuOpened()) {
+          widget.toggleMenu();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+            // bottom: ,
+            leading: !widget.isMenuOpened()
+                ? IconButton(
+                    onPressed: widget.toggleMenu, icon: const Icon(Icons.menu))
+                : null,
+            centerTitle: true,
+            title: Text("Придумайте норм заголовок")),
+        body: Center(
+          child: Column(
+            children: [
+              TabBar(
+                controller: _tabbarController,
+                tabs: const [
+                  Tab(text: "День"),
+                  Tab(text: "Неделя"),
+                  Tab(text: "Месяц"),
+                ],
+                onTap: (value) {
+                  setState(() {
+                    _page = value;
+                  });
+                },
+              ),
+              _features.pages[_tabbarController.index],
+            ],
+          ),
         ),
       ),
     );
