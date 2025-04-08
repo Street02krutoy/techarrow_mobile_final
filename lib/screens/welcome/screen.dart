@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:techarrow_mobile_final/auth/keycloak.dart';
+import 'package:techarrow_mobile_final/auth_legacy/keycloak.dart';
+import 'package:techarrow_mobile_final/screens/main/screen.dart';
+
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1, milliseconds: 100),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
+
+    _controller.forward();
+
+    Keycloak().login().then((a) {
+      Future.delayed(const Duration(seconds: 1), () {
+        if (context.mounted) {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const MainScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              transitionDuration: const Duration(milliseconds: 500),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: FadeTransition(
+          opacity: _opacityAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: Column(
+              children: [
+                const Spacer(
+                  flex: 4,
+                ),
+                Image.asset('assets/logo.png', width: 150),
+                const Spacer(),
+                CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor),
+                const Spacer(
+                  flex: 10,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
