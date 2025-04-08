@@ -1,8 +1,10 @@
+import 'package:anim_side_menu/anim_side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:techarrow_mobile_final/auth/keycloak.dart';
 import 'package:techarrow_mobile_final/screens/main/features/main_screen_features.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/day_page.dart';
+import 'package:techarrow_mobile_final/screens/main/ui/home_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,68 +15,83 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
-  final _features = MainScreenFeatures();
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
-  late final TabController _tabbarController;
-
-  @override
-  void initState() {
-    _tabbarController =
-        TabController(initialIndex: _page, length: 3, vsync: this);
-    data = _features.getUserInfo();
-    super.initState();
+  toggleMenu() {
+    setState(() {
+      if (isMenuOpened()) {
+        _sideMenuKey.currentState!.closeSideMenu();
+      } else {
+        _sideMenuKey.currentState!.openSideMenu();
+      }
+    });
   }
 
-  Future<ApplicationUserInfo> data =
-      Future.value(ApplicationUserInfo(id: "", username: ""));
+  bool isMenuOpened() => _sideMenuKey.currentState!.isOpened;
 
-  int _page = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // bottom: ,
-        centerTitle: true,
-        title: FutureBuilder(
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text('Привет, ${snapshot.data!.username}');
-            }
-            return const Text("Привет, user");
-          },
-          future: data,
+    return SideMenu(
+        key: _sideMenuKey,
+        type: SideMenuType.slide,
+        onClosedIcon: () {
+          toggleMenu();
+        },
+        background: Theme.of(context).primaryColor,
+        menu: buildMenu(),
+        closeIcon: const Icon(
+          Icons.close_rounded,
+          size: 30.0,
+          color: Colors.white,
         ),
-        actions: [
-          IconButton(
-              onPressed: () => _features.logout().then(
-                    (value) {
-                      if (context.mounted) {
-                        Navigator.of(context).pushReplacementNamed('/welcome');
-                      }
-                    },
-                  ),
-              icon: const Icon(Icons.logout))
+        animatedDuration: Duration(milliseconds: 1500),
+        child: HomePage(
+          toggleMenu: toggleMenu,
+          isMenuOpened: isMenuOpened,
+        ));
+  }
+
+  Widget buildMenu() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 80.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.account_circle,
+                size: 30.0, color: Colors.white),
+            title: const Text(
+              "Профиль",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.home, size: 30.0, color: Colors.white),
+            title: const Text(
+              "Запланировать задачи",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.verified_user,
+                size: 30.0, color: Colors.white),
+            title: const Text(
+              "Выполненные задачи",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
         ],
       ),
-      body: Center(
-          child: Column(
-        children: [
-          TabBar(
-            controller: _tabbarController,
-            tabs: const [
-              Tab(text: "День"),
-              Tab(text: "Неделя"),
-              Tab(text: "Месяц"),
-            ],
-            onTap: (value) {
-              setState(() {
-                _page = value;
-              });
-            },
-          ),
-          _features.pages[_tabbarController.index],
-        ],
-      )),
     );
   }
 }
