@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:techarrow_mobile_final/utils/matrixTools.dart';
 
 class Matrix extends CustomPainter {
-  List<List<Cell>> matrix = [];
+  List<List<Cell>> matrix = createEmpty(10, 10);
 
   Size curSize = Size(0, 0);
 
   @override
   void paint(Canvas canvas, Size size) {
-
-    matrix = createEmpty(10, 10);
-
     double kx = size.width / matrix[0].length;
     double ky = size.height / matrix.length;
 
@@ -64,8 +61,6 @@ class Matrix extends CustomPainter {
     if (cellX < 0 || cellX >= matrix[0].length || cellY < 0 || cellY >= matrix.length) {
       return Cell(number: 10);
     }
-    
-    matrix[cellY][cellX].color = Colors.white;
 
     return matrix[cellY][cellX];
   }

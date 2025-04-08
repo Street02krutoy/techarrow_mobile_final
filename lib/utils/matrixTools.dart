@@ -54,7 +54,7 @@ bool moveDownShape(List<List<Cell>> matrix, int number){
     }
   }
 
-  for (int y = matrix.length - 1; y >= 0; y--) {
+  for (int y = matrix.length - 2; y >= 0; y--) {
     for (int x = 0; x < matrix[0].length; x++) {
       if (matrix[y][x].number == number){
         matrix[y + 1][x] = matrix[y][x].copy();
@@ -64,4 +64,53 @@ bool moveDownShape(List<List<Cell>> matrix, int number){
   }
 
   return true;
+}
+
+moveLeftShape(List<List<Cell>> matrix, int number){
+  for (int y = 0; y < matrix.length; y++) {
+    if (matrix[y][0].number == number){
+      return;
+    }
+    for (int x = 1; x < matrix[y].length - 1; x++) {
+      if (matrix[y][x].number == number && matrix[y][x - 1].number != 0 && matrix[y][x - 1].number != number){
+        return;
+      }
+    }
+  }
+  for (int y = 0; y < matrix.length; y++) {
+    for (int x = 0; x < matrix[y].length; x++) {
+      if (matrix[y][x].number == number){
+        matrix[y][x - 1] = matrix[y][x].copy();
+        matrix[y][x] = Cell();
+      }
+    }
+  }
+}
+
+moveRightShape(List<List<Cell>> matrix, int number){
+  for (int y = 0; y < matrix.length; y++) {
+    if (matrix[y][matrix[y].length - 1].number == number){
+      return;
+    }
+    for (int x = 0; x < matrix[y].length - 2; x++) {
+      if (matrix[y][x].number == number && matrix[y][x + 1].number != 0 && matrix[y][x + 1].number != number){
+        return;
+      }
+    }
+  }
+  for (int y = 0; y < matrix.length; y++) {
+    for (int x = matrix[y].length - 1; x >= 0; x--) {
+      if (matrix[y][x].number == number){
+        matrix[y][x + 1] = matrix[y][x].copy();
+        matrix[y][x] = Cell();
+      }
+    }
+  }
+}
+
+void addShape(List<List<Cell>> matrix, int n, Color color, int number){
+  print(number);
+  for (int i = 0; i < n; i++) {
+    matrix[0][i] = Cell(number: number, color: color);
+  }
 }
