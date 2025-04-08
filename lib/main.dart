@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:techarrow_mobile_final/auth_legacy/keycloak.dart';
 import 'package:techarrow_mobile_final/router/router.dart';
 import 'package:techarrow_mobile_final/screens/welcome/screen.dart';
 
