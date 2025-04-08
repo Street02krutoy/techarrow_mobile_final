@@ -17,6 +17,8 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
+  final _features = MainScreenFeatures();
+
   toggleMenu() {
     setState(() {
       if (isMenuOpened()) {
@@ -28,6 +30,15 @@ class _MainScreenState extends State<MainScreen>
   }
 
   bool isMenuOpened() => _sideMenuKey.currentState!.isOpened;
+
+  Future<ApplicationUserInfo> data =
+      Future.value(ApplicationUserInfo(id: "", username: ""));
+
+  @override
+  void initState() {
+    data = _features.getUserInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +55,7 @@ class _MainScreenState extends State<MainScreen>
           size: 30.0,
           color: Colors.white,
         ),
-        animatedDuration: Duration(milliseconds: 1500),
+        animatedDuration: const Duration(milliseconds: 1500),
         child: HomePage(
           toggleMenu: toggleMenu,
           isMenuOpened: isMenuOpened,
@@ -53,25 +64,34 @@ class _MainScreenState extends State<MainScreen>
 
   Widget buildMenu() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 80.0),
+      padding: const EdgeInsets.symmetric(vertical: 30.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            onTap: () {},
-            leading: const Icon(Icons.account_circle,
-                size: 30.0, color: Colors.white),
-            title: const Text(
-              "Профиль",
-              style: TextStyle(fontSize: 22),
-            ),
             textColor: Colors.white,
-            dense: true,
+            title: FutureBuilder(
+              builder: (context, snapshot) {
+                String name;
+                if (snapshot.hasData) {
+                  name = snapshot.data!.username;
+                } else {
+                  name = "дорогой пользователь";
+                }
+                return Text(
+                  'Привет, $name!',
+                  style: TextStyle(fontSize: 22),
+                );
+              },
+              future: data,
+            ),
           ),
+          Divider(),
           ListTile(
             onTap: () {},
-            leading: const Icon(Icons.home, size: 30.0, color: Colors.white),
+            leading:
+                const Icon(Icons.watch_later, size: 30.0, color: Colors.white),
             title: const Text(
               "Запланировать задачи",
               style: TextStyle(fontSize: 22),
@@ -81,14 +101,30 @@ class _MainScreenState extends State<MainScreen>
           ),
           ListTile(
             onTap: () {},
-            leading: const Icon(Icons.verified_user,
-                size: 30.0, color: Colors.white),
+            leading:
+                const Icon(Icons.done_all, size: 30.0, color: Colors.white),
             title: const Text(
               "Выполненные задачи",
               style: TextStyle(fontSize: 22),
             ),
             textColor: Colors.white,
             dense: true,
+          ),
+          Divider(),
+          ListTile(
+            onTap: () => _features.logout().then(
+              (value) {
+                if (context.mounted) {
+                  Navigator.of(context).pushReplacementNamed('/welcome');
+                }
+              },
+            ),
+            leading: const Icon(Icons.logout, size: 30.0, color: Colors.white),
+            title: const Text(
+              "Выйти",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
           ),
         ],
       ),
