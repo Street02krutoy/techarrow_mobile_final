@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:openid_client/openid_client_io.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,7 +9,7 @@ class Keycloak {
   final String clientId = dotenv.env['CLIENT_ID'] ?? '';
   final storage = const FlutterSecureStorage();
 
-  Future<void> login() async {
+  Future<UserInfo> login() async {
     var issuer = await Issuer.discover(Uri.parse("$baseUrl/realms/$realm"));
 
     var client = Client(issuer, clientId);
@@ -46,6 +43,7 @@ class Keycloak {
 
     await storage.write(key: "user_id", value: userInfo["sub"]);
     await storage.write(key: "username", value: userInfo["preferred_username"]);
+    return userInfo;
   }
 
   void logout() async {
@@ -58,24 +56,25 @@ class Keycloak {
     }
   }
 
-  Future<UserInfo> getUserInfo() async {
+  Future<ApplicationUserInfo> getUserInfo() async {
     final userId = await storage.read(key: "user_id");
     final username = await storage.read(key: "username");
     if (userId == null || username == null) {
-      return UserInfo(id: "", username: "");
+      return ApplicationUserInfo(id: "", username: "");
     }
-    return UserInfo(id: userId, username: username);
+    return ApplicationUserInfo(id: userId, username: username);
   }
 }
 
-class UserInfo {
+class ApplicationUserInfo {
   String id;
   String username;
 
-  UserInfo({required this.id, required this.username});
+  ApplicationUserInfo({required this.id, required this.username});
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) {
-    return UserInfo(id: json['sub'], username: json['preferred_username']);
+  factory ApplicationUserInfo.fromJson(Map<String, dynamic> json) {
+    return ApplicationUserInfo(
+        id: json['sub'], username: json['preferred_username']);
   }
 
   Map<String, dynamic> toJson() => {'sub': id, 'preferred_username': username};

@@ -35,21 +35,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     _controller.forward();
 
-    Keycloak().login().then((a) {
+    Keycloak().login().then((data) {
+      print(data);
       Future.delayed(const Duration(seconds: 1), () {
         if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const MainScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(opacity: animation, child: child);
-              },
-              transitionDuration: const Duration(milliseconds: 500),
-            ),
-          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const MainScreen(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                transitionDuration: const Duration(milliseconds: 500),
+              ),
+              (route) => false);
         }
       });
     });
