@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage>
     super.initState();
   }
 
-  int _page = 0;
+  static int _page = 0;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
