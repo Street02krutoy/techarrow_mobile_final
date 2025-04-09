@@ -11,26 +11,25 @@ class TaskCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Material(
+        elevation: 2,
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                child,
-                Spacer(),
+                Expanded(child: child),
                 if (onEditTapped != null)
                   IconButton(
                     onPressed: onEditTapped,
-                    icon: Icon(
-                      Icons.edit,
-                    ),
+                    icon: Icon(Icons.edit_outlined, color: Colors.grey[600]),
+                    tooltip: 'Edit',
                   ),
               ],
             ),

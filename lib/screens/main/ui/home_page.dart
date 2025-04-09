@@ -88,6 +88,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           surfaceTintColor: Colors.white,
           forceMaterialTransparency: false,
+          bottom: TabBar(
+            controller: _tabbarController,
+            tabs: const [
+              Tab(text: "День"),
+              Tab(text: "Неделя"),
+            ],
+            onTap: (value) {
+              setState(() {
+                _page = value;
+              });
+            },
+          ),
           leading: !widget.isMenuOpened()
               ? IconButton(
                   onPressed: () {
@@ -122,23 +134,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               SlideTransition(
                 position: _offsetAnimationPage,
-                child: Column(
-                  children: [
-                    TabBar(
-                      controller: _tabbarController,
-                      tabs: const [
-                        Tab(text: "День"),
-                        Tab(text: "Неделя"),
-                      ],
-                      onTap: (value) {
-                        setState(() {
-                          _page = value;
-                        });
-                      },
-                    ),
-                    _features.pages[_tabbarController.index],
-                  ],
-                ),
+                child: _features.pages[_tabbarController.index],
               ),
             ],
           ),
