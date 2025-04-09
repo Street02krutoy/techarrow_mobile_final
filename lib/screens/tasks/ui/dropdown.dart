@@ -24,12 +24,26 @@ class _DropdownState extends State<Dropdown> {
         builder: (context, val, child) {
           return Column(
             children: [
-              InkWell(
+              GestureDetector(
                   onTap: () {
                     widget.controller.value = !widget.controller.value;
                   },
                   child: widget.button),
-              if (val) ...widget.children
+              ClipRect(
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: ConstrainedBox(
+                    constraints: val
+                        ? const BoxConstraints()
+                        : const BoxConstraints(maxHeight: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: widget.children,
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
         });

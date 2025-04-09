@@ -41,7 +41,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       Text("05:00"),
                     ],
                   )),
-              separatorBuilder: (context, index) => Divider(),
+              separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: 3)
         ]),
     Dropdown(
@@ -69,7 +69,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       Text("05:00"),
                     ],
                   )),
-              separatorBuilder: (context, index) => Divider(),
+              separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: 3)
         ]),
     Dropdown(
@@ -96,7 +96,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       Text("05:00"),
                     ],
                   )),
-              separatorBuilder: (context, index) => Divider(),
+              separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: 3)
         ]),
   ];
@@ -110,7 +110,7 @@ class _TasksScreenState extends State<TasksScreen> {
       body: ListView.separated(
           shrinkWrap: true,
           itemBuilder: (context, index) => dropdowns[index],
-          separatorBuilder: (context, index) => const Divider(),
+          separatorBuilder: (context, index) => SizedBox(height: 10),
           itemCount: dropdowns.length),
     );
   }
