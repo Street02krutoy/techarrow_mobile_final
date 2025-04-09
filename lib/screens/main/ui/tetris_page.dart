@@ -56,7 +56,6 @@ class _TetrisPageState extends State<TetrisPage> {
     index = 0;
     n = 1;
     matrix.matrix = createEmpty(rows, columns);
-    matrix.weekChange(); // TODO недельная
 
     timer = Timer.periodic(Duration(milliseconds: time), (timer) {
       setState(() {
