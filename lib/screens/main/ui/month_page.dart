@@ -53,9 +53,10 @@ class _MonthPageState extends State<MonthPage> {
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
   ];
 
-  static DateTime _focusedDay = DateTime.now();
+  static DateTime _focusedDay = DateTime.now().add(Duration(days: 1));
   static DateTime _selectedDay = DateTime.now();
   final CalendarFormat _calendarFormat = CalendarFormat.month;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -89,6 +90,23 @@ class _MonthPageState extends State<MonthPage> {
                   _selectedDay = selectedDay;
                 });
               },
+              calendarBuilders: CalendarBuilders(
+                markerBuilder: (context, day, events) {
+                  if (day.day == DateTime.now().day &&
+                      day.month == DateTime.now().month &&
+                      day.year == DateTime.now().year) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    );
+                  }
+                  return null;
+                },
+              ),
             ),
             SizedBox(
               height: 30,
