@@ -48,6 +48,7 @@ class _SubtaskListWidgetState extends State<SubtaskListWidget> {
         count,
         (int index) => Container(
           padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: color)),

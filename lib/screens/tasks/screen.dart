@@ -42,12 +42,18 @@ class _TasksScreenState extends State<TasksScreen> {
                       .where(
                           (element) => element.status == TaskStatus.scheduled)
                       .toList()),
+              SizedBox(
+                height: 20,
+              ),
               getDropdown(
                   "Незапланированные",
                   data
                       .where(
                           (element) => element.status == TaskStatus.unscheduled)
                       .toList()),
+              SizedBox(
+                height: 20,
+              ),
               getDropdown(
                   "Выполненные",
                   data
