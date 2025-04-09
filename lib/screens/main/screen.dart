@@ -90,22 +90,26 @@ class _MainScreenState extends State<MainScreen>
           ),
           Divider(),
           ListTile(
-            onTap: () {},
-            leading:
-                const Icon(Icons.watch_later, size: 30.0, color: Colors.white),
+            onTap: () {
+              Navigator.of(context).pushNamed('/tasks');
+            },
+            leading: const Icon(Icons.task, size: 30.0, color: Colors.white),
             title: const Text(
-              "Запланировать задачи",
+              "Список задач",
               style: TextStyle(fontSize: 22),
             ),
             textColor: Colors.white,
             dense: true,
           ),
           ListTile(
-            onTap: () {},
-            leading:
-                const Icon(Icons.done_all, size: 30.0, color: Colors.white),
+            onTap: () {
+              Navigator.of(context).pushNamed('/pomodoro',
+                  arguments: PomodoroScreenArguments(
+                      taskName: "Task Name", taskId: ""));
+            },
+            leading: const Icon(Icons.timer, size: 30.0, color: Colors.white),
             title: const Text(
-              "Выполненные задачи",
+              "Pomodoro",
               style: TextStyle(fontSize: 22),
             ),
             textColor: Colors.white,
