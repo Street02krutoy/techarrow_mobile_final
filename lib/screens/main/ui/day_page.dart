@@ -28,34 +28,40 @@ class _DayPageState extends State<DayPage> {
   int index = 0;
   late Task temp;
 
-  Matrix matrix =  Matrix();
+  Matrix matrix = Matrix();
 
   int n = 1;
+  Timer? timer;
 
   void startTimer(List<Task> curTasks, int rows) {
-    
     const int time = 500;
 
     counter = rows;
     index = 0;
 
-    
-    final timer = Timer.periodic(Duration(milliseconds: time), (timer) {setState(() {
-      update(timer);
-    });});
+    timer = Timer.periodic(Duration(milliseconds: time), (timer) {
+      setState(() {
+        update(timer);
+      });
+    });
   }
 
-  void update(Timer timer){
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void update(Timer timer) {
     print("counter " + counter.toString());
     if (counter < rows) {
       moveDownShape(matrix.matrix, n);
       counter++;
     } else {
-      if (index == tasks.length){
+      if (index == tasks.length) {
         print("cancel");
         timer.cancel();
-      }
-      else{
+      } else {
         n += 1;
         counter = 0;
         temp = tasks[index];
@@ -78,32 +84,36 @@ class _DayPageState extends State<DayPage> {
 
     double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
-    return Column(
-      children: [
-        SizedBox(height: height * 0.2),
-        SizedBox(
-          height: height * 0.5,
-          width: width * 0.8,
-          child: GestureDetector(
-            onTapDown: (details) => {
-              print(matrix.numberOnXY(details.localPosition, 0, 0))
-            },
-            child: CustomPaint(
-              key: ValueKey(matrix.isRepaint),
-              painter: matrix,
-            ),
+    return Column(children: [
+      SizedBox(height: height * 0.2),
+      SizedBox(
+        height: height * 0.5,
+        width: width * 0.8,
+        child: GestureDetector(
+          onTapDown: (details) =>
+              {print(matrix.numberOnXY(details.localPosition, 0, 0))},
+          child: CustomPaint(
+            key: ValueKey(matrix.isRepaint),
+            painter: matrix,
           ),
         ),
-        Row(
-          children: [
-            TextButton(onPressed: () => {moveLeftShape(matrix.matrix, n)}, child: Text("Left")),
-            TextButton(onPressed: () => {moveDownShape(matrix.matrix, n)}, child: Text("down")),
-            TextButton(onPressed: () => {moveRightShape(matrix.matrix, n)}, child: Text("Right")),
-            TextButton(onPressed: () => {startTimer(tasks, 10)}, child: Text("start")),
-          ],
-        )
-      ]
-    );
+      ),
+      Row(
+        children: [
+          IconButton(
+              onPressed: () => {moveLeftShape(matrix.matrix, n)},
+              icon: Icon(Icons.arrow_left)),
+          IconButton(
+              onPressed: () => {moveDownShape(matrix.matrix, n)},
+              icon: Icon(Icons.arrow_drop_down)),
+          IconButton(
+              onPressed: () => {moveRightShape(matrix.matrix, n)},
+              icon: Icon(Icons.arrow_right)),
+          IconButton(
+              onPressed: () => {startTimer(tasks, 10)},
+              icon: Icon(Icons.start)),
+        ],
+      )
+    ]);
   }
 }
-
