@@ -193,11 +193,11 @@ class _WeekPageState extends State<WeekPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TetrisPage(
-                              start: 0,
-                              end: 7,
-                              rows: 12,
-                              tasks: tasks,
-                            )));
+                            start: 0,
+                            end: 7,
+                            rows: 12,
+                            tasks: tasks,
+                            mode: 1)));
               },
               child: Text("заполнить")),
         )

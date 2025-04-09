@@ -79,7 +79,7 @@ class Matrix extends CustomPainter {
           textPainter.paint(
               canvas,
               Offset(x * kx - textPainter.width / 2,
-                  matrix.length * (ky + 3) - ky / 2 - textPainter.height / 2));
+                  matrix.length * (ky + 5) - ky / 2 - textPainter.height / 2));
         }
       }
     }

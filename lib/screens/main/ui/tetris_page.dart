@@ -14,12 +14,14 @@ class TetrisPage extends StatefulWidget {
       required this.start,
       required this.end,
       required this.rows,
-      required this.tasks});
+      required this.tasks,
+      required this.mode}); // 0 - day, 1 - week, 2 - month
 
   final int start;
   final int end;
   final int rows;
   final List<Task> tasks;
+  final int mode;
 
   @override
   State<TetrisPage> createState() => _TetrisPageState();
@@ -113,6 +115,10 @@ class _TetrisPageState extends State<TetrisPage> {
     matrix.start = widget.start;
     matrix.end = widget.end;
     startTimer(widget.tasks);
+
+    if (widget.mode == 1) {
+      matrix.weekChange();
+    }
     super.initState();
   }
 

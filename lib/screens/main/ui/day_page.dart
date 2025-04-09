@@ -28,8 +28,8 @@ class _DayPageState extends State<DayPage> {
     Task(7, "blue", "123123123", 0, 2, 1)
   ];
 
-  int rows = 12;
-  int columns = 7;
+  int rows = 7;
+  int columns = 12;
   bool counter = false;
   int index = 0;
   late Task temp;
@@ -193,11 +193,11 @@ class _DayPageState extends State<DayPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TetrisPage(
-                              start: 0,
-                              end: 7,
-                              rows: 12,
-                              tasks: tasks,
-                            )));
+                            start: 8,
+                            end: 20,
+                            rows: 7,
+                            tasks: tasks,
+                            mode: 0)));
               },
               child: Text("заполнить")),
         )
