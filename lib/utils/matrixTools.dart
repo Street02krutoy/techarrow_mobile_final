@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:techarrow_mobile_final/utils/task.dart';
 
 class Cell {
   int number = 0;
@@ -52,8 +53,12 @@ List<List<Cell>> createEmpty(int rows, int columns) {
 bool moveDownShape(List<List<Cell>> matrix, int number) {
   for (int y = matrix.length - 1; y > 0; y--) {
     for (int x = 0; x < matrix[y].length; x++) {
-      if (matrix[y][x].number != 0 && matrix[y - 1][x].number == number ||
-          (y == matrix.length - 1 && matrix[y][x].number == number)) {
+      if ((matrix[y][x].number != 0 &&
+          matrix[y][x].number != number &&
+          matrix[y - 1][x].number == number)) {
+        return false;
+      }
+      if (y == matrix.length - 1 && matrix[y][x].number == number) {
         return false;
       }
     }
@@ -117,8 +122,14 @@ moveRightShape(List<List<Cell>> matrix, int number) {
   }
 }
 
-void addShape(List<List<Cell>> matrix, int n, Color color, int number) {
-  print(n);
+void addShape(List<List<Cell>> matrix, int n, Color color, int number,
+    {bool isVertical = false}) {
+  if (isVertical) {
+    for (int y = 0; y < n; y++) {
+      matrix[y][0] = Cell(number: number, color: color);
+    }
+    return;
+  }
   for (int i = 0; i < n; i++) {
     matrix[0][i] = Cell(number: number, color: color);
   }
@@ -167,4 +178,16 @@ void freeze(List<List<Cell>> matrix, int n) {
       }
     }
   }
+}
+
+Map<String, dynamic> toJson(Task task) {
+  return {
+    'id': task.id,
+    'title': task.title,
+    'description': task.description,
+    'startTime': task.startTime,
+    'endTime': task.endTime,
+    'colorId': task.colorId,
+    'len': task.len,
+  };
 }

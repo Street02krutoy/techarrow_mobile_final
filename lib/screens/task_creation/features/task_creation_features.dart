@@ -7,8 +7,15 @@ class TaskCreationFeatures {
       required TaskTypes type,
       required bool isImportant,
       Duration? duration,
-      List<String>? subtasks}) async {
+      List<Subtask>? subtasks}) async {
     print(
         "$title, $description, $type, $isImportant, $duration, $subtasks - created task");
   }
+}
+
+class Subtask {
+  String title;
+  Duration duration;
+
+  Subtask({required this.title, required this.duration});
 }
