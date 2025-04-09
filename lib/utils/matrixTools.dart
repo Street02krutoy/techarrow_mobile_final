@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Cell {
@@ -119,5 +121,28 @@ void addShape(List<List<Cell>> matrix, int n, Color color, int number) {
   print(n);
   for (int i = 0; i < n; i++) {
     matrix[0][i] = Cell(number: number, color: color);
+  }
+}
+
+void deleteNumber(List<List<Cell>> matrix, int number) {
+  for (int y = 0; y < matrix.length; y++) {
+    for (int x = 0; x < matrix[0].length; x++) {
+      if (matrix[y][x].number == number) {
+        matrix[y][x] = Cell(number: 0);
+      }
+    }
+  }
+}
+
+void moveDownAllShapes(List<List<Cell>> matrix) {
+  List<int> numbers = [];
+  int maxNumber = 0;
+  for (int y = matrix.length - 2; y > 0; y--) {
+    for (int x = 0; x < matrix[y].length; x++) {
+      maxNumber = max(maxNumber, matrix[y][x].number);
+    }
+  }
+  for (int i = 1; i <= maxNumber; i++) {
+    moveDownShape(matrix, i);
   }
 }
