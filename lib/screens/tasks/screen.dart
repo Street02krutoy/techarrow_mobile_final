@@ -107,10 +107,9 @@ class _TasksScreenState extends State<TasksScreen> {
       appBar: AppBar(
         title: const Text("Задачи"),
       ),
-      body: ListView.separated(
+      body: ListView.builder(
           shrinkWrap: true,
           itemBuilder: (context, index) => dropdowns[index],
-          separatorBuilder: (context, index) => SizedBox(height: 10),
           itemCount: dropdowns.length),
     );
   }
