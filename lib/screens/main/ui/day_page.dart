@@ -20,16 +20,16 @@ class DayPage extends StatefulWidget {
 
 class _DayPageState extends State<DayPage> {
   List<Task> tasks = [
-    Task(2, "red", "awd", 0, 2, 0, 3),
-    Task(3, "green", "awawdawdd", 0, 2, 2, 3),
-    Task(4, "blue", "123123123", 0, 2, 1, 4),
-    Task(5, "red", "awd", 0, 2, 0, 3),
-    Task(6, "green", "awawdawdd", 0, 2, 2, 3),
-    Task(7, "blue", "123123123", 0, 2, 1, 4)
+    Task(2, "red", "awd", 0, 2, 0),
+    Task(3, "green", "awawdawdd", 0, 2, 2),
+    Task(4, "blue", "123123123", 0, 2, 1),
+    Task(5, "red", "awd", 0, 2, 0),
+    Task(6, "green", "awawdawdd", 0, 2, 2),
+    Task(7, "blue", "123123123", 0, 2, 1)
   ];
 
-  int rows = 10;
-  int columns = 10;
+  int rows = 12;
+  int columns = 7;
   bool counter = false;
   int index = 0;
   late Task temp;
@@ -193,9 +193,9 @@ class _DayPageState extends State<DayPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TetrisPage(
-                              start: 8,
-                              end: 22,
-                              rows: rows,
+                              start: 0,
+                              end: 7,
+                              rows: 12,
                               tasks: tasks,
                             )));
               },

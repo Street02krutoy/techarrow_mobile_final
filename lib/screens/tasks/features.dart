@@ -71,7 +71,6 @@ class TasksScreenFeatures {
     return List.generate(
         Random().nextInt(30) + 30,
         (index) => Task(index, tasksSample[Random().nextInt(59)], '', 0, 0, 0,
-            Random().nextInt(4) + 1,
             status: Random().nextBool()
                 ? TaskStatus.scheduled
                 : Random().nextBool()

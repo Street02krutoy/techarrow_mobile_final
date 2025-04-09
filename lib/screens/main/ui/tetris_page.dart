@@ -27,12 +27,12 @@ class TetrisPage extends StatefulWidget {
 
 class _TetrisPageState extends State<TetrisPage> {
   List<Task> tasks = [
-    Task(2, "red", "awd", 0, 2, 0, 3),
-    Task(3, "green", "awawdawdd", 0, 2, 2, 3),
-    Task(4, "blue", "123123123", 0, 2, 1, 4),
-    Task(5, "red", "awd", 0, 2, 0, 3),
-    Task(6, "green", "awawdawdd", 0, 2, 2, 3),
-    Task(7, "blue", "123123123", 0, 2, 1, 4)
+    Task(2, "red", "awd", 0, 2, 0),
+    Task(3, "green", "awawdawdd", 0, 2, 2),
+    Task(4, "blue", "123123123", 0, 2, 1),
+    Task(5, "red", "awd", 0, 2, 0),
+    Task(6, "green", "awawdawdd", 0, 2, 2),
+    Task(7, "blue", "123123123", 0, 2, 1)
   ];
 
   late int rows = widget.rows;
@@ -56,7 +56,7 @@ class _TetrisPageState extends State<TetrisPage> {
     index = 0;
     n = 1;
     matrix.matrix = createEmpty(rows, columns);
-    matrix.isRepaint = 0;
+    matrix.weekChange(); // TODO недельная
 
     timer = Timer.periodic(Duration(milliseconds: time), (timer) {
       setState(() {
@@ -82,7 +82,8 @@ class _TetrisPageState extends State<TetrisPage> {
         index++;
 
         n += 1;
-        addShape(matrix.matrix, temp.len, colors[temp.colorId], n);
+        addShape(matrix.matrix, temp.len, colors[temp.colorId], n,
+            isVertical: matrix.isWeek);
       }
     }
     if (freezed) {
