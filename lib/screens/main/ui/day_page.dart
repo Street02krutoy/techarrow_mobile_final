@@ -87,6 +87,9 @@ class _DayPageState extends State<DayPage> {
     double height = MediaQuery.sizeOf(context).height;
     return Column(children: [
       SizedBox(
+        height: height * 0.05,
+      ),
+      SizedBox(
         height: height * 0.5,
         width: width * 0.8,
         child: GestureDetector(
@@ -127,17 +130,21 @@ class _DayPageState extends State<DayPage> {
       else
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
-              style: ButtonStyle(
-                shape: const WidgetStatePropertyAll(CircleBorder()),
-                padding: const WidgetStatePropertyAll(EdgeInsets.all(50)),
-                backgroundColor: const WidgetStatePropertyAll(Colors.green),
+          child: GestureDetector(
+            onTap: () => {startTimer(tasks, 10)},
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.green,
               ),
-              onPressed: () => {startTimer(tasks, 10)},
-              child: Text(
-                "Старт",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              )),
+              child: Icon(
+                Icons.arrow_right,
+                color: Colors.white,
+                size: 40,
+              ),
+            ),
+          ),
         )
     ]);
   }
