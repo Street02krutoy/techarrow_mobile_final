@@ -281,7 +281,7 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
                                   hours: _hoursController.value,
                                   minutes: _minutesController.value)
                               : null,
-                          subtasks: !isLarge ? [] : null,
+                          subtasks: isLarge ? [] : null,
                         );
 
                         Navigator.of(context).pop();

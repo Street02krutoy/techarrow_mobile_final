@@ -3,7 +3,7 @@ import 'dart:ui';
 
 class AdvicesFeatures {
   Future<List<AdviceEntity>> getAdvices() async {
-    await Future.delayed(const Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 1));
     return List.generate(Random().nextInt(5) + 5, (index) {
       return AdviceEntity(
         color: Color.fromRGBO(
