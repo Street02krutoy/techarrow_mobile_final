@@ -5,6 +5,7 @@ class Matrix extends CustomPainter {
   List<List<Cell>> matrix = createEmpty(10, 10);
 
   Size curSize = Size(0, 0);
+  int isRepaint = 0;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -48,7 +49,7 @@ class Matrix extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+    return (oldDelegate as Matrix).isRepaint != isRepaint;
   }
 
   Cell numberOnXY(Offset offset, double indentX, double indentY) {
