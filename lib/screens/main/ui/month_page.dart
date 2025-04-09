@@ -38,15 +38,6 @@ class _MonthPageState extends State<MonthPage> {
     {"task": "l;sakdkmbsfsfsf", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
   ];
 
   static DateTime _focusedDay = DateTime.now();
@@ -98,44 +89,82 @@ class _MonthPageState extends State<MonthPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ]..addAll(
-              List.generate(
-                widget.isCalendarOpened() ? tasks.length : 3,
-                (int index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ListTile(
-                    onTap: () {
-                      setState(
-                        () {
-                          tasks[index]["isSolved"] = !tasks[index]["isSolved"];
-                        },
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Theme.of(context).dividerColor,
-                      ),
-                    ),
-                    leading: Checkbox(
-                      value: tasks[index]["isSolved"],
-                      onChanged: (value) {
-                        setState(() {
-                          tasks[index]["isSolved"] = value;
-                        });
+          ]
+            ..addAll(List.generate(
+              widget.isCalendarOpened() ? tasks.length : 3,
+              (int index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ListTile(
+                  onTap: () {
+                    setState(
+                      () {
+                        tasks[index]["isSolved"] = !tasks[index]["isSolved"];
                       },
+                    );
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      color: Theme.of(context).dividerColor,
                     ),
-                    title: Text(
-                      tasks[index]["task"],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
+                  ),
+                  leading: Checkbox(
+                    value: tasks[index]["isSolved"],
+                    onChanged: (value) {
+                      setState(() {
+                        tasks[index]["isSolved"] = value;
+                      });
+                    },
+                  ),
+                  title: Text(
+                    tasks[index]["task"],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 18,
                     ),
                   ),
                 ),
-              ).toList(),
+              ),
+            ).toList())
+            ..add(
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 30.0,
+                  bottom: 15,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: OutlinedButton(
+                    style: ButtonStyle(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          size: 32,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        Text(
+                          "Добавить задачи на ${_selectedDay.day} ${months[_selectedDay.month - 1]}",
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
         ),
       ),
