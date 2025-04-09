@@ -77,6 +77,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
         if (details.primaryDelta! > 0 && !widget.isMenuOpened()) {
+          if (_isCalendarOpened) {
+            _toggleCalendar();
+          }
           widget.toggleMenu();
         }
         if (details.primaryDelta! < 0 && widget.isMenuOpened()) {
