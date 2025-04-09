@@ -36,7 +36,8 @@ class Keycloak {
     await storage.write(key: "access_token", value: tokenInfo.accessToken);
     await storage.write(key: "refresh_token", value: tokenInfo.refreshToken);
     await storage.write(
-        key: "expires_in", value: tokenInfo.expiresIn.toString());
+        key: "expires_in",
+        value: tokenInfo.expiresAt?.millisecondsSinceEpoch.toString());
 
     await storage.write(
         key: "logout_uri", value: credentials.generateLogoutUrl().toString());
@@ -44,6 +45,13 @@ class Keycloak {
     await storage.write(key: "user_id", value: userInfo["sub"]);
     await storage.write(key: "username", value: userInfo["preferred_username"]);
     return userInfo;
+  }
+
+  Future<bool> isTokenExpired() async {
+    final expiresInStr = await storage.read(key: "expires_in");
+    if (expiresInStr == null) return true;
+    final expiresIn = int.tryParse(expiresInStr) ?? 0;
+    return DateTime.now().millisecondsSinceEpoch >= expiresIn;
   }
 
   void logout() async {

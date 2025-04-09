@@ -70,7 +70,17 @@ class TasksScreenFeatures {
 
     return List.generate(
         Random().nextInt(30) + 30,
-        (index) => Task(index, tasksSample[Random().nextInt(59)], '', 0, 0, 0,
+        (index) => Task(
+            index,
+            tasksSample[Random().nextInt(tasksSample.length)],
+            List.generate(
+                    Random().nextInt(2) + 1,
+                    (i) =>
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ')
+                .join(' '),
+            0,
+            0,
+            0,
             status: Random().nextBool()
                 ? TaskStatus.scheduled
                 : Random().nextBool()

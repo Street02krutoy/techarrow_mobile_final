@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_time_duration_picker/flutter_time_duration_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:techarrow_mobile_final/enums/task_types.dart';
-import 'package:techarrow_mobile_final/screens/task_creation/features/task_creation_features.dart';
 import 'package:techarrow_mobile_final/screens/task_creation/ui/subtask_list_widget.dart';
 
-class TaskCreationScreen extends StatefulWidget {
-  const TaskCreationScreen({super.key});
+class AddTaskPage extends StatefulWidget {
+  const AddTaskPage({super.key});
 
   @override
-  State<TaskCreationScreen> createState() => _TaskCreationScreenState();
+  State<AddTaskPage> createState() => _AddTaskPageState();
 }
 
-class _TaskCreationScreenState extends State<TaskCreationScreen> {
+class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController =
       TextEditingController();
@@ -38,24 +37,6 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
   bool isLarge = false;
 
   final SubtaskListWidget subtasklist = SubtaskListWidget();
-  final _features = TaskCreationFeatures();
-
-  @override
-  void dispose() {
-    subtasklist.disposeStaticFields();
-    _taskNameController.dispose();
-    _taskDescriptionController.dispose();
-
-    super.dispose();
-  }
-
-  static List<String> getSubtasksNames() {
-    return SubtaskListWidget.getSubtasksNames();
-  }
-
-  static List<Duration> getSubtasksDurations() {
-    return SubtaskListWidget.getSubtasksDurations();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -275,39 +256,9 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
                         ),
                       ),
                       onPressed: () {
-                        if (_taskNameController.text.isEmpty) return;
-                        if (_taskDescriptionController.text.isEmpty) return;
-                        List<Subtask>? subtasks;
-
-                        if (isLarge) {
-                          subtasks = [];
-                          int i = 0;
-                          SubtaskListWidget.getSubtasksNames()
-                              .forEach((element) {
-                            subtasks!.add(Subtask(
-                                title: element,
-                                duration: SubtaskListWidget
-                                    .getSubtasksDurations()[i]));
-                            i++;
-                          });
-                        }
-
-                        _features.createTask(
-                          title: _taskNameController.text,
-                          description: _taskDescriptionController.text,
-                          type: selectedValue,
-                          isImportant: isImportant,
-                          duration: !isLarge
-                              ? Duration(
-                                  days: _daysController.value,
-                                  hours: _hoursController.value,
-                                  minutes: _minutesController.value)
-                              : null,
-                          subtasks: subtasks,
-                        );
-
                         Navigator.of(context).pop();
-                        Fluttertoast.showToast(msg: "депай");
+                        Fluttertoast.showToast(
+                            msg: "Запланировать задачу можно в боковом меню!");
                       },
                       child: Text(
                         "Создать задачу!",
@@ -322,5 +273,11 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
             ),
           ),
         ));
+  }
+
+  @override
+  void dispose() {
+    subtasklist.disposeStaticFields();
+    super.dispose();
   }
 }

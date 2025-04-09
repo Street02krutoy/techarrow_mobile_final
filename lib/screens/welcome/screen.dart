@@ -56,29 +56,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
 
     _controller.forward();
-
-    Keycloak().login().then((data) {
-      setState(() {
-        username = data.preferredUsername!;
-      });
-      Future.delayed(const Duration(seconds: 2), () {
-        // return;
-        if (context.mounted) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const MainScreen(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-                transitionDuration: const Duration(milliseconds: 500),
-              ),
-              (route) => false);
-        }
-      });
-    });
+    Keycloak().isTokenExpired().then((value) => {
+          value
+              ? Keycloak().login().then((data) {
+                  setState(() {
+                    username = data.preferredUsername!;
+                  });
+                  Future.delayed(const Duration(seconds: 1), () {
+                    // return;
+                    navigateToMainScreen();
+                  });
+                })
+              : Future.delayed(const Duration(seconds: 1), () {
+                  // return;
+                  navigateToMainScreen();
+                })
+        });
   }
 
   String? username;
@@ -87,6 +80,23 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void navigateToMainScreen() {
+    if (context.mounted) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const MainScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            transitionDuration: const Duration(milliseconds: 500),
+          ),
+          (route) => false);
+    }
   }
 
   @override
