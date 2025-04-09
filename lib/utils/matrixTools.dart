@@ -126,12 +126,13 @@ void addShape(List<List<Cell>> matrix, int n, Color color, int number,
     {bool isVertical = false}) {
   if (isVertical) {
     for (int y = 0; y < n; y++) {
-      matrix[y][0] = Cell(number: number, color: color);
+      matrix[y][matrix[y].length ~/ 2] = Cell(number: number, color: color);
     }
     return;
   }
   for (int i = 0; i < n; i++) {
-    matrix[0][i] = Cell(number: number, color: color);
+    matrix[0][matrix[0].length ~/ 2 - n ~/ 2 + i] =
+        Cell(number: number, color: color);
   }
 }
 
