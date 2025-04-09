@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:techarrow_mobile_final/screens/advices/screen.dart';
 import 'package:techarrow_mobile_final/screens/main/screen.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/add_task_page.dart';
 import 'package:techarrow_mobile_final/screens/pomodoro/screen.dart';
@@ -14,5 +15,6 @@ class ApplicationRouter {
     "/create_task": (context) => const TaskCreationScreen(), // DEPRECATED
     "/pomodoro": (context) => const PomodoroScreen(),
     "/tasks": (context) => const TasksScreen(),
+    "/advices": (context) => const AdviceScreen(),
   };
 }

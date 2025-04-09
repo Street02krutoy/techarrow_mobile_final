@@ -83,7 +83,8 @@ class _TasksScreenState extends State<TasksScreen> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, i) => TaskCardWidget(
-                      child: Column(
+                  onTap: () {},
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(

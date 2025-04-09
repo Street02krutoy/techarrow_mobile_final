@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:techarrow_mobile_final/auth/keycloak.dart';
 import 'package:techarrow_mobile_final/screens/main/screen.dart';
+import 'package:techarrow_mobile_final/screens/welcome/ui/logo.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -60,6 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         username = data.preferredUsername!;
       });
       Future.delayed(const Duration(seconds: 2), () {
+        // return;
         if (context.mounted) {
           Navigator.pushAndRemoveUntil(
               context,
@@ -96,23 +98,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             scale: _scaleAnimation,
             child: Column(
               children: [
-                const Spacer(
-                  flex: 4,
-                ),
-                Image.asset('assets/logo.png', width: 150),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "${getWelcomePhrase()}${username != null ? ", $username" : ""}",
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ),
                 const Spacer(),
-                CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor),
-                const Spacer(
-                  flex: 10,
-                )
+                // RotatingImage(),
+                Image.asset('assets/logo.png', width: 150),
+                Text(
+                  "${getWelcomePhrase()}${username != null ? ", $username!" : "!"}",
+                  style: TextStyle(fontSize: 24),
+                ),
+                const Spacer(flex: 2),
+                Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor)),
               ],
             ),
           ),
