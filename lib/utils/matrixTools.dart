@@ -136,13 +136,26 @@ void deleteNumber(List<List<Cell>> matrix, int number) {
 
 void moveDownAllShapes(List<List<Cell>> matrix) {
   List<int> numbers = [];
-  int maxNumber = 0;
   for (int y = matrix.length - 2; y > 0; y--) {
     for (int x = 0; x < matrix[y].length; x++) {
-      maxNumber = max(maxNumber, matrix[y][x].number);
+      if (matrix[y][x].number != 0) {
+        numbers.add(matrix[y][x].number);
+      }
     }
   }
-  for (int i = 1; i <= maxNumber; i++) {
-    moveDownShape(matrix, i);
+  for (int n in numbers) {
+    while (moveDownShape(matrix, n)) {}
   }
+}
+
+bool isFilledLine(List<List<Cell>> matrix, Set<int> alreadyFilledLines) {
+  for (int y = 0; y < matrix.length; y++) {
+    if (matrix[y].every((x) => (x.number != 0)) &&
+        !alreadyFilledLines.contains(y)) {
+      alreadyFilledLines.add(y);
+      print(y);
+      return true;
+    }
+  }
+  return false;
 }
