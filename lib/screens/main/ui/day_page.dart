@@ -86,59 +86,61 @@ class _DayPageState extends State<DayPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
-    return Column(children: [
-      SizedBox(
-        height: height * 0.05,
-      ),
-      SizedBox(
-        height: height * 0.5,
-        width: width * 0.8,
-        child: GestureDetector(
-          onTapDown: (details) =>
-              {print(matrix.numberOnXY(details.localPosition, 0, 0))},
-          child: CustomPaint(
-            key: ValueKey(matrix.isRepaint),
-            painter: matrix,
-          ),
+    return Center(
+      child: Column(children: [
+        SizedBox(
+          height: height * 0.05,
         ),
-      ),
-      if (timer?.isActive == true)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                onPressed: () => {moveLeftShape(matrix.matrix, n)},
-                icon: Icon(Icons.arrow_left, size: 100)),
-            IconButton(
-                onPressed: () => {moveDownShape(matrix.matrix, n)},
-                icon: Icon(Icons.arrow_drop_down, size: 100)),
-            IconButton(
-                onPressed: () => {moveRightShape(matrix.matrix, n)},
-                icon: Icon(
-                  Icons.arrow_right,
-                  size: 100,
-                )),
-          ],
-        )
-      else
-        Padding(
-          padding: const EdgeInsets.all(16.0),
+        SizedBox(
+          height: height * 0.5,
+          width: width * 0.8,
           child: GestureDetector(
-            onTap: () => {startTimer(tasks, 10)},
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.green,
-              ),
-              child: Icon(
-                Icons.arrow_right,
-                color: Colors.white,
-                size: 40,
-              ),
+            onTapDown: (details) =>
+                {print(matrix.numberOnXY(details.localPosition, 0, 0))},
+            child: CustomPaint(
+              key: ValueKey(matrix.isRepaint),
+              painter: matrix,
             ),
           ),
-        )
-    ]);
+        ),
+        if (timer?.isActive == true)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () => {moveLeftShape(matrix.matrix, n)},
+                  icon: Icon(Icons.arrow_left, size: 100)),
+              IconButton(
+                  onPressed: () => {moveDownShape(matrix.matrix, n)},
+                  icon: Icon(Icons.arrow_drop_down, size: 100)),
+              IconButton(
+                  onPressed: () => {moveRightShape(matrix.matrix, n)},
+                  icon: Icon(
+                    Icons.arrow_right,
+                    size: 100,
+                  )),
+            ],
+          )
+        else
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GestureDetector(
+              onTap: () => {startTimer(tasks, 10)},
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.green,
+                ),
+                child: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              ),
+            ),
+          )
+      ]),
+    );
   }
 }

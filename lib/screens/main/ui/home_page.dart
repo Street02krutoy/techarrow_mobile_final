@@ -40,33 +40,28 @@ class _HomePageState extends State<HomePage>
       },
       child: Scaffold(
         appBar: AppBar(
-            // bottom: ,
-            leading: !widget.isMenuOpened()
-                ? IconButton(
-                    onPressed: widget.toggleMenu, icon: const Icon(Icons.menu))
-                : null,
-            centerTitle: true,
-            title: Text("Ваши задачи")),
-        body: Center(
-          child: Column(
-            children: [
-              TabBar(
-                controller: _tabbarController,
-                tabs: const [
-                  Tab(text: "День"),
-                  Tab(text: "Неделя"),
-                  Tab(text: "Месяц"),
-                ],
-                onTap: (value) {
-                  setState(() {
-                    _page = value;
-                  });
-                },
-              ),
-              _features.pages[_tabbarController.index],
+          // bottom: ,
+          leading: !widget.isMenuOpened()
+              ? IconButton(
+                  onPressed: widget.toggleMenu, icon: const Icon(Icons.menu))
+              : null,
+          centerTitle: true,
+          title: Text("Ваши задачи"),
+          bottom: TabBar(
+            controller: _tabbarController,
+            tabs: const [
+              Tab(text: "День"),
+              Tab(text: "Неделя"),
+              Tab(text: "Месяц"),
             ],
+            onTap: (value) {
+              setState(() {
+                _page = value;
+              });
+            },
           ),
         ),
+        body: _features.pages[_tabbarController.index],
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed("/add_task");
