@@ -20,63 +20,6 @@ class _TasksScreenState extends State<TasksScreen> {
     super.initState();
   }
 
-  final dropdowns = [
-    Dropdown(
-        button: TaskCardWidget(
-          child: Text(
-            "Запланированные",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-        ),
-        controller: ValueNotifier<bool>(false),
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, i) => TaskCardWidget(
-                  onTap: () {},
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Task ${i + 1}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                      Text("05:00"),
-                    ],
-                  )),
-              itemCount: 3)
-        ]),
-    Dropdown(
-        button: TaskCardWidget(
-          child: Text(
-            "Выполненные",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-        ),
-        controller: ValueNotifier<bool>(false),
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, i) => TaskCardWidget(
-                  onTap: () {},
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Task ${i + 1}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                      Text("05:00"),
-                    ],
-                  )),
-              itemCount: 3)
-        ]),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -141,7 +84,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      Text("${data[i].len}:00"),
+                      Text(data[i].description),
                     ],
                   )),
               itemCount: data.length)

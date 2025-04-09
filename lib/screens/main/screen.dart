@@ -1,9 +1,7 @@
 import 'package:anim_side_menu/anim_side_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:techarrow_mobile_final/auth/keycloak.dart';
 import 'package:techarrow_mobile_final/screens/main/features/main_screen_features.dart';
-import 'package:techarrow_mobile_final/screens/main/ui/day_page.dart';
 import 'package:techarrow_mobile_final/screens/pomodoro/screen.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/home_page.dart';
 
@@ -91,6 +89,7 @@ class _MainScreenState extends State<MainScreen>
           Divider(),
           ListTile(
             onTap: () {
+              toggleMenu();
               Navigator.of(context).pushNamed('/tasks');
             },
             leading: const Icon(Icons.task, size: 30.0, color: Colors.white),
@@ -103,6 +102,7 @@ class _MainScreenState extends State<MainScreen>
           ),
           ListTile(
             onTap: () {
+              toggleMenu();
               Navigator.of(context).pushNamed('/advices');
             },
             leading: const Icon(Icons.info, size: 30.0, color: Colors.white),
@@ -115,6 +115,8 @@ class _MainScreenState extends State<MainScreen>
           ),
           ListTile(
             onTap: () {
+              toggleMenu();
+
               Navigator.of(context).pushNamed('/pomodoro',
                   arguments: PomodoroScreenArguments(
                       taskName: "Таймер Pomodoro", taskId: ""));

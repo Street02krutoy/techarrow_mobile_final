@@ -43,4 +43,6 @@ class PomodoroScreenFeatures {
     }
     return 3;
   }
+
+  Future<void> markTaskAsCompleted(String taskId) async {}
 }
