@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 700),
       vsync: this,
     );
 
@@ -40,6 +40,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       parent: _controller,
       curve: Curves.easeInOut,
     ));
+
+    _animationIcon = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
 
     _tabbarController =
         TabController(initialIndex: _page, length: 2, vsync: this);
@@ -71,6 +73,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimationCalendar;
   late Animation<Offset> _offsetAnimationPage;
+  late Animation<double> _animationIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +98,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               : TabBar(
                   controller: _tabbarController,
                   tabs: const [
-                    Tab(text: "День"),
-                    Tab(text: "Неделя"),
+                    Tab(
+                      child: Text(
+                        "День",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        "Месяц",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
                   ],
                   onTap: (value) {
                     setState(() {
@@ -122,9 +139,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           actions: [
             IconButton(
               onPressed: _toggleCalendar,
-              icon: Icon(
-                Icons.calendar_month,
-                size: 30,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: RotationTransition(
+                turns: _animationIcon,
+                child: Icon(
+                  Icons.calendar_month,
+                  size: 30,
+                ),
               ),
             ),
           ],
