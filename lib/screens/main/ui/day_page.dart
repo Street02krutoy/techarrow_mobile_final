@@ -39,6 +39,8 @@ class _DayPageState extends State<DayPage> {
   int n = 1;
   Timer? timer;
 
+  bool freezed = false;
+
   void startTimer(List<Task> curTasks) {
     const int time = 500;
 
@@ -75,7 +77,11 @@ class _DayPageState extends State<DayPage> {
         addShape(matrix.matrix, temp.len, colors[temp.colorId], n);
       }
     }
-    if (!moveDownShape(matrix.matrix, n)) {
+    if (freezed) {
+      freeze(matrix.matrix, n);
+      freezed = false;
+      counter = false;
+    } else if (!moveDownShape(matrix.matrix, n)) {
       counter = false;
       if (isFilledLine(matrix.matrix, alreadyFilledLines)) {
         Fluttertoast.showToast(
@@ -95,7 +101,7 @@ class _DayPageState extends State<DayPage> {
 
   @override
   void initState() {
-    matrix.setMatrix(createEmpty(10, 10));
+    matrix.setMatrix(createEmpty(columns, rows));
     super.initState();
   }
 
@@ -115,10 +121,11 @@ class _DayPageState extends State<DayPage> {
           width: width * 0.8,
           child: GestureDetector(
             onTapDown: (details) => {
-              task = tasks[
-                  matrix.numberOnXY(details.localPosition, 0, 0).number - 2],
               if (matrix.numberOnXY(details.localPosition, 0, 0).number != 0)
                 {
+                  task = tasks[
+                      matrix.numberOnXY(details.localPosition, 0, 0).number -
+                          2],
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -155,23 +162,30 @@ class _DayPageState extends State<DayPage> {
           ),
         ),
         if (timer?.isActive == true)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () => {moveLeftShape(matrix.matrix, n)},
+                    icon: Icon(Icons.arrow_left, size: 100)),
+                IconButton(
+                    onPressed: () => {moveDownShape(matrix.matrix, n)},
+                    icon: Icon(Icons.arrow_drop_down, size: 100)),
+                IconButton(
+                    onPressed: () => {moveRightShape(matrix.matrix, n)},
+                    icon: Icon(
+                      Icons.arrow_right,
+                      size: 100,
+                    )),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton(
-                  onPressed: () => {moveLeftShape(matrix.matrix, n)},
-                  icon: Icon(Icons.arrow_left, size: 100)),
-              IconButton(
-                  onPressed: () => {moveDownShape(matrix.matrix, n)},
-                  icon: Icon(Icons.arrow_drop_down, size: 100)),
-              IconButton(
-                  onPressed: () => {moveRightShape(matrix.matrix, n)},
-                  icon: Icon(
-                    Icons.arrow_right,
-                    size: 100,
-                  )),
-            ],
-          )
+                  onPressed: () => {freezed = true},
+                  icon: Icon(Icons.stop_circle, size: 50)),
+            ])
+          ])
         else
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -194,8 +208,4 @@ class _DayPageState extends State<DayPage> {
       ]),
     );
   }
-}
-
-void showAlertDialog(BuildContext context, Task task, List<List<Cell>> matrix) {
-  ;
 }
