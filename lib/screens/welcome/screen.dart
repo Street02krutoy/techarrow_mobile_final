@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techarrow_mobile_final/auth/keycloak.dart';
+import 'package:techarrow_mobile_final/main.dart';
 import 'package:techarrow_mobile_final/screens/main/screen.dart';
 import 'package:techarrow_mobile_final/screens/welcome/ui/logo.dart';
 
@@ -102,7 +103,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 // RotatingImage(),
                 Image.asset('assets/logo.png', width: 150),
                 Text(
-                  "${getWelcomePhrase()}${username != null ? ", $username!" : "!"}",
+                  "${getWelcomePhrase()}${MainApp.username != "" ? ", ${MainApp.username}!" : "!"}",
                   style: TextStyle(fontSize: 24),
                 ),
                 const Spacer(flex: 2),
