@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MonthPage extends StatefulWidget {
@@ -157,6 +158,12 @@ class _MonthPageState extends State<MonthPage> {
                       ),
                     ),
                     onPressed: () {
+                      if (DateTime.now()
+                          .isAfter(_focusedDay.add(Duration(days: 1)))) {
+                        Fluttertoast.showToast(
+                            msg: "Выберите корректную дату!");
+                        return;
+                      }
                       showDialog(
                           context: context,
                           builder: (context) => _taskSelectDialog(context));
