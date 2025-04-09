@@ -84,6 +84,7 @@ class _TasksScreenState extends State<TasksScreen> {
         if (!snapshot.hasData) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
+        final data = snapshot.data!;
         return Scaffold(
           appBar: AppBar(
             title: const Text("Задачи"),
@@ -91,9 +92,23 @@ class _TasksScreenState extends State<TasksScreen> {
           body: SingleChildScrollView(
               child: Column(
             children: [
-              getDropdown("Запланированные", []),
-              getDropdown("Незапланированные", []),
-              getDropdown("Выполненные", []),
+              getDropdown(
+                  "Запланированные",
+                  data
+                      .where(
+                          (element) => element.status == TaskStatus.scheduled)
+                      .toList()),
+              getDropdown(
+                  "Незапланированные",
+                  data
+                      .where(
+                          (element) => element.status == TaskStatus.unscheduled)
+                      .toList()),
+              getDropdown(
+                  "Выполненные",
+                  data
+                      .where((element) => element.status == TaskStatus.done)
+                      .toList()),
             ],
           )),
         );
