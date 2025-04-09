@@ -184,23 +184,6 @@ class _WeekPageState extends State<WeekPage> {
             ),
           ),
         ),
-        SizedBox(
-          height: height * 0.2,
-          width: width * 0.4,
-          child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TetrisPage(
-                            start: 0,
-                            end: 7,
-                            rows: 12,
-                            tasks: tasks,
-                            mode: 1)));
-              },
-              child: Text("заполнить")),
-        )
       ]),
     );
   }
