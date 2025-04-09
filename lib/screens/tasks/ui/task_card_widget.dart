@@ -25,12 +25,13 @@ class TaskCardWidget extends StatelessWidget {
               children: [
                 child,
                 Spacer(),
-                IconButton(
-                  onPressed: onEditTapped,
-                  icon: Icon(
-                    Icons.edit,
+                if (onEditTapped != null)
+                  IconButton(
+                    onPressed: onEditTapped,
+                    icon: Icon(
+                      Icons.edit,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
