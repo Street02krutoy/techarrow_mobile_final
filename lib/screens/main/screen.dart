@@ -88,8 +88,8 @@ class _MainScreenState extends State<MainScreen>
           ),
           Divider(),
           ListTile(
+            splashColor: Colors.transparent,
             onTap: () {
-              toggleMenu();
               Navigator.of(context).pushNamed('/tasks');
             },
             leading: const Icon(Icons.task, size: 30.0, color: Colors.white),
@@ -101,8 +101,8 @@ class _MainScreenState extends State<MainScreen>
             dense: true,
           ),
           ListTile(
+            splashColor: Colors.transparent,
             onTap: () {
-              toggleMenu();
               Navigator.of(context).pushNamed('/advices');
             },
             leading: const Icon(Icons.info, size: 30.0, color: Colors.white),
@@ -114,9 +114,8 @@ class _MainScreenState extends State<MainScreen>
             dense: true,
           ),
           ListTile(
+            splashColor: Colors.transparent,
             onTap: () {
-              toggleMenu();
-
               Navigator.of(context).pushNamed('/pomodoro',
                   arguments: PomodoroScreenArguments(
                       taskName: "Таймер Pomodoro", taskId: ""));
