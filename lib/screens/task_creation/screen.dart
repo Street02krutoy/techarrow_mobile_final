@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_time_duration_picker/flutter_time_duration_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:techarrow_mobile_final/enums/task_types.dart';
+import 'package:techarrow_mobile_final/screens/task_creation/features/task_creation_features.dart';
 import 'package:techarrow_mobile_final/screens/task_creation/ui/subtask_list_widget.dart';
 
 class TaskCreationScreen extends StatefulWidget {
@@ -37,6 +38,16 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
   bool isLarge = false;
 
   final SubtaskListWidget subtasklist = SubtaskListWidget();
+  final _features = TaskCreationFeatures();
+
+  @override
+  void dispose() {
+    subtasklist.disposeStaticFields();
+    _taskNameController.dispose();
+    _taskDescriptionController.dispose();
+
+    super.dispose();
+  }
 
   static List<String> getSubtasksNames() {
     return SubtaskListWidget.getSubtasksNames();
@@ -264,6 +275,23 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
                         ),
                       ),
                       onPressed: () {
+                        if (_taskNameController.text.isEmpty) return;
+                        if (_taskDescriptionController.text.isEmpty) return;
+
+                        _features.createTask(
+                          title: _taskNameController.text,
+                          description: _taskDescriptionController.text,
+                          type: selectedValue,
+                          isImportant: isImportant,
+                          duration: !isLarge
+                              ? Duration(
+                                  days: _daysController.value,
+                                  hours: _hoursController.value,
+                                  minutes: _minutesController.value)
+                              : null,
+                          subtasks: isLarge ? [] : null,
+                        );
+
                         Navigator.of(context).pop();
                         Fluttertoast.showToast(
                             msg: "Запланировать задачу можно в боковом меню!");
@@ -281,11 +309,5 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
             ),
           ),
         ));
-  }
-
-  @override
-  void dispose() {
-    subtasklist.disposeStaticFields();
-    super.dispose();
   }
 }

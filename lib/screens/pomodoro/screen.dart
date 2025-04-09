@@ -105,7 +105,6 @@ class _PomodoroScreenState extends State<PomodoroScreen>
     final args =
         ModalRoute.of(context)!.settings.arguments as PomodoroScreenArguments;
     final taskName = args.taskName;
-    // ignore: unused_local_variable
     final taskId = args.taskId;
     return AnimatedBuilder(
         animation: animation,
@@ -182,6 +181,9 @@ class _PomodoroScreenState extends State<PomodoroScreen>
                       ElevatedButton(
                           onPressed: () {
                             setState(() {
+                              if (taskId != "") {
+                                _features.markTaskAsCompleted(taskId);
+                              }
                               Navigator.of(context).pop();
                             });
                           },
