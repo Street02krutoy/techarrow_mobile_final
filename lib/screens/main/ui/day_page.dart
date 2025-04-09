@@ -19,12 +19,12 @@ class DayPage extends StatefulWidget {
 class _DayPageState extends State<DayPage> {
   List<Task> tasks = [
     Task(0, "awd", "awd", 0, 2, 0, 3),
-    Task(1, "awd", "awd", 0, 2, 0, 2),
-    Task(2, "awd", "awd", 0, 2, 0, 4)
+    Task(1, "awd", "awd", 0, 2, 2, 2),
+    Task(2, "awd", "awd", 0, 2, 1, 4)
   ];
 
   int rows = 10;
-  int counter = 10;
+  bool counter = false;
   int index = 0;
   late Task temp;
 
@@ -36,7 +36,7 @@ class _DayPageState extends State<DayPage> {
   void startTimer(List<Task> curTasks, int rows) {
     const int time = 500;
 
-    counter = rows;
+    counter = false;
     index = 0;
 
     timer = Timer.periodic(Duration(milliseconds: time), (timer) {
@@ -53,22 +53,26 @@ class _DayPageState extends State<DayPage> {
   }
 
   void update(Timer timer) {
-    print("counter " + counter.toString());
-    if (counter < rows) {
-      moveDownShape(matrix.matrix, n);
-      counter++;
-    } else {
+    if (!counter) {
       if (index == tasks.length) {
         print("cancel");
         timer.cancel();
       } else {
-        n += 1;
-        counter = 0;
         temp = tasks[index];
+        n += 1;
+        counter = true;
+
         index++;
+
         addShape(matrix.matrix, temp.len, colors[temp.colorId], n);
       }
     }
+    if (!moveDownShape(matrix.matrix, n)) {
+      counter = false;
+
+      print("counter $counter");
+    }
+
     matrix.isRepaint++;
   }
 
@@ -85,7 +89,6 @@ class _DayPageState extends State<DayPage> {
     double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
     return Column(children: [
-      SizedBox(height: height * 0.2),
       SizedBox(
         height: height * 0.5,
         width: width * 0.8,
@@ -98,22 +101,39 @@ class _DayPageState extends State<DayPage> {
           ),
         ),
       ),
-      Row(
-        children: [
-          IconButton(
-              onPressed: () => {moveLeftShape(matrix.matrix, n)},
-              icon: Icon(Icons.arrow_left)),
-          IconButton(
-              onPressed: () => {moveDownShape(matrix.matrix, n)},
-              icon: Icon(Icons.arrow_drop_down)),
-          IconButton(
-              onPressed: () => {moveRightShape(matrix.matrix, n)},
-              icon: Icon(Icons.arrow_right)),
-          IconButton(
+      if (timer?.isActive == true)
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+                onPressed: () => {moveLeftShape(matrix.matrix, n)},
+                icon: Icon(Icons.arrow_left, size: 100)),
+            IconButton(
+                onPressed: () => {moveDownShape(matrix.matrix, n)},
+                icon: Icon(Icons.arrow_drop_down, size: 100)),
+            IconButton(
+                onPressed: () => {moveRightShape(matrix.matrix, n)},
+                icon: Icon(
+                  Icons.arrow_right,
+                  size: 100,
+                )),
+          ],
+        )
+      else
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton(
+              style: ButtonStyle(
+                shape: const WidgetStatePropertyAll(CircleBorder()),
+                padding: const WidgetStatePropertyAll(EdgeInsets.all(50)),
+                backgroundColor: const WidgetStatePropertyAll(Colors.green),
+              ),
               onPressed: () => {startTimer(tasks, 10)},
-              icon: Icon(Icons.start)),
-        ],
-      )
+              child: Text(
+                "Старт",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              )),
+        )
     ]);
   }
 }

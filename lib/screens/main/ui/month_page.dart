@@ -16,7 +16,7 @@ class _MonthPageState extends State<MonthPage> {
   Widget build(BuildContext context) {
     return TableCalendar(
       locale: "ru_RU",
-      focusedDay: _focusedDay,
+      focusedDay: DateTime.now(),
       currentDay: _selectedDay,
       firstDay: DateTime.fromMillisecondsSinceEpoch(0),
       lastDay: DateTime.fromMillisecondsSinceEpoch(2641031200000),
