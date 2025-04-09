@@ -18,9 +18,9 @@ class DayPage extends StatefulWidget {
 
 class _DayPageState extends State<DayPage> {
   List<Task> tasks = [
-    Task(0, "awd", "awd", 0, 2, 0, 3),
-    Task(1, "awd", "awd", 0, 2, 2, 2),
-    Task(2, "awd", "awd", 0, 2, 1, 4)
+    Task(0, "red", "awd", 0, 2, 0, 3),
+    Task(1, "green", "awawdawdd", 0, 2, 2, 2),
+    Task(2, "blue", "123123123", 0, 2, 1, 4)
   ];
 
   int rows = 10;
@@ -59,11 +59,10 @@ class _DayPageState extends State<DayPage> {
         timer.cancel();
       } else {
         temp = tasks[index];
-        n += 1;
         counter = true;
-
         index++;
 
+        n += 1;
         addShape(matrix.matrix, temp.len, colors[temp.colorId], n);
       }
     }
@@ -91,8 +90,16 @@ class _DayPageState extends State<DayPage> {
         height: height * 0.5,
         width: width * 0.8,
         child: GestureDetector(
-          onTapDown: (details) =>
-              {print(matrix.numberOnXY(details.localPosition, 0, 0))},
+          onTapDown: (details) => {
+            if (matrix.numberOnXY(details.localPosition, 0, 0).number != 0)
+              {
+                showAlertDialog(
+                    context,
+                    tasks[
+                        matrix.numberOnXY(details.localPosition, 0, 0).number -
+                            2])
+              }
+          },
           child: CustomPaint(
             key: ValueKey(matrix.isRepaint),
             painter: matrix,
@@ -134,4 +141,24 @@ class _DayPageState extends State<DayPage> {
         )
     ]);
   }
+}
+
+void showAlertDialog(BuildContext context, Task task) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(task.title),
+        content: Text(task.description),
+        actions: <Widget>[
+          TextButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
