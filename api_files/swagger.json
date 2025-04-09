@@ -1,0 +1,327 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+    "title": "tetris",
+    "license": {
+    "name": "MIT License",
+    "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+    },
+    "paths": {
+    "/api/ping": {
+    "get": {
+    "tags": [
+    "Healthcheck"
+    ],
+    "summary": "Ping",
+    "operationId": "ping_api_ping_get",
+    "responses": {
+    "200": {
+    "description": "Successful Response",
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/HealthcheckPingRs"
+    }
+    }
+    }
+    }
+    }
+    }
+    },
+    "/api/tasks/create": {
+    "post": {
+    "tags": [
+    "Tasks"
+    ],
+    "summary": "Create Task",
+    "operationId": "create_task_api_tasks_create_post",
+    "requestBody": {
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/TaskCreateRq"
+    }
+    }
+    },
+    "required": true
+    },
+    "responses": {
+    "200": {
+    "description": "Successful Response",
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/TaskCreateRs"
+    }
+    }
+    }
+    },
+    "422": {
+    "description": "Validation Error",
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/HTTPValidationError"
+    }
+    }
+    }
+    }
+    },
+    "security": [
+    {
+    "HTTPBearer": []
+    }
+    ]
+    }
+    },
+    "/api/tasks/to_planned": {
+    "put": {
+    "tags": [
+    "Tasks"
+    ],
+    "summary": "To Planned",
+    "operationId": "to_planned_api_tasks_to_planned_put",
+    "requestBody": {
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/TaskToPlanRq"
+    }
+    }
+    },
+    "required": true
+    },
+    "responses": {
+    "200": {
+    "description": "Successful Response",
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/TaskToPlanRs"
+    }
+    }
+    }
+    },
+    "422": {
+    "description": "Validation Error",
+    "content": {
+    "application/json": {
+    "schema": {
+    "$ref": "#/components/schemas/HTTPValidationError"
+    }
+    }
+    }
+    }
+    },
+    "security": [
+    {
+    "HTTPBearer": []
+    }
+    ]
+    }
+    }
+    },
+    "components": {
+    "schemas": {
+    "HTTPValidationError": {
+    "properties": {
+    "detail": {
+    "items": {
+    "$ref": "#/components/schemas/ValidationError"
+    },
+    "type": "array",
+    "title": "Detail"
+    }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+    },
+    "HealthcheckPingRs": {
+    "properties": {
+    "status": {
+    "type": "string",
+    "title": "Status"
+    },
+    "response_time": {
+    "type": "number",
+    "title": "Response Time"
+    }
+    },
+    "type": "object",
+    "required": [
+    "status",
+    "response_time"
+    ],
+    "title": "HealthcheckPingRs"
+    },
+    "SubTask": {
+    "properties": {
+    "name": {
+    "type": "string",
+    "title": "Name"
+    },
+    "duration": {
+    "type": "string",
+    "title": "Duration"
+    }
+    },
+    "type": "object",
+    "required": [
+    "name",
+    "duration"
+    ],
+    "title": "SubTask"
+    },
+    "TaskCategory": {
+    "type": "string",
+    "enum": [
+    "learning",
+    "work",
+    "personal"
+    ],
+    "title": "TaskCategory"
+    },
+    "TaskCreateRq": {
+    "properties": {
+    "type": {
+    "$ref": "#/components/schemas/Type"
+    },
+    "name": {
+    "type": "string",
+    "title": "Name"
+    },
+    "description": {
+    "type": "string",
+    "title": "Description"
+    },
+    "duration": {
+    "type": "string",
+    "title": "Duration"
+    },
+    "importance": {
+    "type": "boolean",
+    "title": "Importance"
+    },
+    "category": {
+    "$ref": "#/components/schemas/TaskCategory"
+    },
+    "subtasks": {
+    "items": {
+    "$ref": "#/components/schemas/SubTask"
+    },
+    "type": "array",
+    "title": "Subtasks"
+    }
+    },
+    "type": "object",
+    "required": [
+    "type",
+    "name",
+    "description",
+    "importance",
+    "category"
+    ],
+    "title": "TaskCreateRq"
+    },
+    "TaskCreateRs": {
+    "properties": {
+    "task_id": {
+    "type": "string",
+    "title": "Task Id"
+    }
+    },
+    "type": "object",
+    "required": [
+    "task_id"
+    ],
+    "title": "TaskCreateRs"
+    },
+    "TaskToPlanRq": {
+    "properties": {
+    "date": {
+    "type": "string",
+    "format": "date",
+    "title": "Date"
+    },
+    "tasks": {
+    "items": {
+    "type": "string"
+    },
+    "type": "array",
+    "title": "Tasks"
+    }
+    },
+    "type": "object",
+    "required": [
+    "date",
+    "tasks"
+    ],
+    "title": "TaskToPlanRq"
+    },
+    "TaskToPlanRs": {
+    "properties": {
+    "status": {
+    "type": "string",
+    "title": "Status"
+    }
+    },
+    "type": "object",
+    "required": [
+    "status"
+    ],
+    "title": "TaskToPlanRs"
+    },
+    "Type": {
+    "type": "string",
+    "enum": [
+    "unplanned",
+    "multifaceted"
+    ],
+    "title": "Type"
+    },
+    "ValidationError": {
+    "properties": {
+    "loc": {
+    "items": {
+    "anyOf": [
+    {
+    "type": "string"
+    },
+    {
+    "type": "integer"
+    }
+    ]
+    },
+    "type": "array",
+    "title": "Location"
+    },
+    "msg": {
+    "type": "string",
+    "title": "Message"
+    },
+    "type": {
+    "type": "string",
+    "title": "Error Type"
+    }
+    },
+    "type": "object",
+    "required": [
+    "loc",
+    "msg",
+    "type"
+    ],
+
+    "title": "ValidationError"
+}
+},
+"securitySchemes": {
+"HTTPBearer": {
+"type": "http",
+"scheme": "bearer"
+}
+}
+}
+}
+    
