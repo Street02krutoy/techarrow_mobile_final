@@ -186,4 +186,23 @@ class _SubtaskListWidgetState extends State<SubtaskListWidget> {
     _hoursControllers = [TimeColumnController(minValue: 0, maxValue: 23)];
     _minutesControllers = [TimeColumnController(minValue: 0, maxValue: 59)];
   }
+
+  static List<String> getSubtasksNames() {
+    return _nameControllers.map((e) => e.text).toList();
+  }
+
+  static List<Duration> getSubtasksDurations() {
+    List<Duration> durations = [];
+    Duration duration;
+
+    for (int i = 0; i < _daysControllers.length; i++) {
+      duration = Duration(
+        days: _daysControllers[i].value,
+        hours: _hoursControllers[i].value,
+        minutes: _minutesControllers[i].value,
+      );
+      durations.add(duration);
+    }
+    return durations;
+  }
 }

@@ -38,6 +38,14 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
 
   final SubtaskListWidget subtasklist = SubtaskListWidget();
 
+  static List<String> getSubtasksNames() {
+    return SubtaskListWidget.getSubtasksNames();
+  }
+
+  static List<Duration> getSubtasksDurations() {
+    return SubtaskListWidget.getSubtasksDurations();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
