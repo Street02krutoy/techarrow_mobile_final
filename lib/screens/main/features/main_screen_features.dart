@@ -4,7 +4,7 @@ import 'package:techarrow_mobile_final/screens/main/ui/day_page.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/week_page.dart';
 
 class MainScreenFeatures {
-  final pages = [const DayPage(), const WeekPage()];
+  final pages = [const DayPage(), const Placeholder()];
 
   Future<void> logout() async {
     Keycloak().logout();

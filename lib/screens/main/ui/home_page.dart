@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:techarrow_mobile_final/screens/main/features/main_screen_features.dart';
-import 'package:techarrow_mobile_final/screens/main/ui/day_page.dart';
 import 'package:techarrow_mobile_final/screens/main/ui/month_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -78,6 +77,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
         if (details.primaryDelta! > 0 && !widget.isMenuOpened()) {
+          if (_isCalendarOpened) {
+            _toggleCalendar();
+          }
           widget.toggleMenu();
         }
         if (details.primaryDelta! < 0 && widget.isMenuOpened()) {
@@ -88,6 +90,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           surfaceTintColor: Colors.white,
           forceMaterialTransparency: false,
+          bottom: _isCalendarOpened
+              ? null
+              : TabBar(
+                  controller: _tabbarController,
+                  tabs: const [
+                    Tab(text: "День"),
+                    Tab(text: "Неделя"),
+                  ],
+                  onTap: (value) {
+                    setState(() {
+                      _page = value;
+                    });
+                  },
+                ),
           leading: !widget.isMenuOpened()
               ? IconButton(
                   onPressed: () {
@@ -118,27 +134,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             children: [
               SlideTransition(
                 position: _offsetAnimationCalendar,
-                child: MonthPage(),
+                child: MonthPage(
+                  isCalendarOpened: () => _isCalendarOpened,
+                ),
               ),
               SlideTransition(
                 position: _offsetAnimationPage,
-                child: Column(
-                  children: [
-                    TabBar(
-                      controller: _tabbarController,
-                      tabs: const [
-                        Tab(text: "День"),
-                        Tab(text: "Неделя"),
-                      ],
-                      onTap: (value) {
-                        setState(() {
-                          _page = value;
-                        });
-                      },
-                    ),
-                    _features.pages[_tabbarController.index],
-                  ],
-                ),
+                child: _features.pages[_tabbarController.index],
               ),
             ],
           ),

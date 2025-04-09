@@ -25,7 +25,7 @@ class _TasksScreenState extends State<TasksScreen> {
         ),
         controller: ValueNotifier<bool>(false),
         children: [
-          ListView.separated(
+          ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, i) => TaskCardWidget(
@@ -41,7 +41,6 @@ class _TasksScreenState extends State<TasksScreen> {
                       Text("05:00"),
                     ],
                   )),
-              separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: 3)
         ]),
     Dropdown(
@@ -53,7 +52,7 @@ class _TasksScreenState extends State<TasksScreen> {
         ),
         controller: ValueNotifier<bool>(false),
         children: [
-          ListView.separated(
+          ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, i) => TaskCardWidget(
@@ -69,7 +68,6 @@ class _TasksScreenState extends State<TasksScreen> {
                       Text("05:00"),
                     ],
                   )),
-              separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: 3)
         ]),
     Dropdown(
@@ -81,7 +79,7 @@ class _TasksScreenState extends State<TasksScreen> {
         ),
         controller: ValueNotifier<bool>(false),
         children: [
-          ListView.separated(
+          ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, i) => TaskCardWidget(
@@ -96,7 +94,6 @@ class _TasksScreenState extends State<TasksScreen> {
                       Text("05:00"),
                     ],
                   )),
-              separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: 3)
         ]),
   ];
@@ -107,10 +104,9 @@ class _TasksScreenState extends State<TasksScreen> {
       appBar: AppBar(
         title: const Text("Задачи"),
       ),
-      body: ListView.separated(
+      body: ListView.builder(
           shrinkWrap: true,
           itemBuilder: (context, index) => dropdowns[index],
-          separatorBuilder: (context, index) => SizedBox(height: 10),
           itemCount: dropdowns.length),
     );
   }
