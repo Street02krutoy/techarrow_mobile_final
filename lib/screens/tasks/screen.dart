@@ -105,7 +105,7 @@ class _TasksScreenState extends State<TasksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Задачи "),
+        title: const Text("Задачи"),
       ),
       body: ListView.separated(
           shrinkWrap: true,

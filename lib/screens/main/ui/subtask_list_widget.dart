@@ -35,7 +35,7 @@ class _SubtaskListWidgetState extends State<SubtaskListWidget> {
   Widget build(BuildContext context) {
     Color color = Theme.of(context).dividerColor;
 
-    return Column(
+    return Wrap(
       spacing: 20,
       children: List.generate(
         count,
