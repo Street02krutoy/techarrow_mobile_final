@@ -277,6 +277,20 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
                       onPressed: () {
                         if (_taskNameController.text.isEmpty) return;
                         if (_taskDescriptionController.text.isEmpty) return;
+                        List<Subtask>? subtasks;
+
+                        if (isLarge) {
+                          subtasks = [];
+                          int i = 0;
+                          SubtaskListWidget.getSubtasksNames()
+                              .forEach((element) {
+                            subtasks!.add(Subtask(
+                                title: element,
+                                duration: SubtaskListWidget
+                                    .getSubtasksDurations()[i]));
+                            i++;
+                          });
+                        }
 
                         _features.createTask(
                           title: _taskNameController.text,
@@ -289,12 +303,11 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
                                   hours: _hoursController.value,
                                   minutes: _minutesController.value)
                               : null,
-                          subtasks: isLarge ? [] : null,
+                          subtasks: subtasks,
                         );
 
                         Navigator.of(context).pop();
-                        Fluttertoast.showToast(
-                            msg: "Запланировать задачу можно в боковом меню!");
+                        Fluttertoast.showToast(msg: "депай");
                       },
                       child: Text(
                         "Создать задачу!",
