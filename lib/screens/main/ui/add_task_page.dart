@@ -133,42 +133,54 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      "Длительность задачи:",
-                      style: TextStyle(
-                        fontSize: 21,
-                      ),
-                    ),
-                  ),
-                  TimeDurationPicker(
-                    columns: [
-                      TimeColumnConfig.custom(
-                          id: "hours",
-                          maxValue: 30,
-                          controller: _daysController),
-                      TimeColumnConfig.label(id: "days_label", text: "дней"),
-                      TimeColumnConfig.hours(controller: _hoursController),
-                      TimeColumnConfig.label(id: "hours_label", text: "часов"),
-                      TimeColumnConfig.minutes(controller: _minutesController),
-                      TimeColumnConfig.label(
-                          id: "minutes_label", text: "минут"),
-                    ],
-                    height: 90,
-                    columnSpacing: 0.01,
-                    theme: TimeDurationPickerTheme(
-                      selectedTextStyle: TextStyle(
-                        fontSize: 19,
-                      ),
-                    ),
-                    onChanged: (List<int> values) {
-                      print('Selected duration: $values');
-                    },
-                  ),
+                  !isLarge
+                      ? SizedBox(
+                          height: 30,
+                        )
+                      : SizedBox(
+                          height: 5,
+                        ),
+                  !isLarge
+                      ? Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            "Длительность задачи:",
+                            style: TextStyle(
+                              fontSize: 21,
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  !isLarge
+                      ? TimeDurationPicker(
+                          columns: [
+                            TimeColumnConfig.custom(
+                                id: "hours",
+                                maxValue: 30,
+                                controller: _daysController),
+                            TimeColumnConfig.label(
+                                id: "days_label", text: "дней"),
+                            TimeColumnConfig.hours(
+                                controller: _hoursController),
+                            TimeColumnConfig.label(
+                                id: "hours_label", text: "часов"),
+                            TimeColumnConfig.minutes(
+                                controller: _minutesController),
+                            TimeColumnConfig.label(
+                                id: "minutes_label", text: "минут"),
+                          ],
+                          height: 90,
+                          columnSpacing: 0.01,
+                          theme: TimeDurationPickerTheme(
+                            selectedTextStyle: TextStyle(
+                              fontSize: 19,
+                            ),
+                          ),
+                          onChanged: (List<int> values) {
+                            print('Selected duration: $values');
+                          },
+                        )
+                      : SizedBox(),
                   SizedBox(
                     height: 15,
                   ),
