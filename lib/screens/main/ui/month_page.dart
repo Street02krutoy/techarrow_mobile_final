@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MonthPage extends StatefulWidget {
-  const MonthPage({super.key});
+  const MonthPage({super.key, required this.isCalendarOpened});
+
+  final bool Function() isCalendarOpened;
 
   @override
   State<MonthPage> createState() => _MonthPageState();
@@ -35,6 +37,16 @@ class _MonthPageState extends State<MonthPage> {
     },
     {"task": "l;sakdkmbsfsfsf", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
   ];
 
   static DateTime _focusedDay = DateTime.now();
@@ -56,8 +68,15 @@ class _MonthPageState extends State<MonthPage> {
               locale: "ru_RU",
               focusedDay: _focusedDay,
               currentDay: _selectedDay,
+              onHeaderTapped: (focusedDay) {
+                setState(() {
+                  _selectedDay = DateTime.now();
+                  _focusedDay = DateTime.now();
+                });
+              },
               firstDay: DateTime.fromMillisecondsSinceEpoch(0),
               lastDay: DateTime.fromMillisecondsSinceEpoch(2641031200000),
+              startingDayOfWeek: StartingDayOfWeek.monday,
               calendarFormat: _calendarFormat,
               availableCalendarFormats: const {CalendarFormat.month: ""},
               onDaySelected: (selectedDay, focusedDay) {
@@ -81,9 +100,9 @@ class _MonthPageState extends State<MonthPage> {
             ),
           ]..addAll(
               List.generate(
-                tasks.length,
+                widget.isCalendarOpened() ? tasks.length : 3,
                 (int index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ListTile(
                     onTap: () {
                       setState(
