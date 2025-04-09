@@ -103,6 +103,18 @@ class _MainScreenState extends State<MainScreen>
           ),
           ListTile(
             onTap: () {
+              Navigator.of(context).pushNamed('/advices');
+            },
+            leading: const Icon(Icons.info, size: 30.0, color: Colors.white),
+            title: const Text(
+              "Советы",
+              style: TextStyle(fontSize: 22),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {
               Navigator.of(context).pushNamed('/pomodoro',
                   arguments: PomodoroScreenArguments(
                       taskName: "Таймер Pomodoro", taskId: ""));
