@@ -24,6 +24,7 @@ class _DayPageState extends State<DayPage> {
   ];
 
   int rows = 10;
+  int columns = 10;
   bool counter = false;
   int index = 0;
   late Task temp;
@@ -33,11 +34,14 @@ class _DayPageState extends State<DayPage> {
   int n = 1;
   Timer? timer;
 
-  void startTimer(List<Task> curTasks, int rows) {
+  void startTimer(List<Task> curTasks) {
     const int time = 500;
 
     counter = false;
     index = 0;
+    n = 1;
+    matrix.matrix = createEmpty(rows, columns);
+    matrix.isRepaint = 0;
 
     timer = Timer.periodic(Duration(milliseconds: time), (timer) {
       setState(() {
@@ -112,6 +116,7 @@ class _DayPageState extends State<DayPage> {
                             onPressed: () {
                               setState(() {
                                 deleteNumber(matrix.matrix, task.id);
+                                moveDownAllShapes(matrix.matrix);
                                 matrix.isRepaint++;
                               });
                               Navigator.of(context).pop();
@@ -156,7 +161,7 @@ class _DayPageState extends State<DayPage> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
-            onTap: () => {startTimer(tasks, 10)},
+            onTap: () => {startTimer(tasks)},
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               decoration: BoxDecoration(
