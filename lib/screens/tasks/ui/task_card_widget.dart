@@ -12,7 +12,7 @@ class TaskCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: InkWell(
+      child: GestureDetector(
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(

@@ -105,7 +105,7 @@ class _MainScreenState extends State<MainScreen>
             onTap: () {
               Navigator.of(context).pushNamed('/pomodoro',
                   arguments: PomodoroScreenArguments(
-                      taskName: "Task Name", taskId: ""));
+                      taskName: "Таймер Pomodoro", taskId: ""));
             },
             leading: const Icon(Icons.timer, size: 30.0, color: Colors.white),
             title: const Text(
