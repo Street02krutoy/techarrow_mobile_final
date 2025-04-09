@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                     Tab(
                       child: Text(
-                        "Месяц",
+                        "Неделя",
                         style: TextStyle(
                           fontSize: 18,
                         ),
