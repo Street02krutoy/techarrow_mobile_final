@@ -7,6 +7,9 @@ class Matrix extends CustomPainter {
   Size curSize = Size(0, 0);
   int isRepaint = 0;
 
+  int start = 8;
+  int end = 20;
+
   bool isReadOnly = false;
 
   @override
@@ -35,6 +38,23 @@ class Matrix extends CustomPainter {
             Rect.fromPoints(Offset(x * kx + kx / 10 * 3, y * ky + ky / 10 * 3),
                 Offset((x + 1) * kx - kx / 10 * 6, (y + 1) * ky - ky / 10 * 6)),
             paint);
+      }
+    }
+    if (!isReadOnly) {
+      for (int x = 0; x <= end - start; x++) {
+        TextPainter textPainter = TextPainter(
+          text: TextSpan(
+            text: (start + x).toString(),
+            style: TextStyle(color: Colors.black),
+          ),
+          textAlign: TextAlign.center,
+          textDirection: TextDirection.ltr,
+        );
+        textPainter.layout();
+        textPainter.paint(
+            canvas,
+            Offset(x * kx - textPainter.width / 2,
+                matrix.length * (ky + 3) - ky / 2 - textPainter.height / 2));
       }
     }
   }

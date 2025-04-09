@@ -1,24 +1,31 @@
 import 'dart:async';
-import 'dart:collection';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:techarrow_mobile_final/screens/main/ui/tetris_page.dart';
 import 'package:techarrow_mobile_final/utils/matrix.dart';
 import 'package:techarrow_mobile_final/utils/matrixTools.dart';
 import 'package:techarrow_mobile_final/utils/task.dart';
 
 List<Color> colors = [Colors.red, Colors.blue, Colors.green];
 
-class DayPage extends StatefulWidget {
-  const DayPage({super.key});
+class TetrisPage extends StatefulWidget {
+  const TetrisPage(
+      {super.key,
+      required this.start,
+      required this.end,
+      required this.rows,
+      required this.tasks});
+
+  final int start;
+  final int end;
+  final int rows;
+  final List<Task> tasks;
 
   @override
-  State<DayPage> createState() => _DayPageState();
+  State<TetrisPage> createState() => _TetrisPageState();
 }
 
-class _DayPageState extends State<DayPage> {
+class _TetrisPageState extends State<TetrisPage> {
   List<Task> tasks = [
     Task(2, "red", "awd", 0, 2, 0, 3),
     Task(3, "green", "awawdawdd", 0, 2, 2, 3),
@@ -28,8 +35,8 @@ class _DayPageState extends State<DayPage> {
     Task(7, "blue", "123123123", 0, 2, 1, 4)
   ];
 
-  int rows = 10;
-  int columns = 10;
+  late int rows = widget.rows;
+  late int columns = widget.end - widget.start;
   bool counter = false;
   int index = 0;
   late Task temp;
@@ -103,6 +110,9 @@ class _DayPageState extends State<DayPage> {
   @override
   void initState() {
     matrix.setMatrix(createEmpty(rows, columns));
+    matrix.start = widget.start;
+    matrix.end = widget.end;
+    startTimer(widget.tasks);
     super.initState();
   }
 
@@ -112,12 +122,11 @@ class _DayPageState extends State<DayPage> {
     double height = MediaQuery.sizeOf(context).height;
     Task task;
 
-    matrix.isReadOnly = true;
-
-    return Center(
+    return Scaffold(
+        body: Center(
       child: Column(children: [
         SizedBox(
-          height: height * 0.05,
+          height: height * 0.2,
         ),
         SizedBox(
           height: height * 0.5,
@@ -184,24 +193,31 @@ class _DayPageState extends State<DayPage> {
             ),
           ),
         ),
-        SizedBox(
-          height: height * 0.2,
-          width: width * 0.4,
-          child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TetrisPage(
-                              start: 8,
-                              end: 22,
-                              rows: rows,
-                              tasks: tasks,
-                            )));
-              },
-              child: Text("заполнить")),
-        )
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () => {moveLeftShape(matrix.matrix, n)},
+                  icon: Icon(Icons.arrow_left, size: 100)),
+              IconButton(
+                  onPressed: () => {moveDownShape(matrix.matrix, n)},
+                  icon: Icon(Icons.arrow_drop_down, size: 100)),
+              IconButton(
+                  onPressed: () => {moveRightShape(matrix.matrix, n)},
+                  icon: Icon(
+                    Icons.arrow_right,
+                    size: 100,
+                  )),
+            ],
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            IconButton(
+                onPressed: () => {freezed = true},
+                icon: Icon(Icons.stop_circle, size: 50)),
+          ])
+        ])
       ]),
-    );
+    ));
   }
 }
