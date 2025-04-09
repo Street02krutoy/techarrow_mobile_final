@@ -42,10 +42,10 @@ class _MonthPageState extends State<MonthPage> {
     },
     {"task": "l;sakdkmbsfsfsf", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": true},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": true},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
@@ -108,13 +108,6 @@ class _MonthPageState extends State<MonthPage> {
               (int index) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ListTile(
-                  onTap: () {
-                    setState(
-                      () {
-                        tasks[index]["isSolved"] = !tasks[index]["isSolved"];
-                      },
-                    );
-                  },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                     side: BorderSide(
@@ -123,11 +116,7 @@ class _MonthPageState extends State<MonthPage> {
                   ),
                   leading: Checkbox(
                     value: tasks[index]["isSolved"],
-                    onChanged: (value) {
-                      setState(() {
-                        tasks[index]["isSolved"] = value;
-                      });
-                    },
+                    onChanged: (value) {},
                   ),
                   title: Text(
                     tasks[index]["task"],
@@ -234,6 +223,13 @@ class _MonthPageState extends State<MonthPage> {
             onPressed: () {
               Navigator.of(context).pop();
             },
+            style: ButtonStyle(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
             child: Text(
               "OK",
               style: TextStyle(

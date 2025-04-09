@@ -87,6 +87,7 @@ class _TasksScreenState extends State<TasksScreen> {
         return Scaffold(
           appBar: AppBar(
             title: const Text("Задачи"),
+            centerTitle: true,
           ),
           body: SingleChildScrollView(
               child: Column(

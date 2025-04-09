@@ -22,6 +22,7 @@ class _AdviceScreenState extends State<AdviceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Советы"),
+        centerTitle: true,
       ),
       body: FutureBuilder(
           future: entitiesFuture,
