@@ -36,6 +36,7 @@ class _SubtaskListWidgetState extends State<SubtaskListWidget> {
     Color color = Theme.of(context).dividerColor;
 
     return Column(
+      spacing: 20,
       children: List.generate(
         count,
         (int index) => Container(
@@ -56,22 +57,23 @@ class _SubtaskListWidgetState extends State<SubtaskListWidget> {
                       style: TextStyle(fontSize: 18),
                     ),
                     IconButton(
-                        onPressed: () {
-                          if (count == 1) return;
-                          setState(
-                            () {
-                              _nameControllers.removeAt(index);
-                              _daysControllers.removeAt(index);
-                              _hoursControllers.removeAt(index);
-                              _minutesControllers.removeAt(index);
-                              count--;
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: color,
-                        ))
+                      onPressed: () {
+                        if (count == 1) return;
+                        setState(
+                          () {
+                            _nameControllers.removeAt(index);
+                            _daysControllers.removeAt(index);
+                            _hoursControllers.removeAt(index);
+                            _minutesControllers.removeAt(index);
+                            count--;
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: color,
+                      ),
+                    ),
                   ],
                 ),
               ),
