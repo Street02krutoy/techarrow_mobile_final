@@ -145,18 +145,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ],
           ),
         ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(
-            bottom: 30,
-          ),
-          child: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed("/add_task");
-            },
-            tooltip: "Создать новую задачу",
-            child: Icon(Icons.add),
-          ),
-        ),
+        floatingActionButton: _isCalendarOpened
+            ? null
+            : FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/add_task");
+                },
+                tooltip: "Создать новую задачу",
+                child: Icon(Icons.add),
+              ),
       ),
     );
   }

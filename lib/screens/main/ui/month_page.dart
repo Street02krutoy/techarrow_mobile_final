@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -11,6 +13,8 @@ class MonthPage extends StatefulWidget {
 }
 
 class _MonthPageState extends State<MonthPage> {
+  bool flag = false;
+
   final List<String> months = [
     'янв',
     'фев',
@@ -36,6 +40,14 @@ class _MonthPageState extends State<MonthPage> {
       "isSolved": false
     },
     {"task": "l;sakdkmbsfsfsf", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
+    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
   ];
@@ -131,7 +143,7 @@ class _MonthPageState extends State<MonthPage> {
               Padding(
                 padding: const EdgeInsets.only(
                   top: 30.0,
-                  bottom: 15,
+                  bottom: 10,
                 ),
                 child: SizedBox(
                   width: double.infinity,
@@ -144,7 +156,11 @@ class _MonthPageState extends State<MonthPage> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => _taskSelectDialog(context));
+                    },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -168,6 +184,58 @@ class _MonthPageState extends State<MonthPage> {
             ),
         ),
       ),
+    );
+  }
+
+  AlertDialog _taskSelectDialog(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        "Новые задачи на ${_selectedDay.day.toString().padLeft(2, "0")}.${(_selectedDay.month).toString().padLeft(2, "0")}.${_selectedDay.year}",
+        style: TextStyle(
+          fontSize: 22,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width / 5 * 4,
+        height:
+            min(tasks.length * 40, MediaQuery.of(context).size.height / 5 * 3),
+        child: ListView.builder(
+          itemCount: tasks.length,
+          itemBuilder: (BuildContext context, int index) => ListTile(
+            onTap: () {},
+            leading: Checkbox(
+              value: flag,
+              onChanged: (value) {},
+            ),
+            title: Text(
+              tasks[index]["task"],
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+      ),
+      actionsPadding: EdgeInsets.only(
+        bottom: 10,
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 5 * 3,
+          child: OutlinedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "OK",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
