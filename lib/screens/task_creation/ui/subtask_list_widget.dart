@@ -7,6 +7,14 @@ class SubtaskListWidget extends StatefulWidget {
   @override
   State<SubtaskListWidget> createState() => _SubtaskListWidgetState();
 
+  static List<String> getSubtasksNames() {
+    return _SubtaskListWidgetState.getSubtasksNames();
+  }
+
+  static List<Duration> getSubtasksDurations() {
+    return _SubtaskListWidgetState.getSubtasksDurations();
+  }
+
   void disposeStaticFields() {
     _SubtaskListWidgetState.disposeStaticFields();
   }
