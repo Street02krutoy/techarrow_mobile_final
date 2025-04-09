@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class Cell {
@@ -7,6 +5,8 @@ class Cell {
   Color color = Color.fromARGB(255, 229, 228, 228);
   Color darkColor = Color.fromARGB(255, 196, 187, 187);
   Color lightColor = Colors.white;
+
+  bool isFreezed = false;
 
   Cell(
       {int number = 0,
@@ -138,7 +138,7 @@ void moveDownAllShapes(List<List<Cell>> matrix) {
   List<int> numbers = [];
   for (int y = matrix.length - 2; y > 0; y--) {
     for (int x = 0; x < matrix[y].length; x++) {
-      if (matrix[y][x].number != 0) {
+      if (matrix[y][x].number != 0 && !matrix[y][x].isFreezed) {
         numbers.add(matrix[y][x].number);
       }
     }
@@ -153,9 +153,18 @@ bool isFilledLine(List<List<Cell>> matrix, Set<int> alreadyFilledLines) {
     if (matrix[y].every((x) => (x.number != 0)) &&
         !alreadyFilledLines.contains(y)) {
       alreadyFilledLines.add(y);
-      print(y);
       return true;
     }
   }
   return false;
+}
+
+void freeze(List<List<Cell>> matrix, int n) {
+  for (List<Cell> row in matrix) {
+    for (Cell cell in row) {
+      if (cell.number == n) {
+        cell.isFreezed = true;
+      }
+    }
+  }
 }
