@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:techarrow_mobile_final/utils/matrix.dart';
 import 'package:techarrow_mobile_final/utils/matrixTools.dart';
 import 'package:techarrow_mobile_final/utils/task.dart';
@@ -19,8 +20,11 @@ class DayPage extends StatefulWidget {
 class _DayPageState extends State<DayPage> {
   List<Task> tasks = [
     Task(2, "red", "awd", 0, 2, 0, 3),
-    Task(3, "green", "awawdawdd", 0, 2, 2, 2),
-    Task(4, "blue", "123123123", 0, 2, 1, 4)
+    Task(3, "green", "awawdawdd", 0, 2, 2, 3),
+    Task(4, "blue", "123123123", 0, 2, 1, 4),
+    Task(5, "red", "awd", 0, 2, 0, 3),
+    Task(6, "green", "awawdawdd", 0, 2, 2, 3),
+    Task(7, "blue", "123123123", 0, 2, 1, 4)
   ];
 
   int rows = 10;
@@ -28,6 +32,7 @@ class _DayPageState extends State<DayPage> {
   bool counter = false;
   int index = 0;
   late Task temp;
+  Set<int> alreadyFilledLines = {};
 
   Matrix matrix = Matrix();
 
@@ -72,7 +77,16 @@ class _DayPageState extends State<DayPage> {
     }
     if (!moveDownShape(matrix.matrix, n)) {
       counter = false;
-
+      if (isFilledLine(matrix.matrix, alreadyFilledLines)) {
+        Fluttertoast.showToast(
+            msg: "совет",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
       print("counter $counter");
     }
 
