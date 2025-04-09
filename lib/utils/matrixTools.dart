@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class Cell {
@@ -145,7 +143,6 @@ void moveDownAllShapes(List<List<Cell>> matrix) {
       }
     }
   }
-  prrrint(matrix);
   for (int n in numbers) {
     while (moveDownShape(matrix, n)) {}
   }
@@ -169,11 +166,5 @@ void freeze(List<List<Cell>> matrix, int n) {
         cell.isFreezed = true;
       }
     }
-  }
-}
-
-void prrrint(List<List<Cell>> matrix) {
-  for (List<Cell> row in matrix) {
-    print(row.map((x) => x.isFreezed));
   }
 }

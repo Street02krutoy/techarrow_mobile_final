@@ -7,6 +7,8 @@ class Matrix extends CustomPainter {
   Size curSize = Size(0, 0);
   int isRepaint = 0;
 
+  bool isReadOnly = false;
+
   @override
   void paint(Canvas canvas, Size size) {
     double kx = size.width / matrix[0].length;

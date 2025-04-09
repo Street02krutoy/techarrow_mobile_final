@@ -132,24 +132,44 @@ class _DayPageState extends State<DayPage> {
                       return AlertDialog(
                         title: Text(task.title),
                         content: Text(task.description),
-                        actions: <Widget>[
-                          TextButton(
-                              child: Text('Delete task'),
-                              onPressed: () {
-                                setState(() {
-                                  deleteNumber(matrix.matrix, task.id);
-                                  moveDownAllShapes(matrix.matrix);
-                                  matrix.isRepaint++;
-                                });
-                                Navigator.of(context).pop();
-                              }),
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
+                        actions: matrix.isReadOnly
+                            ? <Widget>[
+                                TextButton(
+                                  child: Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ]
+                            : <Widget>[
+                                TextButton(
+                                    child: Text('выполнить'),
+                                    onPressed: () {
+                                      setState(() {
+                                        // TODO логика выполнения
+                                        deleteNumber(matrix.matrix, task.id);
+                                        moveDownAllShapes(matrix.matrix);
+                                        matrix.isRepaint++;
+                                      });
+                                      Navigator.of(context).pop();
+                                    }),
+                                TextButton(
+                                    child: Text('удалить'),
+                                    onPressed: () {
+                                      setState(() {
+                                        deleteNumber(matrix.matrix, task.id);
+                                        moveDownAllShapes(matrix.matrix);
+                                        matrix.isRepaint++;
+                                      });
+                                      Navigator.of(context).pop();
+                                    }),
+                                TextButton(
+                                  child: Text('ОК'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
                       );
                     },
                   )
