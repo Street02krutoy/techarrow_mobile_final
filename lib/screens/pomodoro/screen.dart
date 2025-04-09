@@ -113,9 +113,23 @@ class _PomodoroScreenState extends State<PomodoroScreen>
           return Scaffold(
             backgroundColor: (animation.value ?? Colors.white).withAlpha(240),
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: (animation.value ?? Colors.white).withAlpha(230),
-              title:
-                  Text(taskName, style: const TextStyle(color: Colors.white)),
+              title: Text(
+                taskName,
+                style: const TextStyle(color: Colors.white),
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: 26,
+                ),
+              ),
             ),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
