@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_time_duration_picker/flutter_time_duration_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:techarrow_mobile_final/enums/task_types.dart';
+import 'package:techarrow_mobile_final/screens/main/ui/subtask_list_widget.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({super.key});
@@ -34,6 +35,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
   TaskTypes selectedValue = TaskTypes.learning;
   bool isImportant = false;
   bool isLarge = false;
+
+  final SubtaskListWidget subtasklist = SubtaskListWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -225,6 +228,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       ],
                     ),
                   ),
+                  isLarge ? subtasklist : SizedBox(),
                   SizedBox(
                     height: 30,
                   ),
@@ -257,5 +261,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
             ),
           ),
         ));
+  }
+
+  @override
+  void dispose() {
+    subtasklist.disposeStaticFields();
+    super.dispose();
   }
 }

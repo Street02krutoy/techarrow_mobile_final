@@ -11,7 +11,7 @@ class ApplicationRouter {
     "/": (context) => const MainScreen(),
     "/welcome": (context) => const WelcomeScreen(),
     "/add_task": (context) => const AddTaskPage(),
-    "/create_task": (context) => const TaskCreationScreen(),
+    "/create_task": (context) => const TaskCreationScreen(), // DEPRECATED
     "/pomodoro": (context) => const PomodoroScreen(),
     "/tasks": (context) => const TasksScreen(),
   };
