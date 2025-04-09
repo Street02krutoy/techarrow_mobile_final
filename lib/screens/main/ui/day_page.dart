@@ -18,9 +18,9 @@ class DayPage extends StatefulWidget {
 
 class _DayPageState extends State<DayPage> {
   List<Task> tasks = [
-    Task(0, "red", "awd", 0, 2, 0, 3),
-    Task(1, "green", "awawdawdd", 0, 2, 2, 2),
-    Task(2, "blue", "123123123", 0, 2, 1, 4)
+    Task(2, "red", "awd", 0, 2, 0, 3),
+    Task(3, "green", "awawdawdd", 0, 2, 2, 2),
+    Task(4, "blue", "123123123", 0, 2, 1, 4)
   ];
 
   int rows = 10;
@@ -85,6 +85,8 @@ class _DayPageState extends State<DayPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
+    Task task;
+
     return Column(children: [
       SizedBox(
         height: height * 0.05,
@@ -94,13 +96,36 @@ class _DayPageState extends State<DayPage> {
         width: width * 0.8,
         child: GestureDetector(
           onTapDown: (details) => {
+            task = tasks[
+                matrix.numberOnXY(details.localPosition, 0, 0).number - 2],
             if (matrix.numberOnXY(details.localPosition, 0, 0).number != 0)
               {
-                showAlertDialog(
-                    context,
-                    tasks[
-                        matrix.numberOnXY(details.localPosition, 0, 0).number -
-                            2])
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(task.title),
+                      content: Text(task.description),
+                      actions: <Widget>[
+                        TextButton(
+                            child: Text('Delete task'),
+                            onPressed: () {
+                              setState(() {
+                                deleteNumber(matrix.matrix, task.id);
+                                matrix.isRepaint++;
+                              });
+                              Navigator.of(context).pop();
+                            }),
+                        TextButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                )
               }
           },
           child: CustomPaint(
@@ -150,22 +175,6 @@ class _DayPageState extends State<DayPage> {
   }
 }
 
-void showAlertDialog(BuildContext context, Task task) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(task.title),
-        content: Text(task.description),
-        actions: <Widget>[
-          TextButton(
-            child: Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
+void showAlertDialog(BuildContext context, Task task, List<List<Cell>> matrix) {
+  ;
 }

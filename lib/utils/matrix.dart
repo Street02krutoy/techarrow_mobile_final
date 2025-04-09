@@ -16,34 +16,28 @@ class Matrix extends CustomPainter {
 
     curSize = size;
 
-    for (int y = 0; y < matrix.length; y++){
-      for (int x = 0; x < matrix[0].length; x++){
+    for (int y = 0; y < matrix.length; y++) {
+      for (int x = 0; x < matrix[0].length; x++) {
         paint.color = matrix[y][x].darkColor;
         canvas.drawRect(
-          Rect.fromPoints(
-            Offset(x * kx, y * ky), Offset((x + 1) * kx, (y + 1) * ky)
-          ),
-          paint
-        );
+            Rect.fromPoints(
+                Offset(x * kx, y * ky), Offset((x + 1) * kx, (y + 1) * ky)),
+            paint);
         paint.color = matrix[y][x].color;
         canvas.drawRect(
-          Rect.fromPoints(
-            Offset(x * kx + kx / 10, y * ky + ky / 10), Offset((x + 1) * kx - kx / 10, (y + 1) * ky - ky / 10)
-          ),
-          paint
-        );
+            Rect.fromPoints(Offset(x * kx + kx / 10, y * ky + ky / 10),
+                Offset((x + 1) * kx - kx / 10, (y + 1) * ky - ky / 10)),
+            paint);
         paint.color = matrix[y][x].lightColor;
         canvas.drawRect(
-          Rect.fromPoints(
-            Offset(x * kx + kx / 10 * 3, y * ky + ky / 10 * 3), Offset((x + 1) * kx - kx / 10 * 6, (y + 1) * ky - ky / 10 * 6)
-          ),
-          paint
-        );
+            Rect.fromPoints(Offset(x * kx + kx / 10 * 3, y * ky + ky / 10 * 3),
+                Offset((x + 1) * kx - kx / 10 * 6, (y + 1) * ky - ky / 10 * 6)),
+            paint);
       }
     }
   }
 
-  void setMatrix(List<List<Cell>> newMatrix){
+  void setMatrix(List<List<Cell>> newMatrix) {
     matrix = newMatrix;
   }
 
@@ -59,7 +53,10 @@ class Matrix extends CustomPainter {
     int cellX = ((offset.dx - indentX) / kx).floor();
     int cellY = ((offset.dy - indentY) / ky).floor();
 
-    if (cellX < 0 || cellX >= matrix[0].length || cellY < 0 || cellY >= matrix.length) {
+    if (cellX < 0 ||
+        cellX >= matrix[0].length ||
+        cellY < 0 ||
+        cellY >= matrix.length) {
       return Cell(number: 10);
     }
 

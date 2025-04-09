@@ -121,3 +121,13 @@ void addShape(List<List<Cell>> matrix, int n, Color color, int number) {
     matrix[0][i] = Cell(number: number, color: color);
   }
 }
+
+void deleteNumber(List<List<Cell>> matrix, int number) {
+  for (int y = 0; y < matrix.length; y++) {
+    for (int x = 0; x < matrix[0].length; x++) {
+      if (matrix[y][x].number == number) {
+        matrix[y][x] = Cell(number: 0);
+      }
+    }
+  }
+}
