@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:techarrow_mobile_final/screens/main/ui/tetris_page.dart';
+import 'package:techarrow_mobile_final/api/api_service.dart';
+import 'package:techarrow_mobile_final/swagger_generated_api/swagger.swagger.dart';
 
 class MonthPage extends StatefulWidget {
   const MonthPage({super.key, required this.isCalendarOpened});
@@ -47,19 +48,24 @@ class _MonthPageState extends State<MonthPage> {
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
     {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": true},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
-    {"task": "kfjddlksdjglskfdjlsfkj", "isSolved": false},
   ];
 
   static DateTime _focusedDay = DateTime.now().add(Duration(days: 1));
   static DateTime _selectedDay = DateTime.now();
   final CalendarFormat _calendarFormat = CalendarFormat.month;
 
+  Future? _future;
+
+  void fetch() {
+    setState(() {
+      _future =
+          ApiService.api.apiTasksGetDataGet(data: _selectedDay.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetch();
     return Padding(
       padding: const EdgeInsets.only(
         left: 15.0,
@@ -86,6 +92,7 @@ class _MonthPageState extends State<MonthPage> {
               calendarFormat: _calendarFormat,
               availableCalendarFormats: const {CalendarFormat.month: ""},
               onDaySelected: (selectedDay, focusedDay) {
+                fetch();
                 setState(() {
                   _focusedDay = focusedDay;
                   _selectedDay = selectedDay;
@@ -122,32 +129,45 @@ class _MonthPageState extends State<MonthPage> {
               ),
             ),
           ]
-            ..addAll(List.generate(
-              widget.isCalendarOpened() ? tasks.length : 3,
-              (int index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                    ),
-                  ),
-                  leading: Checkbox(
-                    value: tasks[index]["isSolved"],
-                    onChanged: (value) {},
-                  ),
-                  title: Text(
-                    tasks[index]["task"],
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ).toList())
+            ..add(FutureBuilder(
+                future: _future,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    var data = snapshot.data as TaskListDateRs;
+                    var planned = data.plannedTasks;
+                    var completed = data.completedTasks;
+                    var tasks = [...planned, ...completed];
+                    return Column(
+                      children: List.generate(
+                        widget.isCalendarOpened() ? tasks.length : 3,
+                        (int index) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: Theme.of(context).dividerColor,
+                              ),
+                            ),
+                            leading: Checkbox(
+                              value: index >= planned.length,
+                              onChanged: (value) {},
+                            ),
+                            title: Text(
+                              tasks[index].name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ).toList(),
+                    );
+                  }
+                  return CircularProgressIndicator();
+                }))
             ..add(
               Padding(
                 padding: const EdgeInsets.only(
@@ -240,12 +260,7 @@ class _MonthPageState extends State<MonthPage> {
           width: MediaQuery.of(context).size.width / 5 * 3,
           child: OutlinedButton(
             onPressed: () {
-              //Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TetrisPage(
-                          start: 8, end: 20, rows: 10, tasks: [], mode: 0)));
+              Navigator.of(context).pop();
             },
             style: ButtonStyle(
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(

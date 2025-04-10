@@ -56,4 +56,85 @@ final class _$Swagger extends Swagger {
     );
     return client.send<TaskToPlanRs, TaskToPlanRs>($request);
   }
+
+  @override
+  Future<Response<TaskListDateRs>> _apiTasksGetDataGet(
+      {required String? data}) {
+    final Uri $url = Uri.parse('/api/tasks/get/${data}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskListDateRs, TaskListDateRs>($request);
+  }
+
+  @override
+  Future<Response<TaskToPlanRs>> _apiTasksToCompletedTaskIdPut(
+      {required String? taskId}) {
+    final Uri $url = Uri.parse('/api/tasks/to_completed/${taskId}');
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskToPlanRs, TaskToPlanRs>($request);
+  }
+
+  @override
+  Future<Response<TaskToPlanRs>> _apiTasksDeleteTaskIdDelete(
+      {required String? taskId}) {
+    final Uri $url = Uri.parse('/api/tasks/delete/${taskId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskToPlanRs, TaskToPlanRs>($request);
+  }
+
+  @override
+  Future<Response<TaskListRs>> _apiTasksGetUnplannedGet() {
+    final Uri $url = Uri.parse('/api/tasks/get_unplanned');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskListRs, TaskListRs>($request);
+  }
+
+  @override
+  Future<Response<TaskListRs>> _apiTasksGetPlannedGet() {
+    final Uri $url = Uri.parse('/api/tasks/get_planned');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskListRs, TaskListRs>($request);
+  }
+
+  @override
+  Future<Response<TaskListRs>> _apiTasksGetCompletedGet() {
+    final Uri $url = Uri.parse('/api/tasks/get_completed');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskListRs, TaskListRs>($request);
+  }
+
+  @override
+  Future<Response<TaskGetRs>> _apiTasksGetByIdTaskIdGet(
+      {required String? taskId}) {
+    final Uri $url = Uri.parse('/api/tasks/get_by_id/${taskId}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<TaskGetRs, TaskGetRs>($request);
+  }
 }

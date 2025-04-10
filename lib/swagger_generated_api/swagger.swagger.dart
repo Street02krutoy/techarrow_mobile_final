@@ -93,6 +93,105 @@ abstract class Swagger extends ChopperService {
   )
   Future<chopper.Response<TaskToPlanRs>> _apiTasksToPlannedPut(
       {@Body() required TaskToPlanRq? body});
+
+  ///Get By Date
+  ///@param data
+  Future<chopper.Response<TaskListDateRs>> apiTasksGetDataGet(
+      {required String? data}) {
+    generatedMapping.putIfAbsent(
+        TaskListDateRs, () => TaskListDateRs.fromJsonFactory);
+
+    return _apiTasksGetDataGet(data: data);
+  }
+
+  ///Get By Date
+  ///@param data
+  @Get(path: '/api/tasks/get/{data}')
+  Future<chopper.Response<TaskListDateRs>> _apiTasksGetDataGet(
+      {@Path('data') required String? data});
+
+  ///To Completed
+  ///@param task_id
+  Future<chopper.Response<TaskToPlanRs>> apiTasksToCompletedTaskIdPut(
+      {required String? taskId}) {
+    generatedMapping.putIfAbsent(
+        TaskToPlanRs, () => TaskToPlanRs.fromJsonFactory);
+
+    return _apiTasksToCompletedTaskIdPut(taskId: taskId);
+  }
+
+  ///To Completed
+  ///@param task_id
+  @Put(
+    path: '/api/tasks/to_completed/{task_id}',
+    optionalBody: true,
+  )
+  Future<chopper.Response<TaskToPlanRs>> _apiTasksToCompletedTaskIdPut(
+      {@Path('task_id') required String? taskId});
+
+  ///Delete Task
+  ///@param task_id
+  Future<chopper.Response<TaskToPlanRs>> apiTasksDeleteTaskIdDelete(
+      {required String? taskId}) {
+    generatedMapping.putIfAbsent(
+        TaskToPlanRs, () => TaskToPlanRs.fromJsonFactory);
+
+    return _apiTasksDeleteTaskIdDelete(taskId: taskId);
+  }
+
+  ///Delete Task
+  ///@param task_id
+  @Delete(path: '/api/tasks/delete/{task_id}')
+  Future<chopper.Response<TaskToPlanRs>> _apiTasksDeleteTaskIdDelete(
+      {@Path('task_id') required String? taskId});
+
+  ///Get Unplanned
+  Future<chopper.Response<TaskListRs>> apiTasksGetUnplannedGet() {
+    generatedMapping.putIfAbsent(TaskListRs, () => TaskListRs.fromJsonFactory);
+
+    return _apiTasksGetUnplannedGet();
+  }
+
+  ///Get Unplanned
+  @Get(path: '/api/tasks/get_unplanned')
+  Future<chopper.Response<TaskListRs>> _apiTasksGetUnplannedGet();
+
+  ///Get Planned
+  Future<chopper.Response<TaskListRs>> apiTasksGetPlannedGet() {
+    generatedMapping.putIfAbsent(TaskListRs, () => TaskListRs.fromJsonFactory);
+
+    return _apiTasksGetPlannedGet();
+  }
+
+  ///Get Planned
+  @Get(path: '/api/tasks/get_planned')
+  Future<chopper.Response<TaskListRs>> _apiTasksGetPlannedGet();
+
+  ///Get Completed
+  Future<chopper.Response<TaskListRs>> apiTasksGetCompletedGet() {
+    generatedMapping.putIfAbsent(TaskListRs, () => TaskListRs.fromJsonFactory);
+
+    return _apiTasksGetCompletedGet();
+  }
+
+  ///Get Completed
+  @Get(path: '/api/tasks/get_completed')
+  Future<chopper.Response<TaskListRs>> _apiTasksGetCompletedGet();
+
+  ///Get By Id
+  ///@param task_id
+  Future<chopper.Response<TaskGetRs>> apiTasksGetByIdTaskIdGet(
+      {required String? taskId}) {
+    generatedMapping.putIfAbsent(TaskGetRs, () => TaskGetRs.fromJsonFactory);
+
+    return _apiTasksGetByIdTaskIdGet(taskId: taskId);
+  }
+
+  ///Get By Id
+  ///@param task_id
+  @Get(path: '/api/tasks/get_by_id/{task_id}')
+  Future<chopper.Response<TaskGetRs>> _apiTasksGetByIdTaskIdGet(
+      {@Path('task_id') required String? taskId});
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -408,6 +507,365 @@ extension $TaskCreateRsExtension on TaskCreateRs {
 
   TaskCreateRs copyWithWrapped({Wrapped<String>? taskId}) {
     return TaskCreateRs(taskId: (taskId != null ? taskId.value : this.taskId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TaskGetRs {
+  const TaskGetRs({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.category,
+    required this.duration,
+    required this.importance,
+    required this.isMulti,
+    required this.multiId,
+    required this.multiColor,
+  });
+
+  factory TaskGetRs.fromJson(Map<String, dynamic> json) =>
+      _$TaskGetRsFromJson(json);
+
+  static const toJsonFactory = _$TaskGetRsToJson;
+  Map<String, dynamic> toJson() => _$TaskGetRsToJson(this);
+
+  @JsonKey(name: 'id')
+  final String id;
+  @JsonKey(name: 'name')
+  final String name;
+  @JsonKey(name: 'description')
+  final String description;
+  @JsonKey(
+    name: 'category',
+    toJson: taskCategoryToJson,
+    fromJson: taskCategoryFromJson,
+  )
+  final enums.TaskCategory category;
+  @JsonKey(name: 'duration')
+  final String duration;
+  @JsonKey(name: 'importance')
+  final bool importance;
+  @JsonKey(name: 'is_multi')
+  final bool isMulti;
+  @JsonKey(name: 'multi_id')
+  final dynamic multiId;
+  @JsonKey(name: 'multi_color')
+  final dynamic multiColor;
+  static const fromJsonFactory = _$TaskGetRsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TaskGetRs &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.category, category) ||
+                const DeepCollectionEquality()
+                    .equals(other.category, category)) &&
+            (identical(other.duration, duration) ||
+                const DeepCollectionEquality()
+                    .equals(other.duration, duration)) &&
+            (identical(other.importance, importance) ||
+                const DeepCollectionEquality()
+                    .equals(other.importance, importance)) &&
+            (identical(other.isMulti, isMulti) ||
+                const DeepCollectionEquality()
+                    .equals(other.isMulti, isMulti)) &&
+            (identical(other.multiId, multiId) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiId, multiId)) &&
+            (identical(other.multiColor, multiColor) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiColor, multiColor)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(category) ^
+      const DeepCollectionEquality().hash(duration) ^
+      const DeepCollectionEquality().hash(importance) ^
+      const DeepCollectionEquality().hash(isMulti) ^
+      const DeepCollectionEquality().hash(multiId) ^
+      const DeepCollectionEquality().hash(multiColor) ^
+      runtimeType.hashCode;
+}
+
+extension $TaskGetRsExtension on TaskGetRs {
+  TaskGetRs copyWith(
+      {String? id,
+      String? name,
+      String? description,
+      enums.TaskCategory? category,
+      String? duration,
+      bool? importance,
+      bool? isMulti,
+      dynamic multiId,
+      dynamic multiColor}) {
+    return TaskGetRs(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        category: category ?? this.category,
+        duration: duration ?? this.duration,
+        importance: importance ?? this.importance,
+        isMulti: isMulti ?? this.isMulti,
+        multiId: multiId ?? this.multiId,
+        multiColor: multiColor ?? this.multiColor);
+  }
+
+  TaskGetRs copyWithWrapped(
+      {Wrapped<String>? id,
+      Wrapped<String>? name,
+      Wrapped<String>? description,
+      Wrapped<enums.TaskCategory>? category,
+      Wrapped<String>? duration,
+      Wrapped<bool>? importance,
+      Wrapped<bool>? isMulti,
+      Wrapped<dynamic>? multiId,
+      Wrapped<dynamic>? multiColor}) {
+    return TaskGetRs(
+        id: (id != null ? id.value : this.id),
+        name: (name != null ? name.value : this.name),
+        description:
+            (description != null ? description.value : this.description),
+        category: (category != null ? category.value : this.category),
+        duration: (duration != null ? duration.value : this.duration),
+        importance: (importance != null ? importance.value : this.importance),
+        isMulti: (isMulti != null ? isMulti.value : this.isMulti),
+        multiId: (multiId != null ? multiId.value : this.multiId),
+        multiColor: (multiColor != null ? multiColor.value : this.multiColor));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TaskList {
+  const TaskList({
+    required this.id,
+    required this.name,
+    required this.description,
+  });
+
+  factory TaskList.fromJson(Map<String, dynamic> json) =>
+      _$TaskListFromJson(json);
+
+  static const toJsonFactory = _$TaskListToJson;
+  Map<String, dynamic> toJson() => _$TaskListToJson(this);
+
+  @JsonKey(name: 'id')
+  final String id;
+  @JsonKey(name: 'name')
+  final String name;
+  @JsonKey(name: 'description')
+  final String description;
+  static const fromJsonFactory = _$TaskListFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TaskList &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      runtimeType.hashCode;
+}
+
+extension $TaskListExtension on TaskList {
+  TaskList copyWith({String? id, String? name, String? description}) {
+    return TaskList(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description);
+  }
+
+  TaskList copyWithWrapped(
+      {Wrapped<String>? id,
+      Wrapped<String>? name,
+      Wrapped<String>? description}) {
+    return TaskList(
+        id: (id != null ? id.value : this.id),
+        name: (name != null ? name.value : this.name),
+        description:
+            (description != null ? description.value : this.description));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TaskListDate {
+  const TaskListDate({
+    required this.id,
+    required this.name,
+  });
+
+  factory TaskListDate.fromJson(Map<String, dynamic> json) =>
+      _$TaskListDateFromJson(json);
+
+  static const toJsonFactory = _$TaskListDateToJson;
+  Map<String, dynamic> toJson() => _$TaskListDateToJson(this);
+
+  @JsonKey(name: 'id')
+  final String id;
+  @JsonKey(name: 'name')
+  final String name;
+  static const fromJsonFactory = _$TaskListDateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TaskListDate &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      runtimeType.hashCode;
+}
+
+extension $TaskListDateExtension on TaskListDate {
+  TaskListDate copyWith({String? id, String? name}) {
+    return TaskListDate(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  TaskListDate copyWithWrapped({Wrapped<String>? id, Wrapped<String>? name}) {
+    return TaskListDate(
+        id: (id != null ? id.value : this.id),
+        name: (name != null ? name.value : this.name));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TaskListDateRs {
+  const TaskListDateRs({
+    required this.plannedTasks,
+    required this.completedTasks,
+  });
+
+  factory TaskListDateRs.fromJson(Map<String, dynamic> json) =>
+      _$TaskListDateRsFromJson(json);
+
+  static const toJsonFactory = _$TaskListDateRsToJson;
+  Map<String, dynamic> toJson() => _$TaskListDateRsToJson(this);
+
+  @JsonKey(name: 'planned_tasks', defaultValue: <TaskListDate>[])
+  final List<TaskListDate> plannedTasks;
+  @JsonKey(name: 'completed_tasks', defaultValue: <TaskListDate>[])
+  final List<TaskListDate> completedTasks;
+  static const fromJsonFactory = _$TaskListDateRsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TaskListDateRs &&
+            (identical(other.plannedTasks, plannedTasks) ||
+                const DeepCollectionEquality()
+                    .equals(other.plannedTasks, plannedTasks)) &&
+            (identical(other.completedTasks, completedTasks) ||
+                const DeepCollectionEquality()
+                    .equals(other.completedTasks, completedTasks)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(plannedTasks) ^
+      const DeepCollectionEquality().hash(completedTasks) ^
+      runtimeType.hashCode;
+}
+
+extension $TaskListDateRsExtension on TaskListDateRs {
+  TaskListDateRs copyWith(
+      {List<TaskListDate>? plannedTasks, List<TaskListDate>? completedTasks}) {
+    return TaskListDateRs(
+        plannedTasks: plannedTasks ?? this.plannedTasks,
+        completedTasks: completedTasks ?? this.completedTasks);
+  }
+
+  TaskListDateRs copyWithWrapped(
+      {Wrapped<List<TaskListDate>>? plannedTasks,
+      Wrapped<List<TaskListDate>>? completedTasks}) {
+    return TaskListDateRs(
+        plannedTasks:
+            (plannedTasks != null ? plannedTasks.value : this.plannedTasks),
+        completedTasks: (completedTasks != null
+            ? completedTasks.value
+            : this.completedTasks));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TaskListRs {
+  const TaskListRs({
+    required this.tasks,
+  });
+
+  factory TaskListRs.fromJson(Map<String, dynamic> json) =>
+      _$TaskListRsFromJson(json);
+
+  static const toJsonFactory = _$TaskListRsToJson;
+  Map<String, dynamic> toJson() => _$TaskListRsToJson(this);
+
+  @JsonKey(name: 'tasks', defaultValue: <TaskList>[])
+  final List<TaskList> tasks;
+  static const fromJsonFactory = _$TaskListRsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TaskListRs &&
+            (identical(other.tasks, tasks) ||
+                const DeepCollectionEquality().equals(other.tasks, tasks)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(tasks) ^ runtimeType.hashCode;
+}
+
+extension $TaskListRsExtension on TaskListRs {
+  TaskListRs copyWith({List<TaskList>? tasks}) {
+    return TaskListRs(tasks: tasks ?? this.tasks);
+  }
+
+  TaskListRs copyWithWrapped({Wrapped<List<TaskList>>? tasks}) {
+    return TaskListRs(tasks: (tasks != null ? tasks.value : this.tasks));
   }
 }
 

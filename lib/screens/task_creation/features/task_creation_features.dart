@@ -1,3 +1,4 @@
+import 'package:techarrow_mobile_final/api/api_service.dart';
 import 'package:techarrow_mobile_final/enums/task_types.dart';
 
 class TaskCreationFeatures {
@@ -10,6 +11,14 @@ class TaskCreationFeatures {
       List<Subtask>? subtasks}) async {
     print(
         "$title, $description, $type, $isImportant, $duration, $subtasks - created task");
+
+    await ApiService.postTask(
+        title: title,
+        description: description,
+        type: type,
+        isImportant: isImportant,
+        duration: duration,
+        subtasks: subtasks);
   }
 }
 
