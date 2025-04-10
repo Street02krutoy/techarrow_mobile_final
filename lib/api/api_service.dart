@@ -12,7 +12,7 @@ import 'package:techarrow_mobile_final/utils/task.dart';
 
 class ApiService {
   static final api = Swagger.create(
-      baseUrl: Uri.parse('http://192.168.168.29:5252'),
+      baseUrl: Uri.parse('https://api.penki.tech'),
       interceptors: [AuthInterceptor()]);
 
   static Future<void> postTask(

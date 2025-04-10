@@ -249,7 +249,6 @@ class _MonthPageState extends State<MonthPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               tasks = snapshot.data!;
-              print(tasks![0].len);
               checks = List.generate(tasks!.length, (index) => false);
               return StatefulBuilder(builder: (context, setState) {
                 return SizedBox(
