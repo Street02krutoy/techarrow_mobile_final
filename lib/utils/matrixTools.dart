@@ -131,8 +131,7 @@ void addShape(List<List<Cell>> matrix, int n, Color color, int number,
     return;
   }
   for (int i = 0; i < n; i++) {
-    matrix[0][matrix[0].length ~/ 2 - n ~/ 2 + i] =
-        Cell(number: number, color: color);
+    matrix[0][i] = Cell(number: number, color: color);
   }
 }
 

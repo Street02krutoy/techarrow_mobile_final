@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:techarrow_mobile_final/api/api_service.dart';
 import 'package:techarrow_mobile_final/utils/task.dart';
 
 class TasksScreenFeatures {
@@ -66,25 +67,9 @@ class TasksScreenFeatures {
     'Задачи на работе'
   ];
   Future<List<Task>> getTasks() async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    return List.generate(
-        Random().nextInt(30) + 30,
-        (index) => Task(
-            index,
-            tasksSample[Random().nextInt(tasksSample.length)],
-            List.generate(
-                    Random().nextInt(2) + 1,
-                    (i) =>
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ')
-                .join(' '),
-            0,
-            0,
-            0,
-            status: Random().nextBool()
-                ? TaskStatus.scheduled
-                : Random().nextBool()
-                    ? TaskStatus.done
-                    : TaskStatus.unscheduled));
+    var t1 = await ApiService.getCompletedTasks();
+    var t2 = await ApiService.getPlannedTasks();
+    var t3 = await ApiService.getUnplannedTasks();
+    return [...t1, ...t2, ...t3];
   }
 }

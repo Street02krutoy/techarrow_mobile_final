@@ -48,6 +48,35 @@ abstract class Swagger extends ChopperService {
     return _$Swagger(newClient);
   }
 
+  ///Create Advice
+  Future<chopper.Response<AdviceCreateRs>> apiAdviceCreatePost(
+      {required AdviceCreateRq? body}) {
+    generatedMapping.putIfAbsent(
+        AdviceCreateRs, () => AdviceCreateRs.fromJsonFactory);
+
+    return _apiAdviceCreatePost(body: body);
+  }
+
+  ///Create Advice
+  @Post(
+    path: '/api/advice/create',
+    optionalBody: true,
+  )
+  Future<chopper.Response<AdviceCreateRs>> _apiAdviceCreatePost(
+      {@Body() required AdviceCreateRq? body});
+
+  ///Get Advice
+  Future<chopper.Response<AdviceGetRs>> apiAdviceGetGet() {
+    generatedMapping.putIfAbsent(
+        AdviceGetRs, () => AdviceGetRs.fromJsonFactory);
+
+    return _apiAdviceGetGet();
+  }
+
+  ///Get Advice
+  @Get(path: '/api/advice/get')
+  Future<chopper.Response<AdviceGetRs>> _apiAdviceGetGet();
+
   ///Update Field
   Future<chopper.Response<FieldAnswer>> apiFieldsUpdatePut(
       {required FieldInput? body}) {
@@ -146,7 +175,7 @@ abstract class Swagger extends ChopperService {
   ///To Completed
   ///@param task_id
   Future<chopper.Response<TaskToPlanRs>> apiTasksToCompletedTaskIdPut(
-      {required String? taskId}) {
+      {required int? taskId}) {
     generatedMapping.putIfAbsent(
         TaskToPlanRs, () => TaskToPlanRs.fromJsonFactory);
 
@@ -160,12 +189,12 @@ abstract class Swagger extends ChopperService {
     optionalBody: true,
   )
   Future<chopper.Response<TaskToPlanRs>> _apiTasksToCompletedTaskIdPut(
-      {@Path('task_id') required String? taskId});
+      {@Path('task_id') required int? taskId});
 
   ///Delete Task
   ///@param task_id
   Future<chopper.Response<TaskToPlanRs>> apiTasksDeleteTaskIdDelete(
-      {required String? taskId}) {
+      {required int? taskId}) {
     generatedMapping.putIfAbsent(
         TaskToPlanRs, () => TaskToPlanRs.fromJsonFactory);
 
@@ -176,7 +205,7 @@ abstract class Swagger extends ChopperService {
   ///@param task_id
   @Delete(path: '/api/tasks/delete/{task_id}')
   Future<chopper.Response<TaskToPlanRs>> _apiTasksDeleteTaskIdDelete(
-      {@Path('task_id') required String? taskId});
+      {@Path('task_id') required int? taskId});
 
   ///Get Unplanned
   Future<chopper.Response<TaskListRs>> apiTasksGetUnplannedGet() {
@@ -214,7 +243,7 @@ abstract class Swagger extends ChopperService {
   ///Get By Id
   ///@param task_id
   Future<chopper.Response<TaskGetRs>> apiTasksGetByIdTaskIdGet(
-      {required String? taskId}) {
+      {required int? taskId}) {
     generatedMapping.putIfAbsent(TaskGetRs, () => TaskGetRs.fromJsonFactory);
 
     return _apiTasksGetByIdTaskIdGet(taskId: taskId);
@@ -224,7 +253,151 @@ abstract class Swagger extends ChopperService {
   ///@param task_id
   @Get(path: '/api/tasks/get_by_id/{task_id}')
   Future<chopper.Response<TaskGetRs>> _apiTasksGetByIdTaskIdGet(
-      {@Path('task_id') required String? taskId});
+      {@Path('task_id') required int? taskId});
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdviceCreateRq {
+  const AdviceCreateRq({
+    required this.ids,
+  });
+
+  factory AdviceCreateRq.fromJson(Map<String, dynamic> json) =>
+      _$AdviceCreateRqFromJson(json);
+
+  static const toJsonFactory = _$AdviceCreateRqToJson;
+  Map<String, dynamic> toJson() => _$AdviceCreateRqToJson(this);
+
+  @JsonKey(name: 'ids', defaultValue: <int>[])
+  final List<int> ids;
+  static const fromJsonFactory = _$AdviceCreateRqFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdviceCreateRq &&
+            (identical(other.ids, ids) ||
+                const DeepCollectionEquality().equals(other.ids, ids)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(ids) ^ runtimeType.hashCode;
+}
+
+extension $AdviceCreateRqExtension on AdviceCreateRq {
+  AdviceCreateRq copyWith({List<int>? ids}) {
+    return AdviceCreateRq(ids: ids ?? this.ids);
+  }
+
+  AdviceCreateRq copyWithWrapped({Wrapped<List<int>>? ids}) {
+    return AdviceCreateRq(ids: (ids != null ? ids.value : this.ids));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdviceCreateRs {
+  const AdviceCreateRs({
+    required this.id,
+    required this.text,
+    required this.color,
+  });
+
+  factory AdviceCreateRs.fromJson(Map<String, dynamic> json) =>
+      _$AdviceCreateRsFromJson(json);
+
+  static const toJsonFactory = _$AdviceCreateRsToJson;
+  Map<String, dynamic> toJson() => _$AdviceCreateRsToJson(this);
+
+  @JsonKey(name: 'id')
+  final int id;
+  @JsonKey(name: 'text')
+  final String text;
+  @JsonKey(name: 'color')
+  final String color;
+  static const fromJsonFactory = _$AdviceCreateRsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdviceCreateRs &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)) &&
+            (identical(other.color, color) ||
+                const DeepCollectionEquality().equals(other.color, color)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(text) ^
+      const DeepCollectionEquality().hash(color) ^
+      runtimeType.hashCode;
+}
+
+extension $AdviceCreateRsExtension on AdviceCreateRs {
+  AdviceCreateRs copyWith({int? id, String? text, String? color}) {
+    return AdviceCreateRs(
+        id: id ?? this.id, text: text ?? this.text, color: color ?? this.color);
+  }
+
+  AdviceCreateRs copyWithWrapped(
+      {Wrapped<int>? id, Wrapped<String>? text, Wrapped<String>? color}) {
+    return AdviceCreateRs(
+        id: (id != null ? id.value : this.id),
+        text: (text != null ? text.value : this.text),
+        color: (color != null ? color.value : this.color));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdviceGetRs {
+  const AdviceGetRs({
+    required this.advice,
+  });
+
+  factory AdviceGetRs.fromJson(Map<String, dynamic> json) =>
+      _$AdviceGetRsFromJson(json);
+
+  static const toJsonFactory = _$AdviceGetRsToJson;
+  Map<String, dynamic> toJson() => _$AdviceGetRsToJson(this);
+
+  @JsonKey(name: 'advice', defaultValue: <AdviceCreateRs>[])
+  final List<AdviceCreateRs> advice;
+  static const fromJsonFactory = _$AdviceGetRsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdviceGetRs &&
+            (identical(other.advice, advice) ||
+                const DeepCollectionEquality().equals(other.advice, advice)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(advice) ^ runtimeType.hashCode;
+}
+
+extension $AdviceGetRsExtension on AdviceGetRs {
+  AdviceGetRs copyWith({List<AdviceCreateRs>? advice}) {
+    return AdviceGetRs(advice: advice ?? this.advice);
+  }
+
+  AdviceGetRs copyWithWrapped({Wrapped<List<AdviceCreateRs>>? advice}) {
+    return AdviceGetRs(advice: (advice != null ? advice.value : this.advice));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -284,8 +457,8 @@ class FieldInput {
 
   @JsonKey(name: 'date', toJson: _dateToJson)
   final DateTime date;
-  @JsonKey(name: 'list', defaultValue: <List<String?>>[])
-  final List<List<String?>> list;
+  @JsonKey(name: 'list', defaultValue: <List<int?>>[])
+  final List<List<int?>> list;
   static const fromJsonFactory = _$FieldInputFromJson;
 
   @override
@@ -309,12 +482,12 @@ class FieldInput {
 }
 
 extension $FieldInputExtension on FieldInput {
-  FieldInput copyWith({DateTime? date, List<List<String?>>? list}) {
+  FieldInput copyWith({DateTime? date, List<List<int?>>? list}) {
     return FieldInput(date: date ?? this.date, list: list ?? this.list);
   }
 
   FieldInput copyWithWrapped(
-      {Wrapped<DateTime>? date, Wrapped<List<List<String?>>>? list}) {
+      {Wrapped<DateTime>? date, Wrapped<List<List<int?>>>? list}) {
     return FieldInput(
         date: (date != null ? date.value : this.date),
         list: (list != null ? list.value : this.list));
@@ -337,8 +510,8 @@ class FieldOutput {
 
   @JsonKey(name: 'date', toJson: _dateToJson)
   final DateTime date;
-  @JsonKey(name: 'matrix', defaultValue: <List<String?>>[])
-  final List<List<String?>> matrix;
+  @JsonKey(name: 'matrix', defaultValue: <List<int?>>[])
+  final List<List<int?>> matrix;
   @JsonKey(name: 'info', defaultValue: <TaskInfo>[])
   final List<TaskInfo> info;
   static const fromJsonFactory = _$FieldOutputFromJson;
@@ -368,7 +541,7 @@ class FieldOutput {
 
 extension $FieldOutputExtension on FieldOutput {
   FieldOutput copyWith(
-      {DateTime? date, List<List<String?>>? matrix, List<TaskInfo>? info}) {
+      {DateTime? date, List<List<int?>>? matrix, List<TaskInfo>? info}) {
     return FieldOutput(
         date: date ?? this.date,
         matrix: matrix ?? this.matrix,
@@ -377,7 +550,7 @@ extension $FieldOutputExtension on FieldOutput {
 
   FieldOutput copyWithWrapped(
       {Wrapped<DateTime>? date,
-      Wrapped<List<List<String?>>>? matrix,
+      Wrapped<List<List<int?>>>? matrix,
       Wrapped<List<TaskInfo>>? info}) {
     return FieldOutput(
         date: (date != null ? date.value : this.date),
@@ -673,7 +846,7 @@ class TaskCreateRs {
   Map<String, dynamic> toJson() => _$TaskCreateRsToJson(this);
 
   @JsonKey(name: 'task_id')
-  final String taskId;
+  final int taskId;
   static const fromJsonFactory = _$TaskCreateRsFromJson;
 
   @override
@@ -693,11 +866,11 @@ class TaskCreateRs {
 }
 
 extension $TaskCreateRsExtension on TaskCreateRs {
-  TaskCreateRs copyWith({String? taskId}) {
+  TaskCreateRs copyWith({int? taskId}) {
     return TaskCreateRs(taskId: taskId ?? this.taskId);
   }
 
-  TaskCreateRs copyWithWrapped({Wrapped<String>? taskId}) {
+  TaskCreateRs copyWithWrapped({Wrapped<int>? taskId}) {
     return TaskCreateRs(taskId: (taskId != null ? taskId.value : this.taskId));
   }
 }
@@ -725,7 +898,7 @@ class TaskGetRs {
   Map<String, dynamic> toJson() => _$TaskGetRsToJson(this);
 
   @JsonKey(name: 'id')
-  final String id;
+  final int id;
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'description')
@@ -810,7 +983,7 @@ class TaskGetRs {
 
 extension $TaskGetRsExtension on TaskGetRs {
   TaskGetRs copyWith(
-      {String? id,
+      {int? id,
       String? name,
       String? description,
       enums.TaskCategory? category,
@@ -836,7 +1009,7 @@ extension $TaskGetRsExtension on TaskGetRs {
   }
 
   TaskGetRs copyWithWrapped(
-      {Wrapped<String>? id,
+      {Wrapped<int>? id,
       Wrapped<String>? name,
       Wrapped<String>? description,
       Wrapped<enums.TaskCategory>? category,
@@ -888,7 +1061,7 @@ class TaskInfo {
   Map<String, dynamic> toJson() => _$TaskInfoToJson(this);
 
   @JsonKey(name: 'id')
-  final String id;
+  final int id;
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'description')
@@ -973,7 +1146,7 @@ class TaskInfo {
 
 extension $TaskInfoExtension on TaskInfo {
   TaskInfo copyWith(
-      {String? id,
+      {int? id,
       String? name,
       String? description,
       enums.TaskCategory? category,
@@ -999,7 +1172,7 @@ extension $TaskInfoExtension on TaskInfo {
   }
 
   TaskInfo copyWithWrapped(
-      {Wrapped<String>? id,
+      {Wrapped<int>? id,
       Wrapped<String>? name,
       Wrapped<String>? description,
       Wrapped<enums.TaskCategory>? category,
@@ -1034,6 +1207,7 @@ class TaskList {
     required this.id,
     required this.name,
     required this.description,
+    required this.duration,
   });
 
   factory TaskList.fromJson(Map<String, dynamic> json) =>
@@ -1043,11 +1217,13 @@ class TaskList {
   Map<String, dynamic> toJson() => _$TaskListToJson(this);
 
   @JsonKey(name: 'id')
-  final String id;
+  final int id;
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'description')
   final String description;
+  @JsonKey(name: 'duration')
+  final String duration;
   static const fromJsonFactory = _$TaskListFromJson;
 
   @override
@@ -1060,7 +1236,10 @@ class TaskList {
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
-                    .equals(other.description, description)));
+                    .equals(other.description, description)) &&
+            (identical(other.duration, duration) ||
+                const DeepCollectionEquality()
+                    .equals(other.duration, duration)));
   }
 
   @override
@@ -1071,26 +1250,31 @@ class TaskList {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(duration) ^
       runtimeType.hashCode;
 }
 
 extension $TaskListExtension on TaskList {
-  TaskList copyWith({String? id, String? name, String? description}) {
+  TaskList copyWith(
+      {int? id, String? name, String? description, String? duration}) {
     return TaskList(
         id: id ?? this.id,
         name: name ?? this.name,
-        description: description ?? this.description);
+        description: description ?? this.description,
+        duration: duration ?? this.duration);
   }
 
   TaskList copyWithWrapped(
-      {Wrapped<String>? id,
+      {Wrapped<int>? id,
       Wrapped<String>? name,
-      Wrapped<String>? description}) {
+      Wrapped<String>? description,
+      Wrapped<String>? duration}) {
     return TaskList(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name),
         description:
-            (description != null ? description.value : this.description));
+            (description != null ? description.value : this.description),
+        duration: (duration != null ? duration.value : this.duration));
   }
 }
 
@@ -1108,7 +1292,7 @@ class TaskListDate {
   Map<String, dynamic> toJson() => _$TaskListDateToJson(this);
 
   @JsonKey(name: 'id')
-  final String id;
+  final int id;
   @JsonKey(name: 'name')
   final String name;
   static const fromJsonFactory = _$TaskListDateFromJson;
@@ -1134,11 +1318,11 @@ class TaskListDate {
 }
 
 extension $TaskListDateExtension on TaskListDate {
-  TaskListDate copyWith({String? id, String? name}) {
+  TaskListDate copyWith({int? id, String? name}) {
     return TaskListDate(id: id ?? this.id, name: name ?? this.name);
   }
 
-  TaskListDate copyWithWrapped({Wrapped<String>? id, Wrapped<String>? name}) {
+  TaskListDate copyWithWrapped({Wrapped<int>? id, Wrapped<String>? name}) {
     return TaskListDate(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name));
@@ -1263,8 +1447,8 @@ class TaskToPlanRq {
 
   @JsonKey(name: 'date', toJson: _dateToJson)
   final DateTime date;
-  @JsonKey(name: 'tasks', defaultValue: <String>[])
-  final List<String> tasks;
+  @JsonKey(name: 'tasks', defaultValue: <int>[])
+  final List<int> tasks;
   static const fromJsonFactory = _$TaskToPlanRqFromJson;
 
   @override
@@ -1288,12 +1472,12 @@ class TaskToPlanRq {
 }
 
 extension $TaskToPlanRqExtension on TaskToPlanRq {
-  TaskToPlanRq copyWith({DateTime? date, List<String>? tasks}) {
+  TaskToPlanRq copyWith({DateTime? date, List<int>? tasks}) {
     return TaskToPlanRq(date: date ?? this.date, tasks: tasks ?? this.tasks);
   }
 
   TaskToPlanRq copyWithWrapped(
-      {Wrapped<DateTime>? date, Wrapped<List<String>>? tasks}) {
+      {Wrapped<DateTime>? date, Wrapped<List<int>>? tasks}) {
     return TaskToPlanRq(
         date: (date != null ? date.value : this.date),
         tasks: (tasks != null ? tasks.value : this.tasks));
