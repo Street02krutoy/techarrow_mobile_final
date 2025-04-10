@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:techarrow_mobile_final/screens/main/ui/tetris_page.dart';
 
 class MonthPage extends StatefulWidget {
   const MonthPage({super.key, required this.isCalendarOpened});
@@ -239,7 +240,12 @@ class _MonthPageState extends State<MonthPage> {
           width: MediaQuery.of(context).size.width / 5 * 3,
           child: OutlinedButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TetrisPage(
+                          start: 8, end: 20, rows: 10, tasks: [], mode: 0)));
             },
             style: ButtonStyle(
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(

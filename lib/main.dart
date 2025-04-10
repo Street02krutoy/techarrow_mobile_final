@@ -29,6 +29,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: initialRoute,
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent)),
       routes: ApplicationRouter().routes,
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) => const WelcomeScreen());

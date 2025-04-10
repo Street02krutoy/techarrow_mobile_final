@@ -28,7 +28,7 @@ class _DayPageState extends State<DayPage> {
     Task(7, "blue", "123123123", 0, 2, 1)
   ];
 
-  int rows = 7;
+  int rows = 10;
   int columns = 12;
   bool counter = false;
   int index = 0;
@@ -183,23 +183,6 @@ class _DayPageState extends State<DayPage> {
               painter: matrix,
             ),
           ),
-        ),
-        SizedBox(
-          height: height * 0.2,
-          width: width * 0.4,
-          child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TetrisPage(
-                            start: 8,
-                            end: 20,
-                            rows: 7,
-                            tasks: tasks,
-                            mode: 0)));
-              },
-              child: Text("заполнить")),
         )
       ]),
     );

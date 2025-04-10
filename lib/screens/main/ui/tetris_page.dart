@@ -78,6 +78,7 @@ class _TetrisPageState extends State<TetrisPage> {
       if (index == tasks.length) {
         print("cancel");
         timer.cancel();
+        Navigator.of(context).pop();
       } else {
         temp = tasks[index];
         counter = true;
