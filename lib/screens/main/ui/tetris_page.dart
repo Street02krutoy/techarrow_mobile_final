@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -204,13 +205,15 @@ class _TetrisPageState extends State<TetrisPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  onPressed: () => {moveLeftShape(matrix.matrix, n)},
+                  onPressed: () =>
+                      {counter ? moveLeftShape(matrix.matrix, n) : null},
                   icon: Icon(Icons.arrow_left, size: 100)),
               IconButton(
                   onPressed: () => {moveDownShape(matrix.matrix, n)},
                   icon: Icon(Icons.arrow_drop_down, size: 100)),
               IconButton(
-                  onPressed: () => {moveRightShape(matrix.matrix, n)},
+                  onPressed: () =>
+                      {counter ? moveRightShape(matrix.matrix, n) : null},
                   icon: Icon(
                     Icons.arrow_right,
                     size: 100,
