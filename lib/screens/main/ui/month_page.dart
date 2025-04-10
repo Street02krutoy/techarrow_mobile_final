@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:techarrow_mobile_final/api/api_service.dart';
 import 'package:techarrow_mobile_final/swagger_generated_api/swagger.swagger.dart';
@@ -58,8 +59,8 @@ class _MonthPageState extends State<MonthPage> {
 
   void fetch() {
     setState(() {
-      _future =
-          ApiService.api.apiTasksGetDataGet(data: _selectedDay.toString());
+      _future = ApiService.api.apiTasksGetDataGet(
+          data: DateFormat("yyyy.MM.dd").format(_selectedDay));
     });
   }
 
@@ -132,6 +133,7 @@ class _MonthPageState extends State<MonthPage> {
             ..add(FutureBuilder(
                 future: _future,
                 builder: (context, snapshot) {
+                  print(snapshot.error);
                   if (snapshot.hasData) {
                     var data = snapshot.data as TaskListDateRs;
                     var planned = data.plannedTasks;
@@ -166,7 +168,7 @@ class _MonthPageState extends State<MonthPage> {
                       ).toList(),
                     );
                   }
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }))
             ..add(
               Padding(
