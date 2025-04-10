@@ -48,6 +48,39 @@ abstract class Swagger extends ChopperService {
     return _$Swagger(newClient);
   }
 
+  ///Update Field
+  Future<chopper.Response<FieldAnswer>> apiFieldsUpdatePut(
+      {required FieldInput? body}) {
+    generatedMapping.putIfAbsent(
+        FieldAnswer, () => FieldAnswer.fromJsonFactory);
+
+    return _apiFieldsUpdatePut(body: body);
+  }
+
+  ///Update Field
+  @Put(
+    path: '/api/fields/update',
+    optionalBody: true,
+  )
+  Future<chopper.Response<FieldAnswer>> _apiFieldsUpdatePut(
+      {@Body() required FieldInput? body});
+
+  ///Get Field
+  ///@param date
+  Future<chopper.Response<FieldOutput>> apiFieldsGetDateGet(
+      {required String? date}) {
+    generatedMapping.putIfAbsent(
+        FieldOutput, () => FieldOutput.fromJsonFactory);
+
+    return _apiFieldsGetDateGet(date: date);
+  }
+
+  ///Get Field
+  ///@param date
+  @Get(path: '/api/fields/get/{date}')
+  Future<chopper.Response<FieldOutput>> _apiFieldsGetDateGet(
+      {@Path('date') required String? date});
+
   ///Ping
   Future<chopper.Response<HealthcheckPingRs>> apiPingGet() {
     generatedMapping.putIfAbsent(
@@ -192,6 +225,165 @@ abstract class Swagger extends ChopperService {
   @Get(path: '/api/tasks/get_by_id/{task_id}')
   Future<chopper.Response<TaskGetRs>> _apiTasksGetByIdTaskIdGet(
       {@Path('task_id') required String? taskId});
+}
+
+@JsonSerializable(explicitToJson: true)
+class FieldAnswer {
+  const FieldAnswer({
+    required this.status,
+  });
+
+  factory FieldAnswer.fromJson(Map<String, dynamic> json) =>
+      _$FieldAnswerFromJson(json);
+
+  static const toJsonFactory = _$FieldAnswerToJson;
+  Map<String, dynamic> toJson() => _$FieldAnswerToJson(this);
+
+  @JsonKey(name: 'status')
+  final String status;
+  static const fromJsonFactory = _$FieldAnswerFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FieldAnswer &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(status) ^ runtimeType.hashCode;
+}
+
+extension $FieldAnswerExtension on FieldAnswer {
+  FieldAnswer copyWith({String? status}) {
+    return FieldAnswer(status: status ?? this.status);
+  }
+
+  FieldAnswer copyWithWrapped({Wrapped<String>? status}) {
+    return FieldAnswer(status: (status != null ? status.value : this.status));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FieldInput {
+  const FieldInput({
+    required this.date,
+    required this.list,
+  });
+
+  factory FieldInput.fromJson(Map<String, dynamic> json) =>
+      _$FieldInputFromJson(json);
+
+  static const toJsonFactory = _$FieldInputToJson;
+  Map<String, dynamic> toJson() => _$FieldInputToJson(this);
+
+  @JsonKey(name: 'date', toJson: _dateToJson)
+  final DateTime date;
+  @JsonKey(name: 'list', defaultValue: <List<String?>>[])
+  final List<List<String?>> list;
+  static const fromJsonFactory = _$FieldInputFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FieldInput &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.list, list) ||
+                const DeepCollectionEquality().equals(other.list, list)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(list) ^
+      runtimeType.hashCode;
+}
+
+extension $FieldInputExtension on FieldInput {
+  FieldInput copyWith({DateTime? date, List<List<String?>>? list}) {
+    return FieldInput(date: date ?? this.date, list: list ?? this.list);
+  }
+
+  FieldInput copyWithWrapped(
+      {Wrapped<DateTime>? date, Wrapped<List<List<String?>>>? list}) {
+    return FieldInput(
+        date: (date != null ? date.value : this.date),
+        list: (list != null ? list.value : this.list));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FieldOutput {
+  const FieldOutput({
+    required this.date,
+    required this.matrix,
+    required this.info,
+  });
+
+  factory FieldOutput.fromJson(Map<String, dynamic> json) =>
+      _$FieldOutputFromJson(json);
+
+  static const toJsonFactory = _$FieldOutputToJson;
+  Map<String, dynamic> toJson() => _$FieldOutputToJson(this);
+
+  @JsonKey(name: 'date', toJson: _dateToJson)
+  final DateTime date;
+  @JsonKey(name: 'matrix', defaultValue: <List<String?>>[])
+  final List<List<String?>> matrix;
+  @JsonKey(name: 'info', defaultValue: <TaskInfo>[])
+  final List<TaskInfo> info;
+  static const fromJsonFactory = _$FieldOutputFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FieldOutput &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.matrix, matrix) ||
+                const DeepCollectionEquality().equals(other.matrix, matrix)) &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(matrix) ^
+      const DeepCollectionEquality().hash(info) ^
+      runtimeType.hashCode;
+}
+
+extension $FieldOutputExtension on FieldOutput {
+  FieldOutput copyWith(
+      {DateTime? date, List<List<String?>>? matrix, List<TaskInfo>? info}) {
+    return FieldOutput(
+        date: date ?? this.date,
+        matrix: matrix ?? this.matrix,
+        info: info ?? this.info);
+  }
+
+  FieldOutput copyWithWrapped(
+      {Wrapped<DateTime>? date,
+      Wrapped<List<List<String?>>>? matrix,
+      Wrapped<List<TaskInfo>>? info}) {
+    return FieldOutput(
+        date: (date != null ? date.value : this.date),
+        matrix: (matrix != null ? matrix.value : this.matrix),
+        info: (info != null ? info.value : this.info));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -522,6 +714,8 @@ class TaskGetRs {
     required this.isMulti,
     required this.multiId,
     required this.multiColor,
+    required this.multiName,
+    required this.multiDescription,
   });
 
   factory TaskGetRs.fromJson(Map<String, dynamic> json) =>
@@ -552,6 +746,10 @@ class TaskGetRs {
   final dynamic multiId;
   @JsonKey(name: 'multi_color')
   final dynamic multiColor;
+  @JsonKey(name: 'multi_name')
+  final dynamic multiName;
+  @JsonKey(name: 'multi_description')
+  final dynamic multiDescription;
   static const fromJsonFactory = _$TaskGetRsFromJson;
 
   @override
@@ -582,7 +780,13 @@ class TaskGetRs {
                     .equals(other.multiId, multiId)) &&
             (identical(other.multiColor, multiColor) ||
                 const DeepCollectionEquality()
-                    .equals(other.multiColor, multiColor)));
+                    .equals(other.multiColor, multiColor)) &&
+            (identical(other.multiName, multiName) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiName, multiName)) &&
+            (identical(other.multiDescription, multiDescription) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiDescription, multiDescription)));
   }
 
   @override
@@ -599,6 +803,8 @@ class TaskGetRs {
       const DeepCollectionEquality().hash(isMulti) ^
       const DeepCollectionEquality().hash(multiId) ^
       const DeepCollectionEquality().hash(multiColor) ^
+      const DeepCollectionEquality().hash(multiName) ^
+      const DeepCollectionEquality().hash(multiDescription) ^
       runtimeType.hashCode;
 }
 
@@ -612,7 +818,9 @@ extension $TaskGetRsExtension on TaskGetRs {
       bool? importance,
       bool? isMulti,
       dynamic multiId,
-      dynamic multiColor}) {
+      dynamic multiColor,
+      dynamic multiName,
+      dynamic multiDescription}) {
     return TaskGetRs(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -622,7 +830,9 @@ extension $TaskGetRsExtension on TaskGetRs {
         importance: importance ?? this.importance,
         isMulti: isMulti ?? this.isMulti,
         multiId: multiId ?? this.multiId,
-        multiColor: multiColor ?? this.multiColor);
+        multiColor: multiColor ?? this.multiColor,
+        multiName: multiName ?? this.multiName,
+        multiDescription: multiDescription ?? this.multiDescription);
   }
 
   TaskGetRs copyWithWrapped(
@@ -634,7 +844,9 @@ extension $TaskGetRsExtension on TaskGetRs {
       Wrapped<bool>? importance,
       Wrapped<bool>? isMulti,
       Wrapped<dynamic>? multiId,
-      Wrapped<dynamic>? multiColor}) {
+      Wrapped<dynamic>? multiColor,
+      Wrapped<dynamic>? multiName,
+      Wrapped<dynamic>? multiDescription}) {
     return TaskGetRs(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name),
@@ -645,7 +857,174 @@ extension $TaskGetRsExtension on TaskGetRs {
         importance: (importance != null ? importance.value : this.importance),
         isMulti: (isMulti != null ? isMulti.value : this.isMulti),
         multiId: (multiId != null ? multiId.value : this.multiId),
-        multiColor: (multiColor != null ? multiColor.value : this.multiColor));
+        multiColor: (multiColor != null ? multiColor.value : this.multiColor),
+        multiName: (multiName != null ? multiName.value : this.multiName),
+        multiDescription: (multiDescription != null
+            ? multiDescription.value
+            : this.multiDescription));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TaskInfo {
+  const TaskInfo({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.category,
+    required this.duration,
+    required this.importance,
+    required this.isMulti,
+    required this.multiId,
+    required this.multiColor,
+    required this.multiName,
+    required this.multiDescription,
+  });
+
+  factory TaskInfo.fromJson(Map<String, dynamic> json) =>
+      _$TaskInfoFromJson(json);
+
+  static const toJsonFactory = _$TaskInfoToJson;
+  Map<String, dynamic> toJson() => _$TaskInfoToJson(this);
+
+  @JsonKey(name: 'id')
+  final String id;
+  @JsonKey(name: 'name')
+  final String name;
+  @JsonKey(name: 'description')
+  final String description;
+  @JsonKey(
+    name: 'category',
+    toJson: taskCategoryToJson,
+    fromJson: taskCategoryFromJson,
+  )
+  final enums.TaskCategory category;
+  @JsonKey(name: 'duration')
+  final String duration;
+  @JsonKey(name: 'importance')
+  final bool importance;
+  @JsonKey(name: 'is_multi')
+  final bool isMulti;
+  @JsonKey(name: 'multi_id')
+  final dynamic multiId;
+  @JsonKey(name: 'multi_color')
+  final dynamic multiColor;
+  @JsonKey(name: 'multi_name')
+  final dynamic multiName;
+  @JsonKey(name: 'multi_description')
+  final dynamic multiDescription;
+  static const fromJsonFactory = _$TaskInfoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TaskInfo &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.category, category) ||
+                const DeepCollectionEquality()
+                    .equals(other.category, category)) &&
+            (identical(other.duration, duration) ||
+                const DeepCollectionEquality()
+                    .equals(other.duration, duration)) &&
+            (identical(other.importance, importance) ||
+                const DeepCollectionEquality()
+                    .equals(other.importance, importance)) &&
+            (identical(other.isMulti, isMulti) ||
+                const DeepCollectionEquality()
+                    .equals(other.isMulti, isMulti)) &&
+            (identical(other.multiId, multiId) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiId, multiId)) &&
+            (identical(other.multiColor, multiColor) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiColor, multiColor)) &&
+            (identical(other.multiName, multiName) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiName, multiName)) &&
+            (identical(other.multiDescription, multiDescription) ||
+                const DeepCollectionEquality()
+                    .equals(other.multiDescription, multiDescription)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(category) ^
+      const DeepCollectionEquality().hash(duration) ^
+      const DeepCollectionEquality().hash(importance) ^
+      const DeepCollectionEquality().hash(isMulti) ^
+      const DeepCollectionEquality().hash(multiId) ^
+      const DeepCollectionEquality().hash(multiColor) ^
+      const DeepCollectionEquality().hash(multiName) ^
+      const DeepCollectionEquality().hash(multiDescription) ^
+      runtimeType.hashCode;
+}
+
+extension $TaskInfoExtension on TaskInfo {
+  TaskInfo copyWith(
+      {String? id,
+      String? name,
+      String? description,
+      enums.TaskCategory? category,
+      String? duration,
+      bool? importance,
+      bool? isMulti,
+      dynamic multiId,
+      dynamic multiColor,
+      dynamic multiName,
+      dynamic multiDescription}) {
+    return TaskInfo(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        category: category ?? this.category,
+        duration: duration ?? this.duration,
+        importance: importance ?? this.importance,
+        isMulti: isMulti ?? this.isMulti,
+        multiId: multiId ?? this.multiId,
+        multiColor: multiColor ?? this.multiColor,
+        multiName: multiName ?? this.multiName,
+        multiDescription: multiDescription ?? this.multiDescription);
+  }
+
+  TaskInfo copyWithWrapped(
+      {Wrapped<String>? id,
+      Wrapped<String>? name,
+      Wrapped<String>? description,
+      Wrapped<enums.TaskCategory>? category,
+      Wrapped<String>? duration,
+      Wrapped<bool>? importance,
+      Wrapped<bool>? isMulti,
+      Wrapped<dynamic>? multiId,
+      Wrapped<dynamic>? multiColor,
+      Wrapped<dynamic>? multiName,
+      Wrapped<dynamic>? multiDescription}) {
+    return TaskInfo(
+        id: (id != null ? id.value : this.id),
+        name: (name != null ? name.value : this.name),
+        description:
+            (description != null ? description.value : this.description),
+        category: (category != null ? category.value : this.category),
+        duration: (duration != null ? duration.value : this.duration),
+        importance: (importance != null ? importance.value : this.importance),
+        isMulti: (isMulti != null ? isMulti.value : this.isMulti),
+        multiId: (multiId != null ? multiId.value : this.multiId),
+        multiColor: (multiColor != null ? multiColor.value : this.multiColor),
+        multiName: (multiName != null ? multiName.value : this.multiName),
+        multiDescription: (multiDescription != null
+            ? multiDescription.value
+            : this.multiDescription));
   }
 }
 

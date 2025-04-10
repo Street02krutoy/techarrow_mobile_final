@@ -1,4 +1,3 @@
-// dart format width=80
 //Generated code
 
 part of 'swagger.swagger.dart';
@@ -17,6 +16,31 @@ final class _$Swagger extends Swagger {
 
   @override
   final Type definitionType = Swagger;
+
+  @override
+  Future<Response<FieldAnswer>> _apiFieldsUpdatePut(
+      {required FieldInput? body}) {
+    final Uri $url = Uri.parse('/api/fields/update');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<FieldAnswer, FieldAnswer>($request);
+  }
+
+  @override
+  Future<Response<FieldOutput>> _apiFieldsGetDateGet({required String? date}) {
+    final Uri $url = Uri.parse('/api/fields/get/${date}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<FieldOutput, FieldOutput>($request);
+  }
 
   @override
   Future<Response<HealthcheckPingRs>> _apiPingGet() {

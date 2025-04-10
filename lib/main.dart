@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:techarrow_mobile_final/api/test.dart';
 import 'package:techarrow_mobile_final/router/router.dart';
 import 'package:techarrow_mobile_final/screens/welcome/screen.dart';
 
@@ -35,6 +36,7 @@ class MainApp extends StatelessWidget {
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) => const WelcomeScreen());
       },
+      // home: TestScreen(),
     );
   }
 }

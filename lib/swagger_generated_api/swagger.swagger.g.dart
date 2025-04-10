@@ -6,6 +6,50 @@ part of 'swagger.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+FieldAnswer _$FieldAnswerFromJson(Map<String, dynamic> json) => FieldAnswer(
+      status: json['status'] as String,
+    );
+
+Map<String, dynamic> _$FieldAnswerToJson(FieldAnswer instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+    };
+
+FieldInput _$FieldInputFromJson(Map<String, dynamic> json) => FieldInput(
+      date: DateTime.parse(json['date'] as String),
+      list: (json['list'] as List<dynamic>?)
+              ?.map(
+                  (e) => (e as List<dynamic>).map((e) => e as String?).toList())
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$FieldInputToJson(FieldInput instance) =>
+    <String, dynamic>{
+      'date': _dateToJson(instance.date),
+      'list': instance.list,
+    };
+
+FieldOutput _$FieldOutputFromJson(Map<String, dynamic> json) => FieldOutput(
+      date: DateTime.parse(json['date'] as String),
+      matrix: (json['matrix'] as List<dynamic>?)
+              ?.map(
+                  (e) => (e as List<dynamic>).map((e) => e as String?).toList())
+              .toList() ??
+          [],
+      info: (json['info'] as List<dynamic>?)
+              ?.map((e) => TaskInfo.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$FieldOutputToJson(FieldOutput instance) =>
+    <String, dynamic>{
+      'date': _dateToJson(instance.date),
+      'matrix': instance.matrix,
+      'info': instance.info.map((e) => e.toJson()).toList(),
+    };
+
 HTTPValidationError _$HTTPValidationErrorFromJson(Map<String, dynamic> json) =>
     HTTPValidationError(
       detail: (json['detail'] as List<dynamic>?)
@@ -85,6 +129,8 @@ TaskGetRs _$TaskGetRsFromJson(Map<String, dynamic> json) => TaskGetRs(
       isMulti: json['is_multi'] as bool,
       multiId: json['multi_id'],
       multiColor: json['multi_color'],
+      multiName: json['multi_name'],
+      multiDescription: json['multi_description'],
     );
 
 Map<String, dynamic> _$TaskGetRsToJson(TaskGetRs instance) => <String, dynamic>{
@@ -97,6 +143,36 @@ Map<String, dynamic> _$TaskGetRsToJson(TaskGetRs instance) => <String, dynamic>{
       'is_multi': instance.isMulti,
       'multi_id': instance.multiId,
       'multi_color': instance.multiColor,
+      'multi_name': instance.multiName,
+      'multi_description': instance.multiDescription,
+    };
+
+TaskInfo _$TaskInfoFromJson(Map<String, dynamic> json) => TaskInfo(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      category: taskCategoryFromJson(json['category']),
+      duration: json['duration'] as String,
+      importance: json['importance'] as bool,
+      isMulti: json['is_multi'] as bool,
+      multiId: json['multi_id'],
+      multiColor: json['multi_color'],
+      multiName: json['multi_name'],
+      multiDescription: json['multi_description'],
+    );
+
+Map<String, dynamic> _$TaskInfoToJson(TaskInfo instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'category': taskCategoryToJson(instance.category),
+      'duration': instance.duration,
+      'importance': instance.importance,
+      'is_multi': instance.isMulti,
+      'multi_id': instance.multiId,
+      'multi_color': instance.multiColor,
+      'multi_name': instance.multiName,
+      'multi_description': instance.multiDescription,
     };
 
 TaskList _$TaskListFromJson(Map<String, dynamic> json) => TaskList(

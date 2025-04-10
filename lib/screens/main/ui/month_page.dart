@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +56,7 @@ class _MonthPageState extends State<MonthPage> {
   static DateTime _selectedDay = DateTime.now();
   final CalendarFormat _calendarFormat = CalendarFormat.month;
 
-  Future? _future;
+  Future<Response<TaskListDateRs>>? _future;
 
   void fetch() {
     setState(() {
@@ -135,7 +136,10 @@ class _MonthPageState extends State<MonthPage> {
                 builder: (context, snapshot) {
                   print(snapshot.error);
                   if (snapshot.hasData) {
-                    var data = snapshot.data as TaskListDateRs;
+                    if (snapshot.data?.body == null) {
+                      return Container();
+                    }
+                    var data = snapshot.data!.body!;
                     var planned = data.plannedTasks;
                     var completed = data.completedTasks;
                     var tasks = [...planned, ...completed];
