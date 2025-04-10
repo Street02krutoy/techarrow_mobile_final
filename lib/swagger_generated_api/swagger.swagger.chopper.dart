@@ -18,6 +18,31 @@ final class _$Swagger extends Swagger {
   final Type definitionType = Swagger;
 
   @override
+  Future<Response<AdviceCreateRs>> _apiAdviceCreatePost(
+      {required AdviceCreateRq? body}) {
+    final Uri $url = Uri.parse('/api/advice/create');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<AdviceCreateRs, AdviceCreateRs>($request);
+  }
+
+  @override
+  Future<Response<AdviceGetRs>> _apiAdviceGetGet() {
+    final Uri $url = Uri.parse('/api/advice/get');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<AdviceGetRs, AdviceGetRs>($request);
+  }
+
+  @override
   Future<Response<FieldAnswer>> _apiFieldsUpdatePut(
       {required FieldInput? body}) {
     final Uri $url = Uri.parse('/api/fields/update');
@@ -95,7 +120,7 @@ final class _$Swagger extends Swagger {
 
   @override
   Future<Response<TaskToPlanRs>> _apiTasksToCompletedTaskIdPut(
-      {required String? taskId}) {
+      {required int? taskId}) {
     final Uri $url = Uri.parse('/api/tasks/to_completed/${taskId}');
     final Request $request = Request(
       'PUT',
@@ -107,7 +132,7 @@ final class _$Swagger extends Swagger {
 
   @override
   Future<Response<TaskToPlanRs>> _apiTasksDeleteTaskIdDelete(
-      {required String? taskId}) {
+      {required int? taskId}) {
     final Uri $url = Uri.parse('/api/tasks/delete/${taskId}');
     final Request $request = Request(
       'DELETE',
@@ -152,7 +177,7 @@ final class _$Swagger extends Swagger {
 
   @override
   Future<Response<TaskGetRs>> _apiTasksGetByIdTaskIdGet(
-      {required String? taskId}) {
+      {required int? taskId}) {
     final Uri $url = Uri.parse('/api/tasks/get_by_id/${taskId}');
     final Request $request = Request(
       'GET',

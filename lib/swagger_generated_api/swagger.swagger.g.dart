@@ -6,6 +6,45 @@ part of 'swagger.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AdviceCreateRq _$AdviceCreateRqFromJson(Map<String, dynamic> json) =>
+    AdviceCreateRq(
+      ids: (json['ids'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$AdviceCreateRqToJson(AdviceCreateRq instance) =>
+    <String, dynamic>{
+      'ids': instance.ids,
+    };
+
+AdviceCreateRs _$AdviceCreateRsFromJson(Map<String, dynamic> json) =>
+    AdviceCreateRs(
+      id: (json['id'] as num).toInt(),
+      text: json['text'] as String,
+      color: json['color'] as String,
+    );
+
+Map<String, dynamic> _$AdviceCreateRsToJson(AdviceCreateRs instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'text': instance.text,
+      'color': instance.color,
+    };
+
+AdviceGetRs _$AdviceGetRsFromJson(Map<String, dynamic> json) => AdviceGetRs(
+      advice: (json['advice'] as List<dynamic>?)
+              ?.map((e) => AdviceCreateRs.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$AdviceGetRsToJson(AdviceGetRs instance) =>
+    <String, dynamic>{
+      'advice': instance.advice.map((e) => e.toJson()).toList(),
+    };
+
 FieldAnswer _$FieldAnswerFromJson(Map<String, dynamic> json) => FieldAnswer(
       status: json['status'] as String,
     );
@@ -18,8 +57,9 @@ Map<String, dynamic> _$FieldAnswerToJson(FieldAnswer instance) =>
 FieldInput _$FieldInputFromJson(Map<String, dynamic> json) => FieldInput(
       date: DateTime.parse(json['date'] as String),
       list: (json['list'] as List<dynamic>?)
-              ?.map(
-                  (e) => (e as List<dynamic>).map((e) => e as String?).toList())
+              ?.map((e) => (e as List<dynamic>)
+                  .map((e) => (e as num?)?.toInt())
+                  .toList())
               .toList() ??
           [],
     );
@@ -33,8 +73,9 @@ Map<String, dynamic> _$FieldInputToJson(FieldInput instance) =>
 FieldOutput _$FieldOutputFromJson(Map<String, dynamic> json) => FieldOutput(
       date: DateTime.parse(json['date'] as String),
       matrix: (json['matrix'] as List<dynamic>?)
-              ?.map(
-                  (e) => (e as List<dynamic>).map((e) => e as String?).toList())
+              ?.map((e) => (e as List<dynamic>)
+                  .map((e) => (e as num?)?.toInt())
+                  .toList())
               .toList() ??
           [],
       info: (json['info'] as List<dynamic>?)
@@ -111,7 +152,7 @@ Map<String, dynamic> _$TaskCreateRqToJson(TaskCreateRq instance) =>
     };
 
 TaskCreateRs _$TaskCreateRsFromJson(Map<String, dynamic> json) => TaskCreateRs(
-      taskId: json['task_id'] as String,
+      taskId: (json['task_id'] as num).toInt(),
     );
 
 Map<String, dynamic> _$TaskCreateRsToJson(TaskCreateRs instance) =>
@@ -120,7 +161,7 @@ Map<String, dynamic> _$TaskCreateRsToJson(TaskCreateRs instance) =>
     };
 
 TaskGetRs _$TaskGetRsFromJson(Map<String, dynamic> json) => TaskGetRs(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       description: json['description'] as String,
       category: taskCategoryFromJson(json['category']),
@@ -148,7 +189,7 @@ Map<String, dynamic> _$TaskGetRsToJson(TaskGetRs instance) => <String, dynamic>{
     };
 
 TaskInfo _$TaskInfoFromJson(Map<String, dynamic> json) => TaskInfo(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       description: json['description'] as String,
       category: taskCategoryFromJson(json['category']),
@@ -176,19 +217,21 @@ Map<String, dynamic> _$TaskInfoToJson(TaskInfo instance) => <String, dynamic>{
     };
 
 TaskList _$TaskListFromJson(Map<String, dynamic> json) => TaskList(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       description: json['description'] as String,
+      duration: json['duration'] as String,
     );
 
 Map<String, dynamic> _$TaskListToJson(TaskList instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
+      'duration': instance.duration,
     };
 
 TaskListDate _$TaskListDateFromJson(Map<String, dynamic> json) => TaskListDate(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
     );
 
@@ -231,9 +274,10 @@ Map<String, dynamic> _$TaskListRsToJson(TaskListRs instance) =>
 
 TaskToPlanRq _$TaskToPlanRqFromJson(Map<String, dynamic> json) => TaskToPlanRq(
       date: DateTime.parse(json['date'] as String),
-      tasks:
-          (json['tasks'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              [],
+      tasks: (json['tasks'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$TaskToPlanRqToJson(TaskToPlanRq instance) =>

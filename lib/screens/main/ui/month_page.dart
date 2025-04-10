@@ -6,7 +6,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:techarrow_mobile_final/api/api_service.dart';
+import 'package:techarrow_mobile_final/screens/main/ui/tetris_page.dart';
 import 'package:techarrow_mobile_final/swagger_generated_api/swagger.swagger.dart';
+import 'package:techarrow_mobile_final/utils/task.dart';
 
 class MonthPage extends StatefulWidget {
   const MonthPage({super.key, required this.isCalendarOpened});
@@ -44,12 +46,13 @@ class _MonthPageState extends State<MonthPage> {
   final CalendarFormat _calendarFormat = CalendarFormat.month;
 
   Future<Response<TaskListDateRs>>? _future;
+  Future<List<Task>>? _future2;
 
   void fetch() {
     setState(() {
       _future = ApiService.api.apiTasksGetDataGet(
           data: DateFormat("yyyy.MM.dd").format(_selectedDay));
-      tasks = ApiService.api.apiTasksGetUnplannedGet();
+      _future2 = ApiService.getUnplannedTasks();
     });
   }
 
@@ -216,74 +219,98 @@ class _MonthPageState extends State<MonthPage> {
     );
   }
 
-  Widget _taskSelectDialog(BuildContext context) {
-    return FutureBuilder(
-        future: tasks,
-        builder: (context, snapshot) {
-          print(snapshot.data);
-          if (!snapshot.hasData) {
-            return AlertDialog(
-              title: Text("Загрузка..."),
-              content: Center(child: CircularProgressIndicator()),
-            );
-          }
-          var tasks = snapshot.data!.body!.tasks;
-          return AlertDialog(
-            title: Text(
-              "Новые задачи на ${_selectedDay.day.toString().padLeft(2, "0")}.${(_selectedDay.month).toString().padLeft(2, "0")}.${_selectedDay.year}",
-              style: TextStyle(
-                fontSize: 22,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            content: SizedBox(
-              width: MediaQuery.of(context).size.width / 5 * 4,
-              height: min(tasks.length * 40,
-                  MediaQuery.of(context).size.height / 5 * 3),
-              child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (BuildContext context, int index) => ListTile(
-                  onTap: () {},
-                  leading: Checkbox(
-                    value: flag,
-                    onChanged: (value) {},
-                  ),
-                  title: Text(
-                    tasks[index].name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-            actionsPadding: EdgeInsets.only(
-              bottom: 10,
-            ),
-            actionsAlignment: MainAxisAlignment.center,
-            actions: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 5 * 3,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: ButtonStyle(
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+  AlertDialog _taskSelectDialog(BuildContext context) {
+    List? tasks;
+    List? checks;
+
+    return AlertDialog(
+      title: Text(
+        "Новые задачи на ${_selectedDay.day.toString().padLeft(2, "0")}.${(_selectedDay.month).toString().padLeft(2, "0")}.${_selectedDay.year}",
+        style: TextStyle(
+          fontSize: 22,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: FutureBuilder(
+          future: _future2,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              tasks = snapshot.data!;
+              checks = List.generate(tasks!.length, (index) => false);
+              return StatefulBuilder(builder: (context, setState) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width / 5 * 4,
+                  height: min(tasks!.length * 60,
+                      MediaQuery.of(context).size.height / 5 * 3),
+                  child: ListView.builder(
+                    itemCount: tasks!.length,
+                    itemBuilder: (BuildContext context, int index) => ListTile(
+                      onTap: () {
+                        setState(() {
+                          checks![index] = !checks![index];
+                        });
+                      },
+                      leading: Checkbox(
+                        key: ValueKey(tasks![index].id),
+                        value: checks![index],
+                        onChanged: (value) {
+                          setState(() {
+                            checks![index] = !checks![index];
+                          });
+                        },
+                      ),
+                      title: Text(
+                        tasks![index].title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
-                  child: Text(
-                    "OK",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
+                );
+              });
+            }
+            return Center(child: CircularProgressIndicator());
+          }),
+      actionsPadding: EdgeInsets.only(
+        bottom: 10,
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 5 * 3,
+          child: OutlinedButton(
+            onPressed: () {
+              if (tasks == null || (tasks?.isEmpty ?? false)) return;
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TetrisPage(
+                      start: 8,
+                      end: 20,
+                      rows: 10,
+                      tasks: tasks!
+                          .where((e) => checks![tasks!.indexOf(e)])
+                          .toList() as List<Task>,
+                      mode: 0,
+                      date: _selectedDay),
                 ),
-              )
-            ],
-          );
-        });
+              );
+            },
+            style: ButtonStyle(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            child: Text(
+              "OK",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

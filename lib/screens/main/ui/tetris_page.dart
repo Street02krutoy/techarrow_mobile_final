@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:techarrow_mobile_final/api/api_service.dart';
 import 'package:techarrow_mobile_final/utils/matrix.dart';
 import 'package:techarrow_mobile_final/utils/matrixTools.dart';
 import 'package:techarrow_mobile_final/utils/task.dart';
@@ -16,27 +17,23 @@ class TetrisPage extends StatefulWidget {
       required this.end,
       required this.rows,
       required this.tasks,
-      required this.mode}); // 0 - day, 1 - week, 2 - month
+      required this.mode,
+      required this.date}); // 0 - day, 1 - week, 2 - month
 
   final int start;
   final int end;
   final int rows;
   final List<Task> tasks;
   final int mode;
+  final DateTime date;
 
   @override
   State<TetrisPage> createState() => _TetrisPageState();
 }
 
 class _TetrisPageState extends State<TetrisPage> {
-  List<Task> tasks = [
-    Task(2, "red", "awd", 0, 2, 0),
-    Task(3, "green", "awawdawdd", 0, 2, 2),
-    Task(4, "blue", "123123123", 0, 2, 1),
-    Task(5, "red", "awd", 0, 2, 0),
-    Task(6, "green", "awawdawdd", 0, 2, 2),
-    Task(7, "blue", "123123123", 0, 2, 1)
-  ];
+  late List<Task> tasks = widget.tasks;
+  List<int> hours = [];
 
   late int rows = widget.rows;
   late int columns = widget.end - widget.start;
@@ -73,11 +70,26 @@ class _TetrisPageState extends State<TetrisPage> {
     super.dispose();
   }
 
+  int getHour(int id) {
+    for (List<Cell> row in matrix.matrix) {
+      for (Cell j in row) {
+        if (j.number == id) return row.indexOf(j) + widget.start;
+      }
+    }
+    return widget.start;
+  }
+
   void update(Timer timer) {
     if (!counter) {
       if (index == tasks.length) {
         print("cancel");
         timer.cancel();
+        for (int i = 0; i < tasks.length; i++) {
+          ApiService.postTasksToPlanned(
+              widget.date.add(Duration(hours: hours[i])), [tasks[i]]);
+        }
+        ApiService.postMatrix(matrix, widget.date);
+
         Navigator.of(context).pop();
       } else {
         temp = tasks[index];
@@ -85,6 +97,8 @@ class _TetrisPageState extends State<TetrisPage> {
         index++;
 
         n += 1;
+        print(n);
+        print(temp.len);
         addShape(matrix.matrix, temp.len, colors[temp.colorId], n,
             isVertical: matrix.isWeek);
       }
@@ -93,8 +107,11 @@ class _TetrisPageState extends State<TetrisPage> {
       freeze(matrix.matrix, n);
       freezed = false;
       counter = false;
+      hours.add(getHour(n));
     } else if (!moveDownShape(matrix.matrix, n)) {
       counter = false;
+      hours.add(getHour(n));
+
       if (isFilledLine(matrix.matrix, alreadyFilledLines)) {
         Fluttertoast.showToast(
             msg: "совет",
@@ -113,6 +130,7 @@ class _TetrisPageState extends State<TetrisPage> {
 
   @override
   void initState() {
+    print(tasks);
     matrix.setMatrix(createEmpty(rows, columns));
     matrix.start = widget.start;
     matrix.end = widget.end;

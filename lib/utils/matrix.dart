@@ -46,7 +46,7 @@ class Matrix extends CustomPainter {
           textPainter.layout();
           textPainter.paint(canvas, Offset(-kx / 2, y * ky - ky / 4));
 
-          for (int x = 0; x <= end - start - 1; x++) {
+          for (int x = 0; x <= 12; x++) {
             TextPainter textPainter = TextPainter(
               text: TextSpan(
                 text: (week[x]).toString(),
@@ -66,7 +66,7 @@ class Matrix extends CustomPainter {
           }
         }
       } else {
-        for (int x = 0; x <= end - start; x++) {
+        for (int x = 0; x < 12; x++) {
           TextPainter textPainter = TextPainter(
             text: TextSpan(
               text: (start + x).toString(),

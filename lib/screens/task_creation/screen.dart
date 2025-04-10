@@ -307,7 +307,7 @@ class _TaskCreationScreenState extends State<TaskCreationScreen> {
                         );
 
                         Navigator.of(context).pop();
-                        Fluttertoast.showToast(msg: "депай");
+                        Fluttertoast.showToast(msg: "Задача успешно добавлена");
                       },
                       child: Text(
                         "Создать задачу!",

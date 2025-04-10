@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:techarrow_mobile_final/screens/main/ui/tetris_page.dart';
 import 'package:techarrow_mobile_final/utils/matrix.dart';
 import 'package:techarrow_mobile_final/utils/matrixTools.dart';
 import 'package:techarrow_mobile_final/utils/task.dart';
@@ -20,16 +19,58 @@ class DayPage extends StatefulWidget {
 
 class _DayPageState extends State<DayPage> {
   List<Task> tasks = [
-    Task(2, "red", "awd", 0, 2, 0),
-    Task(3, "green", "awawdawdd", 0, 2, 2),
-    Task(4, "blue", "123123123", 0, 2, 1),
-    Task(5, "red", "awd", 0, 2, 0),
-    Task(6, "green", "awawdawdd", 0, 2, 2),
-    Task(7, "blue", "123123123", 0, 2, 1)
+    Task(
+      2,
+      "red",
+      "awd",
+      0,
+      2,
+      0,
+    ),
+    Task(
+      3,
+      "green",
+      "awawdawdd",
+      0,
+      2,
+      2,
+    ),
+    Task(
+      4,
+      "blue",
+      "123123123",
+      0,
+      2,
+      1,
+    ),
+    Task(
+      5,
+      "red",
+      "awd",
+      0,
+      2,
+      0,
+    ),
+    Task(
+      6,
+      "green",
+      "awawdawdd",
+      0,
+      2,
+      2,
+    ),
+    Task(
+      7,
+      "blue",
+      "123123123",
+      0,
+      2,
+      1,
+    )
   ];
 
   int rows = 10;
-  int columns = 12;
+  int columns = 10;
   bool counter = false;
   int index = 0;
   late Task temp;
@@ -86,7 +127,8 @@ class _DayPageState extends State<DayPage> {
       counter = false;
       if (isFilledLine(matrix.matrix, alreadyFilledLines)) {
         Fluttertoast.showToast(
-            msg: "совет",
+            msg:
+                "Установите четкие временные рамки для задач: Определите, сколько времени вы потратите на каждую задачу, и придерживайтесь этого времени. Это поможет избежать прокрастинации.",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -102,7 +144,7 @@ class _DayPageState extends State<DayPage> {
 
   @override
   void initState() {
-    matrix.setMatrix(createEmpty(rows, columns));
+    matrix.setMatrix(createEmpty(columns, rows));
     super.initState();
   }
 
@@ -111,8 +153,6 @@ class _DayPageState extends State<DayPage> {
     double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
     Task task;
-
-    matrix.isReadOnly = true;
 
     return Center(
       child: Column(children: [
@@ -183,7 +223,51 @@ class _DayPageState extends State<DayPage> {
               painter: matrix,
             ),
           ),
-        )
+        ),
+        if (timer?.isActive == true)
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () => {moveLeftShape(matrix.matrix, n)},
+                    icon: Icon(Icons.arrow_left, size: 100)),
+                IconButton(
+                    onPressed: () => {moveDownShape(matrix.matrix, n)},
+                    icon: Icon(Icons.arrow_drop_down, size: 100)),
+                IconButton(
+                    onPressed: () => {moveRightShape(matrix.matrix, n)},
+                    icon: Icon(
+                      Icons.arrow_right,
+                      size: 100,
+                    )),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              IconButton(
+                  onPressed: () => {freezed = true},
+                  icon: Icon(Icons.stop_circle, size: 50)),
+            ])
+          ])
+        else
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GestureDetector(
+              onTap: () => {startTimer(tasks)},
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.green,
+                ),
+                child: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              ),
+            ),
+          )
       ]),
     );
   }
