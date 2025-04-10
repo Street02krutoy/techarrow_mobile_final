@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:techarrow_mobile_final/api/api_service.dart';
 
 class PomodoroScreenFeatures {
   String formatDuration(Duration duration) {
@@ -44,5 +45,7 @@ class PomodoroScreenFeatures {
     return 3;
   }
 
-  Future<void> markTaskAsCompleted(String taskId) async {}
+  Future<void> markTaskAsCompleted(String taskId) async {
+    await ApiService.api.apiTasksToCompletedTaskIdPut(taskId: taskId);
+  }
 }

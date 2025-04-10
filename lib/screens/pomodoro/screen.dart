@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:techarrow_mobile_final/screens/pomodoro/features.dart';
 
 class PomodoroScreen extends StatefulWidget {
@@ -182,7 +183,13 @@ class _PomodoroScreenState extends State<PomodoroScreen>
                           onPressed: () {
                             setState(() {
                               if (taskId != "") {
-                                _features.markTaskAsCompleted(taskId);
+                                _features.markTaskAsCompleted(taskId).then((v) {
+                                  if (context.mounted) {
+                                    Fluttertoast.showToast(msg: "Успешно!");
+                                    Navigator.of(context).pop();
+                                  }
+                                });
+                                return;
                               }
                               Navigator.of(context).pop();
                             });

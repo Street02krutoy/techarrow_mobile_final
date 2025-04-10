@@ -18,7 +18,7 @@ class TaskCreationFeatures {
         type: type,
         isImportant: isImportant,
         duration: duration,
-        subtasks: subtasks);
+        subtasks: subtasks ?? []);
   }
 }
 
